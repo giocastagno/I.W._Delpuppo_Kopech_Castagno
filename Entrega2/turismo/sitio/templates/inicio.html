@@ -1,0 +1,18 @@
+<form style="display: inline" action="http://127.0.0.1:8000/accounts/login" method="get">
+  <button>Ingresar</button>
+</form>
+<form style="display: inline" action="http://127.0.0.1:8000/accounts/register" method="get">
+  <button>Registrarse</button>
+</form>
+<form style="display: inline" action="http://127.0.0.1:8000/accounts/logout" method="get">
+  <button>Cerrar Sesion</button>
+</form>
+
+<h1>Turismo.com</h1>
+<p>Bienvenido!</p>
+
+{% for itinerario in lista_itinerarios %}
+    <h3>{{ itinerario.fecha }} {{ itinerario.titulo }}</h3>
+{% endfor %}
+
+
