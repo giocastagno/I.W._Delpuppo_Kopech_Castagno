@@ -69,7 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'turismo.wsgi.application'
-ACCOUNT_ACTIVATION_DAYS = 7
+ACCOUNT_ACTIVATION_DAYS = 1
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

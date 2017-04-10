@@ -3,7 +3,6 @@
 
 {% for itinerario in lista_itinerarios %}
     <h3>{{ itinerario.fecha }} {{ itinerario.titulo }}</h3>
-    <p>{{ itinerari
 {% endfor %}
 
 
