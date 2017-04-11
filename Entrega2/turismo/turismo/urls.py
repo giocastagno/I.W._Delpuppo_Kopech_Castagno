@@ -16,12 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from sitio.views import inicio, crear_itinerario, usuario, acceso
+from sitio.views import inicio, crear_itinerario, usuario
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^inicio/$', inicio),
     url(r'^crear_itinerario/$', crear_itinerario),
     url(r'^usuario/$', usuario),
-    url(r'^accounts/login$', acceso),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]

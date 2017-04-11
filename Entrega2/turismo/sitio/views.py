@@ -16,7 +16,7 @@ def inicio(request):
     nuevo.fecha = datetime.now()
     nuevo.save()
 
-    itinerarios = Itinerario.objects.all()[:3]
+    itinerarios = Itinerario.objects.all()
 
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
@@ -24,34 +24,18 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
-def cerrar_sesion(request):
-    logout(request)
-    return redirect('/accounts/logout/')
-
-def acceso(request):
-    if request.method == 'POST':
-        nom_usuario = request.POST['username']
-        clave = request.POST['password']
-        usuario = authenticate(username = nom_usuario, password = clave)
-        if usuario is not None:
-            login(request, usuario)
-            return HttpResponseRedirect('/crear_itinerario/')
-        else:
-            return HttpResponseRedirect('/accounts/login/')
-
+@login_required
 def crear_itinerario(request):
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            itinerario_form = ItinerarioForm(request.POST)
-            if itinerario_form.is_valid():
-                itinerario = itinerario_form.save(commit=False)
-                itinerario.fecha = datetime.now()
-                itinerario.save()
-                return redirect('/inicio/')
-        else:
-            itinerario_form = ItinerarioForm()
-
-        return render(request, 'crear_itinerario.html', {'form': itinerario_form})
+    if request.method == 'POST':
+        itinerario_form = ItinerarioForm(request.POST)
+        if itinerario_form.is_valid():
+            itinerario = itinerario_form.save(commit=False)
+            itinerario.fecha = datetime.now()
+            itinerario.save()
+            return redirect('/inicio/')
     else:
-        return redirect('/accounts/login/')
+        itinerario_form = ItinerarioForm()
+
+    return render(request, 'crear_itinerario.html', {'form': itinerario_form})
+
 

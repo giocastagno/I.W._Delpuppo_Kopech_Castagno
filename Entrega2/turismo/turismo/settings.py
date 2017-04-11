@@ -81,6 +81,10 @@ DATABASES = {
     }
 }
 
+APPEND_SLASH = False
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/inicio/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
