@@ -1,0 +1,8 @@
+<h1>Turismo.com</h1>
+<p>Bienvenido!</p>
+
+{% for itinerario in lista_itinerarios %}
+    <h3>{{ itinerario.fecha }} {{ itinerario.titulo }}</h3>
+{% endfor %}
+
+
