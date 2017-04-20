@@ -1,13 +1,16 @@
-<form style="display: inline" action="http://127.0.0.1:8000/accounts/login" method="get">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap.min.css" />
+
+<form style="display: inline" action="http://127.0.0.1:8000/accounts/login/" method="get">
   <button>Ingresar</button>
 </form>
-<form style="display: inline" action="http://127.0.0.1:8000/accounts/register" method="get">
+<form style="display: inline" action="http://127.0.0.1:8000/accounts/register/" method="get">
   <button>Registrarse</button>
 </form>
-<form style="display: inline" action="http://127.0.0.1:8000/accounts/logout" method="get">
+<form style="display: inline" action="http://127.0.0.1:8000/accounts/logout/" method="get">
   <button>Cerrar Sesion</button>
 </form>
-<form style="display: inline" action="http://127.0.0.1:8000/crear_itinerario" method="get">
+<form style="display: inline" action="http://127.0.0.1:8000/crear_itinerario/" method="get">
   <button>Crear itinerario</button>
 </form>
 
@@ -16,6 +19,8 @@
 
 {% for itinerario in lista_itinerarios %}
     <h3>{{ itinerario.fecha }} {{ itinerario.titulo }}</h3>
+    <h3>{{ itinerario.texto_general }} {{ itinerario.pais_destino }}</h3>
+    <img src= {{ itinerario.imagen_general }} height="80" width="80">
 {% endfor %}
 
 

@@ -10,14 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def inicio(request):
-    nuevo = Itinerario()
-    nuevo.titulo = 'Bienvenido al sitio!'
-    #nuevo.texto = 'acaba de entrar alguien al sitio'
-    nuevo.fecha = datetime.now()
-    nuevo.save()
-
-    itinerarios = Itinerario.objects.all()
-
+    itinerarios = Itinerario.objects.all()[:3]
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
 def usuario(request):

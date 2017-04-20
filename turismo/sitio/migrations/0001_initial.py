@@ -18,9 +18,18 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('titulo', models.CharField(max_length=50)),
+                ('texto_general', models.CharField(max_length=1000)),
+                ('foto_general', models.ImageField()),
                 #('texto', models.CharField(max_length=200)),
                 ('fecha', models.DateTimeField()),
                 #('archivada', models.BooleanField(default=False)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Pais',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('nombre', models.CharField(max_length=50)),
             ],
         ),
     ]

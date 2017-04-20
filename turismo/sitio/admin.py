@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from sitio.models import Itinerario #aca se importan modelos de models.py (crearlos ahi)
+from sitio.models import Itinerario, Pais #aca se importan modelos de models.py (crearlos ahi)
 
 
 class AdminItinerario(admin.ModelAdmin):
@@ -10,4 +10,4 @@ class AdminItinerario(admin.ModelAdmin):
     date_hierarchy = 'fecha'
 
 admin.site.register(Itinerario, AdminItinerario)
-#admin.site.register(Categoria)
+admin.site.register(Pais)
