@@ -12,7 +12,7 @@ from django.db.models import Q
 
 
 def inicio(request):
-    itinerarios = Itinerario.objects.all()[:3]
+    itinerarios = Itinerario.objects.all()
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
 def usuario(request):

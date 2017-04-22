@@ -4,7 +4,7 @@ from sitio.models import Itinerario, Pais #aca se importan modelos de models.py 
 
 
 class AdminItinerario(admin.ModelAdmin):
-    list_display = ('id', 'titulo', 'fecha',)
+    list_display = ('id', 'titulo', 'fecha', 'foto_general')
     #list_filter = ('archivada', 'fecha', 'categoria')
     #search_fields = ('texto', )
     date_hierarchy = 'fecha'
