@@ -11,6 +11,9 @@ class Pais(models.Model):
 class Estado(models.Model):
     descripcion = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.descripcion 
+
 class Itinerario(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
     titulo = models.CharField(max_length=50)
@@ -31,3 +34,6 @@ class Itinerario(models.Model):
 class Dia(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     descripcion = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.descripcion

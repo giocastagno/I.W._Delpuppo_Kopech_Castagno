@@ -23,4 +23,4 @@ urlpatterns = [
     url(r'^crear_itinerario/$', crear_itinerario),
     url(r'^usuario/$', usuario),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
-]
+        ]

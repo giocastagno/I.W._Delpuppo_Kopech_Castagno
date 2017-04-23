@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from sitio.models import Itinerario, Pais #aca se importan modelos de models.py (crearlos ahi)
+from sitio.models import Itinerario, Pais, Estado, Dia #aca se importan modelos de models.py (crearlos ahi)
 
 
 class AdminItinerario(admin.ModelAdmin):
@@ -9,5 +9,17 @@ class AdminItinerario(admin.ModelAdmin):
     #search_fields = ('texto', )
     date_hierarchy = 'fecha'
 
+class AdminPais(admin.ModelAdmin):
+    list_display = ('id', 'nombre')
+
+class AdminEstado(admin.ModelAdmin):
+    list_display = ('id', 'descripcion')
+
+class AdminDia(admin.ModelAdmin):
+    list_display = ('id', 'itinerario', 'descripcion')
+
+
 admin.site.register(Itinerario, AdminItinerario)
-admin.site.register(Pais)
+admin.site.register(Pais, AdminPais)
+admin.site.register(Estado, AdminEstado)
+admin.site.register(Dia, AdminDia)
