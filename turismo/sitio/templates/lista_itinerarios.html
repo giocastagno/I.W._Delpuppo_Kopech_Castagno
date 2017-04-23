@@ -1,5 +1,5 @@
 {% for itinerario in lista_itinerarios %}
     <h3>{{ itinerario.fecha|date:"j F" }} {{ itinerario.titulo|upper }}</h3>
     <h3>{{ itinerario.texto_general }} {{ itinerario.pais_destino }}</h3>
-    <img src = "{{ itinerario.foto_general }}" />
+    <img src = "{{ itinerario.foto_general.url }}" />
 {% endfor %}

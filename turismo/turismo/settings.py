@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3_datetime',
+    'django_extensions',
     'sitio',
 ]
 
@@ -127,6 +128,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+MEDIA_ROOT = '/home/mdelpuppo/I.W._Delpuppo_Kopech_Castagno/turismo/sitio/imagenes/'
+MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
