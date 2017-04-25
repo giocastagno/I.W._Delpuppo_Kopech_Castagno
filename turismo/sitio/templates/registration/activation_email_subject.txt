@@ -1,4 +1,1 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
-
-{% load i18n %}{% trans "Activa tu cuenta de" %} {{ site.name }}
+{% load i18n %}{% trans "Activa tu cuenta de " %}Turismo.com

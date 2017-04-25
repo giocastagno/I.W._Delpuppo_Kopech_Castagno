@@ -1,8 +1,5 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
-
 {% load i18n %}
-{% trans "Activa tu cuenta en" %} {{ site.name }}:
+{% trans "Activa tu cuenta en " %}Turismo.com:
 
 http://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
