@@ -83,8 +83,6 @@ DATABASES = {
     }
 }
 
-APPEND_SLASH = False
-
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/inicio/'
 
