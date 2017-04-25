@@ -1,2 +1,2 @@
-web: gunicorn turismo.wsgi --log-file -
+web: cd turismo && gunicorn turismo.wsgi --log-file -
 
