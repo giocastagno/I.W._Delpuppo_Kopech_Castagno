@@ -33,7 +33,7 @@ def crear_itinerario(request):
             else:
                 itinerario.save()
                 id_itinerario = itinerario.id
-                return redirect('/crear_dia/')
+                return redirect('/crear_dia/'+str(itinerario.id), pk=str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm()
 
@@ -42,9 +42,11 @@ def crear_itinerario(request):
 @login_required
 def crear_dia(request):
     if request.method == 'POST':
+        id_itinerario = request.POST.get(pk)
         dia_form = DiaForm(request.POST)
         if dia_form.is_valid():
             dia = dia_form.save(commit=False)
+            dia.itinerario = id_itinerario
             dia.fecha = datetime.now()
             dia.save()
             return redirect('/inicio/')
