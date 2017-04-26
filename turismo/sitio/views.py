@@ -22,7 +22,7 @@ def usuario(request):
 @login_required
 def crear_itinerario(request):
     if request.method == 'POST':
-        itinerario_form = ItinerarioForm(request.POST)
+        itinerario_form = ItinerarioForm(request.POST, request.FILES)
         if itinerario_form.is_valid():
             itinerario = itinerario_form.save(commit=False)
             itinerario.fecha = datetime.now()
