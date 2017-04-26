@@ -3,7 +3,7 @@
 
 <h1>Espacio para crear itinerarios</h1>
 
-<form method="post">
+<form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
 
     {{ form.as_p }}
