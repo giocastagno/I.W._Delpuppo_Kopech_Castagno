@@ -126,7 +126,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = '/home/mdelpuppo/I.W._Delpuppo_Kopech_Castagno/turismo/sitio/imagenes/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
