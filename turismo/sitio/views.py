@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from datetime import datetime
 from django.contrib.auth.models import User
 from sitio.models import Itinerario, Estado, Dia, Pais
-from sitio.forms import ItinerarioForm
+from sitio.forms import ItinerarioForm, DiaForm
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -26,12 +26,32 @@ def crear_itinerario(request):
         if itinerario_form.is_valid():
             itinerario = itinerario_form.save(commit=False)
             itinerario.fecha = datetime.now()
-            itinerario.save()
-            return redirect('/inicio/')
+            if 'borrador' in request.POST:
+                itinerario.estado = 'borrador'
+                itinerario.save()
+                return redirect('/inicio/')
+            else:
+                itinerario.save()
+                id_itinerario = itinerario.id
+                return redirect('/crear_dia/')
     else:
         itinerario_form = ItinerarioForm()
 
-    return render(request, 'crear_itinerario.html', {'form': itinerario_form})
+    return render(request, 'crear_itinerario.html', {'form': itinerario_form},)
+
+@login_required
+def crear_dia(request):
+    if request.method == 'POST':
+        dia_form = DiaForm(request.POST)
+        if dia_form.is_valid():
+            dia = dia_form.save(commit=False)
+            dia.fecha = datetime.now()
+            dia.save()
+            return redirect('/inicio/')
+    else:
+        dia_form = DiaForm()
+
+    return render(request, 'crear_dia.html', {'form': dia_form})
 
 def lista_itinerarios_ajax(request):
     itinerarios = Itinerario.objects.order_by('-fecha')[:3]

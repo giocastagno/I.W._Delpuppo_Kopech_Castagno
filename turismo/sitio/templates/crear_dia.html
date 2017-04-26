@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap.min.css" />
+
+<h1>Dias de Viaje</h1>
+
+<form method="post" enctype='multipart/form-data'>
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <input name="publicado" type="submit" value="Publicar itinerario" />
+</form>

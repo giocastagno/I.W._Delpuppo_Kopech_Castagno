@@ -19,11 +19,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from sitio.views import inicio, crear_itinerario, usuario
+from sitio.views import inicio, crear_itinerario, usuario, crear_dia
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^inicio/$', inicio),
     url(r'^crear_itinerario/$', crear_itinerario),
+    url(r'^crear_dia/$', crear_dia),
     url(r'^usuario/$', usuario),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
