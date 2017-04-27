@@ -1,13 +1,20 @@
+<html>
+
+<head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="bootstrap.min.css" />
+</head>
 
+<body>
 <h1>Espacio para crear itinerarios</h1>
 
 <form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
-
+    <input type="hidden" name="id_itiner" value="{{itinerario.id}}"/>
     {{ form.as_p }}
-
     <input name="borrador" type="submit" value="Guardar en borrador" />
     <input name="crear_dias" type="submit" value="Agregar dias de viaje" />
 </form>
+</body>
+
+</html>
