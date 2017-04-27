@@ -9,6 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q
+from django.urls import reverse
 
 
 def inicio(request):
@@ -45,7 +46,6 @@ def crear_dia(request):
         dia_form = DiaForm(request.POST)
         if dia_form.is_valid():
             dia = dia_form.save(commit=False)
-            dia.itinerario = id_itinerario
             dia.fecha = datetime.now()
             dia.save()
             return redirect('/inicio/')

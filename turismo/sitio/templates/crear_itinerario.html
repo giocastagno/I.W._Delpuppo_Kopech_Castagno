@@ -10,7 +10,6 @@
 
 <form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
-    <input type="hidden" name="id_itiner" value="{{ itinerario }}"/>
     {{ form.as_p }}
     <input name="borrador" type="submit" value="Guardar en borrador" />
     <input name="crear_dias" type="submit" value="Agregar dias de viaje" />
