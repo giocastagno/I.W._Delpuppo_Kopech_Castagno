@@ -19,13 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from sitio.views import inicio, crear_itinerario, usuario, crear_dia
+from sitio.views import inicio, crear_itinerario, usuario, crear_dia, ver_itinerario
 urlpatterns = [
     url(r'^$', inicio),
     url(r'^inicio/$', inicio),
     url(r'^admin/', admin.site.urls),
     url(r'^crear_itinerario/$', crear_itinerario),
     url(r'^crear_dia/(?P<id_itiner>\d+)/$', crear_dia),
+    url(r'^ver_itinerario/(?P<id_itiner>\d+)/$', ver_itinerario),
     url(r'^usuario/$', usuario),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

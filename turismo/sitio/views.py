@@ -21,6 +21,11 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
+def ver_itinerario(request,id_itiner):
+    itinerario = Itinerario.objects.get(pk = id_itiner)
+    dias = Dia.objects.filter(itinerario = itinerario)
+    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias})
+
 @login_required
 def crear_itinerario(request):
     #dias = (itinerario.fecha_salida - itinerario.fecha_llegada).days
