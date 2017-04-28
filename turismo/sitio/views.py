@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from datetime import datetime
+from datetime import datetime, date
 from django.contrib.auth.models import User
 from sitio.models import Itinerario, Estado, Dia, Pais
 from sitio.forms import ItinerarioForm, DiaForm
+from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -22,33 +23,46 @@ def usuario(request):
 
 @login_required
 def crear_itinerario(request):
+    #dias = (itinerario.fecha_salida - itinerario.fecha_llegada).days
+    #DiasFormSet = formset_factory(form=DiaForm, extra=10)
+    #formset = DiasFormSet(request.POST)
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES)
         if itinerario_form.is_valid():
             itinerario = itinerario_form.save(commit=False)
             itinerario.fecha = datetime.now()
-            if 'borrador' in request.POST:
-                itinerario.estado = 'borrador'
+            itinerario.usuario = request.user
+            if 'btn_borrador' in request.POST:
+                estado = Estado.objects.get(pk = 3)
+                itinerario.estado = estado
                 itinerario.save()
                 return redirect('/inicio/')
             else:
+                estado = Estado.objects.get(pk = 1)
+                itinerario.estado = estado
                 itinerario.save()
-                return redirect('/crear_dia/')
-
+                return redirect('/crear_dia/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm()
 
-    return render(request, 'crear_itinerario.html', {'form': itinerario_form},)
+    return render(request, 'crear_itinerario.html', {'form':itinerario_form})#,'formset':formset})
 
 @login_required
-def crear_dia(request):
+def crear_dia(request, id_itiner):
     if request.method == 'POST':
-        dia_form = DiaForm(request.POST)
+        dia_form = DiaForm(request.POST, request.FILES)
         if dia_form.is_valid():
             dia = dia_form.save(commit=False)
-            dia.fecha = datetime.now()
+            itinerario = Itinerario.objects.get(pk = id_itiner)
+            dia.itinerario = itinerario
             dia.save()
-            return redirect('/inicio/')
+            if 'btn_guardar_agregar' in request.POST:
+                redirect('/crear_dia/' + str(id_itiner))
+            else:
+                estado = Estado.objects.get(pk = 2)
+                itinerario.estado = estado
+                itinerario.save()
+                return redirect('/inicio/')
     else:
         dia_form = DiaForm()
 

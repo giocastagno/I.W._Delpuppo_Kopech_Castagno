@@ -11,8 +11,8 @@
 <form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input name="borrador" type="submit" value="Guardar en borrador" />
-    <input name="crear_dias" type="submit" value="Agregar dias de viaje" />
+    <input name="btn_borrador" type="submit" value="Guardar en borrador" />
+    <input name="btn_crear_dias" type="submit" value="Agregar dias de viaje" />
 </form>
 </body>
 

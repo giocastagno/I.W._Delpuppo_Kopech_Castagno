@@ -34,6 +34,8 @@ class Itinerario(models.Model):
 class Dia(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     descripcion = models.CharField(max_length=1000)
+    foto_dia = models.ImageField(upload_to = 'sitio/imagenes/', 
+        default = 'sitio/imagenes/none/no-img.png')
 
     def __str__(self):
         return self.descripcion
