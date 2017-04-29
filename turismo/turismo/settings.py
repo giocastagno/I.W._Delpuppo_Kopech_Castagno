@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'aes17g059t1gznj=u2x#$x(e*708@hw&&^6+(^yzb28_yrv851'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -82,6 +83,11 @@ DATABASES = {
     }
 }
 
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
+}
+
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/inicio/'
 
@@ -137,11 +143,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
 
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
-    DEBUG = False
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-else:
-    DEBUG = True
+    DEBUG = False
 
