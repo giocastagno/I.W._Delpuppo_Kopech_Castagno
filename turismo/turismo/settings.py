@@ -147,5 +147,4 @@ if os.environ.get('HEROKU', False):
     DATABASES['default'] = dj_database_url.config()
     ALLOWED_HOSTS = ['*']
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    DEBUG = False
 
