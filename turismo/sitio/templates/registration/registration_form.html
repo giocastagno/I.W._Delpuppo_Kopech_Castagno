@@ -1,13 +1,9 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
-
-{% load i18n %}
-
-{% block content %}
-<form method="post" action=".">
-  {% csrf_token %}
-  {{ form.as_p }}
-
-  <input type="submit" value="{% trans 'Submit' %}" />
-</form>
+{% extends 'base.html' %}
+{% block contenido %}
+	{% load i18n %}
+	<form method="post" action=".">
+  		{% csrf_token %}
+  		{{ form.as_p }}
+  		<input type="submit" value="{% trans 'Submit' %}" />
+	</form>
 {% endblock %}

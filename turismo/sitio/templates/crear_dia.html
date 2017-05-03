@@ -1,13 +1,19 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Dias de Viaje{% endblock %}
 
-<h1>Dias de Viaje</h1>
-
-<form method="post" enctype='multipart/form-data'>
+{% block contenido %}
+	<form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     
     {{ form.as_p }}
 
     <input name="btn_guardar_agregar" type="submit" value="Guardar y agregar dia" />
     <input name="btn_guardar_finalizar" type="submit" value="Guardar y finalizar" />
-</form>
+	</form>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

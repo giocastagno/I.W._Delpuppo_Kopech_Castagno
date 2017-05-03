@@ -14,7 +14,7 @@
 	  <button>Crear itinerario</button>
 	</form>
 {% endblock %}
-{% block titulo %} - inicio{% endblock %}
+{% block titulo %} Inicio{% endblock %}
 
 {% block contenido %}
     <div id="lista-itinerarios">
@@ -24,6 +24,7 @@
 {% endblock %}
 
 {% block extra_js %}
+	<p>Usuarios online: <span id="cantidad-usuarios">0</span></p>
     <script src="{% static 'sitio/inicio.js' %}" ></script>
 {% endblock %}
 

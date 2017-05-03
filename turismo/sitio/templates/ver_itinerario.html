@@ -1,13 +1,21 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Dias de Viaje{% endblock %}
 
-<h2> {{ itinerario.titulo|upper }}</h2>
-<h3>{{ itinerario.fecha|date:"j F" }}</h3>
-<h3>{{ itinerario.pais_destino }}</h3>
-<p>{{ itinerario.texto_general }}</p><br>
-<img src = "{{ itinerario.foto_general.url }}" />
+{% block contenido %}
+	<h2> {{ itinerario.titulo|upper }}</h2>
+	<h3>{{ itinerario.fecha|date:"j F" }}</h3>
+	<h3>{{ itinerario.pais_destino }}</h3>
+	<p>{{ itinerario.texto_general }}</p><br>
+	<img src = "{{ itinerario.foto_general.url }}" />
 
-{% for dia in lista_dias %}
-    <h3>{{ dia.descripcion }}</h3><br>
-    <img src = "{{ dia.foto_dia.url }}" /> <br><br>
-{% endfor %}
+	{% for dia in lista_dias %}
+    	<h3>{{ dia.descripcion }}</h3><br>
+    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

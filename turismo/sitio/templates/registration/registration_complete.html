@@ -1,8 +1,14 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}
+{% endblock %}
 
-{% load i18n %}
+{% block contenido %}
+	{% load i18n %}
+	<p>{% trans "Usted se encuentra registrado. Se ha enviado un mail de activacion." %}</p>
+{% endblock %}
 
-{% block content %}
-<p>{% trans "Usted se encuentra registrado. Se ha enviado un mail de activacion." %}</p>
+{% block extra_js %}
 {% endblock %}

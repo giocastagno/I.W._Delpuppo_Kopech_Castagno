@@ -1,19 +1,17 @@
-<html>
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Espacio para crear itinerarios{% endblock %}
 
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="bootstrap.min.css" />
-</head>
-
-<body>
-<h1>Espacio para crear itinerarios</h1>
-
-<form method="post" enctype='multipart/form-data'>
+{% block contenido %}
+	<form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {{ form.as_p }}
     <input name="btn_borrador" type="submit" value="Guardar en borrador" />
     <input name="btn_crear_dias" type="submit" value="Agregar dias de viaje" />
-</form>
-</body>
+    </form>
+{% endblock %}
 
-</html>
+{% block extra_js %}
+{% endblock %}
