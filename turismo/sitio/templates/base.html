@@ -11,6 +11,25 @@
 <body>
     <h1>{% block titulo %}{% endblock %}</h1>
 
+    {% block menu %}
+        {% if user.is_anonymous %}
+            <ul class="menu">
+                <li><a href="/inicio">Inicio</a></li>
+                <li><a href="/accounts/login">Ingresar</a></li>
+                <li><a href="/accounts/register">Registrarse</a></li>
+            </ul>
+        {% else %}
+            <ul class="menu">
+                <li><a href="/inicio">Inicio</a></li>
+                <li><a href="/crear_itinerario">Nuevo Itinerario</a></li>
+                <li>Mi Perfil</li>
+                    <ul><a href="accounts/profile">Ver mi perfil</a></ul>
+                    <ul><a href="/accounts/password/reset">Cambiar contraseña</a></ul>
+                    <ul><a href="accounts/logout">Cerrar sesión</a></ul>
+            </ul>
+        {% endif %}
+    {% endblock %}
+
     {% block contenido %}
     {% endblock %}
 
