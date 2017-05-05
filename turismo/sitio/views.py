@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib.auth.models import User
-from sitio.models import Itinerario, Estado, Dia, Pais
-from sitio.forms import ItinerarioForm, DiaForm
+from sitio.models import Itinerario, Estado, Dia, Pais, Perfil_Usuario
+from sitio.forms import ItinerarioForm, DiaForm, PerfilForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
@@ -24,10 +24,31 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
+def modificar_perfil(request, id_perfil):
+    if request.method == 'POST':
+        perfil_form = PerfilForm(request.POST, request.FILES)
+        if perfil_form.is_valid():
+            perfil = perfil_form.save(commit=False)
+            perfil.usuario = request.user
+            perfil.save()
+            return redirect('/perfil/')
+    else:
+        perfil_form = PerfilForm()
+
+    return render(request, 'modificar_perfil.html', {'form': perfil_form})
+
 def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
     dias = Dia.objects.filter(itinerario = itinerario)
     return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias})
+
+'''def ver_perfil_usuario(request):
+    usu = request.user
+    perfil = Perfil_Usuario.objects.filter(usuario = usu).order_by('-id')[:1]
+    id_perfil = perfil[0].id
+    if request.method == 'POST':
+        return redirect('/modificar_perfil/' + str(id_perfil))
+    return render(request, 'perfil.html', {'perfil': perfil, 'id_perfil': id_perfil})'''
 
 @login_required
 def crear_itinerario(request):

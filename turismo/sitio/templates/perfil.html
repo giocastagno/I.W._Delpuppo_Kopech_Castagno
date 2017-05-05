@@ -5,16 +5,13 @@
 {% block titulo %}Mi Perfil{% endblock %}
 
 {% block contenido %}
-	<h2> {{ itinerario.titulo|upper }}</h2>
-	<h3>{{ itinerario.fecha|date:"j F" }}</h3>
-	<h3>{{ itinerario.pais_destino }}</h3>
-	<p>{{ itinerario.texto_general }}</p><br>
-	<img src = "{{ itinerario.foto_general.url }}" />
-
-	{% for dia in lista_dias %}
-    	<h3>{{ dia.descripcion }}</h3><br>
-    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
-    {% endfor %}
+	{% for p in perfil %}
+		<h2> {{ p.nombre|upper}} {{ p.apellido|upper}}</h2>
+		<img src = "{{ p.foto_perfil.url }}" />
+		<p>{{ p.localidad}}</p>
+		<p>{{ p.telefono}}</p>
+	{% endfor %}
+	<!-- <input name="btn_modificar" type="submit" value="Modificar perfil" /> -->
 {% endblock %}
 
 {% block extra_js %}
