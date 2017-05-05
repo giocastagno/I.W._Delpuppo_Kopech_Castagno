@@ -1,10 +1,25 @@
 from django.contrib import admin
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class User(AbstractUser):
+class Localidad(models.Model):
+    nombre = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.nombre
+
+class Perfil_Usuario(models.Model):
+    nombre = models.CharField(max_length=30)
+    apellido = models.CharField(max_length=30)
     foto_perfil = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = 'sitio/imagenes/none/no-img.png')
+    localidad = models.ForeignKey(Localidad, null=True, blank=True)
+    telefono = models.CharField(max_length=20)
+    usuario = models.ForeignKey(User, null=True, blank=True)
+
+    def __str__(self):
+        return self.apellido + ', ' + self.nombre
+
 
 class Pais(models.Model):
     nombre = models.CharField(max_length=50)

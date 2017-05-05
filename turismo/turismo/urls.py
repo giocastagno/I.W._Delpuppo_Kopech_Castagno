@@ -19,10 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from sitio.views import inicio, crear_itinerario, usuario, crear_dia, ver_itinerario
+from sitio.views import inicio, crear_itinerario, usuario, crear_dia, ver_itinerario, acerca_de
 urlpatterns = [
     url(r'^$', inicio),
     url(r'^inicio/$', inicio),
+    url(r'^acerca_de/$', acerca_de),
     url(r'^admin/', admin.site.urls),
     url(r'^crear_itinerario/$', crear_itinerario),
     url(r'^crear_dia/(?P<id_itiner>\d+)/$', crear_dia),

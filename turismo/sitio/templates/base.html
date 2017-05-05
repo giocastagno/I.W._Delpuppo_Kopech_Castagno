@@ -1,5 +1,6 @@
 {% load static %}
 <html>
+
 <head>
     <script src="{% static 'sitio/jquery.min.js' %}"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -8,10 +9,10 @@
     {% block extra_html %}
     {% endblock %}
 </head>
-<body>
-    <h1>{% block titulo %}{% endblock %}</h1>
 
-    {% block menu %}
+<body>
+    
+    {% block menu %} 
     <div id="cabecera_menu">
         {% if user.is_anonymous %}
             <ul class="menu">
@@ -36,12 +37,16 @@
         {% endif %}
     </div>
     {% endblock %}
-
+    
+    <h1>{% block titulo %}{% endblock %}</h1>
+    
     {% block contenido %}
     {% endblock %}
 
     {% block extra_js %}
         <script src="{% static 'sitio/base.js' %}" ></script>
     {% endblock %}
+
 </body>
+
 </html>

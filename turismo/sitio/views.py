@@ -17,6 +17,9 @@ def inicio(request):
     itinerarios = Itinerario.objects.all()
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
+def acerca_de(request):
+    return render(request, 'acerca_de.html')
+
 def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
