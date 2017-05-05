@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    foto_perfil = models.ImageField(upload_to = 'sitio/imagenes/', 
+        default = 'sitio/imagenes/none/no-img.png')
 
 class Pais(models.Model):
     nombre = models.CharField(max_length=50)
