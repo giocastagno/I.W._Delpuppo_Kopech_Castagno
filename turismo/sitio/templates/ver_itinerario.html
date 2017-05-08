@@ -15,6 +15,16 @@
     	<h3>{{ dia.descripcion }}</h3><br>
     	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
     {% endfor %}
+
+    <form style="display: inline" action="/crear_comentario/{{itinerario.id}}" method="get">
+	  <button>Comentar</button>
+	</form>
+
+	{% for comentario in lista_comentarios %}
+    	<h3>{{ comentario.calificacion|upper }}</h3>
+    	<h3>{{ comentario.texto }}</h3><br>
+    {% endfor %}
+
 {% endblock %}
 
 {% block extra_js %}

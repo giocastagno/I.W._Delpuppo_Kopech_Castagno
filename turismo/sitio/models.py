@@ -62,25 +62,20 @@ class Dia(models.Model):
 class Comentario(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     usuario = models.ForeignKey(User, null=True, blank=True)
-    texto = models.CharField(max_length=1000)
-    fecha = models.DateTimeField()
-    MALO = '1'
-    REGULAR = '2'
-    BUENO = '3'
-    MUY_BUENO = '4'
-    EXCELENTE = '5'
     CALIFICACION_CHOICES = (
-        (MALO, 'Malo'),
-        (REGULAR, 'Regular'),
-        (BUENO, 'Bueno'),
-        (MUY_BUENO, 'Muy Bueno'),
-        (EXCELENTE, 'Excelente'),
+        ('Malo', 'Malo'),
+        ('Regular', 'Regular'),
+        ('Bueno', 'Bueno'),
+        ('Muy Bueno', 'Muy Bueno'),
+        ('Excelente', 'Excelente'),
     )
     calificacion = models.CharField(
-        max_length=1,
+        max_length=9,
         choices=CALIFICACION_CHOICES,
         default='3',
     )
+    texto = models.CharField(max_length=500)
+    fecha = models.DateTimeField()
 
     def __str__(self):
         return self.texto

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib.auth.models import User
-from sitio.models import Itinerario, Estado, Dia, Pais, Perfil_Usuario
-from sitio.forms import ItinerarioForm, DiaForm, PerfilForm
+from sitio.models import Itinerario, Estado, Dia, Pais, Perfil_Usuario, Comentario
+from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
@@ -24,31 +24,32 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
-def modificar_perfil(request, id_perfil):
+def modificar_perfil(request, id_usuario, id_perfil):
+    perfil = Perfil_Usuario.objects.get(pk = id_perfil)
+    usuario = User.objects.get(pk = id_usuario)
     if request.method == 'POST':
-        perfil_form = PerfilForm(request.POST, request.FILES)
+        perfil_form = PerfilForm(request.POST, request.FILES, instance = perfil)
         if perfil_form.is_valid():
             perfil = perfil_form.save(commit=False)
             perfil.usuario = request.user
             perfil.save()
             return redirect('/perfil/')
     else:
-        perfil_form = PerfilForm()
+        perfil_form = PerfilForm(instance = perfil)
 
     return render(request, 'modificar_perfil.html', {'form': perfil_form})
 
 def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
     dias = Dia.objects.filter(itinerario = itinerario)
-    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias})
+    comentarios = Comentario.objects.filter(itinerario = itinerario)
+    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios})
 
-'''def ver_perfil_usuario(request):
-    usu = request.user
-    perfil = Perfil_Usuario.objects.filter(usuario = usu).order_by('-id')[:1]
-    id_perfil = perfil[0].id
-    if request.method == 'POST':
-        return redirect('/modificar_perfil/' + str(id_perfil))
-    return render(request, 'perfil.html', {'perfil': perfil, 'id_perfil': id_perfil})'''
+def ver_perfil_usuario(request):
+    usuario = request.user
+    perfil = (Perfil_Usuario.objects.filter(usuario = usuario).order_by('-id'))[0]
+    itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')
+    return render(request, 'perfil.html', {'perfil': perfil, 'usuario': usuario, 'lista_itinerarios': itinerarios})
 
 @login_required
 def crear_itinerario(request):
@@ -77,6 +78,22 @@ def crear_itinerario(request):
     return render(request, 'crear_itinerario.html', {'form':itinerario_form})#,'formset':formset})
 
 @login_required
+def crear_comentario(request, id_itiner):
+    itinerario = Itinerario.objects.get(pk = id_itiner)
+    if request.method == 'POST':
+        comentario_form = ComentarioForm(request.POST)
+        if comentario_form.is_valid():
+            comentario = comentario_form.save(commit=False)
+            comentario.fecha = datetime.now()
+            comentario.usuario = request.user
+            comentario.itinerario = itinerario
+            comentario.save()
+            return redirect('/ver_itinerario/' + str(id_itiner))
+    else:
+        comentario_form = ComentarioForm()
+    return render(request, 'crear_comentario.html', {'form':comentario_form})
+
+@login_required
 def crear_dia(request, id_itiner):
     if request.method == 'POST':
         dia_form = DiaForm(request.POST, request.FILES)
@@ -84,6 +101,8 @@ def crear_dia(request, id_itiner):
             dia = dia_form.save(commit=False)
             itinerario = Itinerario.objects.get(pk = id_itiner)
             dia.itinerario = itinerario
+            dia.fecha = datetime.now()
+            dia.usuario = request.user
             dia.save()
             if 'btn_guardar_agregar' in request.POST:
                 redirect('/crear_dia/' + str(id_itiner))

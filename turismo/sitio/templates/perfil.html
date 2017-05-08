@@ -5,13 +5,16 @@
 {% block titulo %}Mi Perfil{% endblock %}
 
 {% block contenido %}
-	{% for p in perfil %}
-		<h2> {{ p.nombre|upper}} {{ p.apellido|upper}}</h2>
-		<img src = "{{ p.foto_perfil.url }}" />
-		<p>{{ p.localidad}}</p>
-		<p>{{ p.telefono}}</p>
+	<h2> {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h2>
+	<img src = "{{ perfil.foto_perfil.url }}" />
+	<p>{{ perfil.localidad}}</p>
+	<p>{{ perfil.telefono}}</p>
+	<form style="display: inline" action="/modificar_perfil/{{usuario.id}}/{{perfil.id}}" method="get">
+	  <button>Modificar Perfil</button>
+	</form>
+	{% for itinerario in lista_itinerarios %}
+    	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h3>
 	{% endfor %}
-	<!-- <input name="btn_modificar" type="submit" value="Modificar perfil" /> -->
 {% endblock %}
 
 {% block extra_js %}
