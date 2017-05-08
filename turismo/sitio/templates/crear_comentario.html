@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Qué opina sobre este itinerario?{% endblock %}
+
+{% block contenido %}
+	<form method="post" enctype='multipart/form-data'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input name="btn_comentar" type="submit" value="Comentar" />
+	</form>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
