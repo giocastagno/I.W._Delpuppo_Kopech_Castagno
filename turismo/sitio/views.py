@@ -41,6 +41,7 @@ def modificar_perfil(request, id_usuario, id_perfil):
 
 def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
+    usuario = itinerario.usuario
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
     return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios})

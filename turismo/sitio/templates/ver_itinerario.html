@@ -2,14 +2,17 @@
 {% load static %}
 {% block extra_html %}
 {% endblock %}
-{% block titulo %}Dias de Viaje{% endblock %}
+{% block titulo %}{% endblock %}
 
 {% block contenido %}
+	<h2> {{ itinerario.usuario.username }}</h2>
 	<h2> {{ itinerario.titulo|upper }}</h2>
 	<h3>{{ itinerario.fecha|date:"j F" }}</h3>
 	<h3>{{ itinerario.pais_destino }}</h3>
 	<p>{{ itinerario.texto_general }}</p><br>
 	<img src = "{{ itinerario.foto_general.url }}" />
+
+	<h1>Días de Viaje</h1>
 
 	{% for dia in lista_dias %}
     	<h3>{{ dia.descripcion }}</h3><br>
@@ -21,6 +24,7 @@
 	</form>
 
 	{% for comentario in lista_comentarios %}
+		<h3>{{ comentario.usuario.username }}</h3>
     	<h3>{{ comentario.calificacion|upper }}</h3>
     	<h3>{{ comentario.texto }}</h3><br>
     {% endfor %}

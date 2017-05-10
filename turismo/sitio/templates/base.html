@@ -1,52 +1,53 @@
 {% load static %}
 <html>
 
-<head>
-    <script src="{% static 'sitio/jquery.min.js' %}"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap.min.css" />
-    <link rel="stylesheet" href="{% static 'sitio/estilos.css' %}" type="text/css" />
-    {% block extra_html %}
-    {% endblock %}
-</head>
+    <head>
+        <script src="{% static 'sitio/jquery.min.js' %}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap.min.css" />
+        <link rel="stylesheet" href="{% static 'sitio/estilos.css' %}" type="text/css" />
+        
+        {% block extra_html %}
+        {% endblock %}
+    </head>
 
-<body>
+    <body>
     
-    {% block menu %} 
-    <div id="cabecera_menu">
-        {% if user.is_anonymous %}
-            <ul class="menu">
-                <li><a href="/inicio">Inicio</a></li>
-                <li><a href="/acerca_de">Acerca de</a></li>
-                <li><a href="/accounts/login">Ingresar</a></li>
-                <li><a href="/accounts/register">Registrarse</a></li>
-            </ul>
-        {% else %}
-            <ul class="menu">
-                <li><a href="/inicio">Inicio</a></li>
-                <li><a href="/acerca_de">Acerca de</a></li>
-                <li><a href="/crear_itinerario">Nuevo Itinerario</a></li>
-                <li><a href="">Perfil</a>
-                    <ul>
-                        <li><a href="/perfil">Ver mi perfil</a></li>
-                        <li><a href="/accounts/password/reset">Cambiar contraseña</a></li>
-                        <li><a href="/accounts/logout">Cerrar sesión</a></li>
-                    </ul>
-                </li>
-            </ul>
-        {% endif %}
-    </div>
-    {% endblock %}
-    
-    <h1>{% block titulo %}{% endblock %}</h1>
-    
-    {% block contenido %}
-    {% endblock %}
+        {% block menu %} 
+        <div class="cabecera_menu">
+            {% if user.is_anonymous %}
+                <ul class="menu">
+                    <li><a href="/inicio">Inicio</a></li>
+                    <li><a href="/acerca_de">Acerca de</a></li>
+                    <li><a href="/accounts/login">Ingresar</a></li>
+                    <li><a href="/accounts/register">Registrarse</a></li>
+                </ul>
+            {% else %}
+                <ul class="menu">
+                    <li><a href="/inicio">Inicio</a></li>
+                    <li><a href="/acerca_de">Acerca de</a></li>
+                    <li><a href="/crear_itinerario">Nuevo Itinerario</a></li>
+                    <li><a href="">Perfil</a>
+                        <ul>
+                            <li><a href="/perfil">Ver mi perfil</a></li>
+                            <li><a href="/accounts/password/reset">Cambiar contraseña</a></li>
+                            <li><a href="/accounts/logout">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+        {% endblock %}
+        
+        <h1>{% block titulo %}{% endblock %}</h1>
+        
+        {% block contenido %}
+        {% endblock %}
 
-    {% block extra_js %}
-        <script src="{% static 'sitio/base.js' %}" ></script>
-    {% endblock %}
+        {% block extra_js %}
+            <script src="{% static 'sitio/base.js' %}" ></script>
+        {% endblock %}
 
-</body>
+    </body>
 
 </html>
