@@ -2,7 +2,7 @@ body {
 	background-color: #FFEFD9;
 }
 h1 {
-	color: blue;
+	color: #66A3FF;
 }
 form {
 	color: #66A3FF;
@@ -11,10 +11,15 @@ p {
 	background-color: #FFEFD9;
 }
 
+.banner {
+	z-index:-1;
+}
+
 .cabecera_menu {
 	margin:auto;
-	width:500px;
-	font-family:Arial, Helvetica, sans-serif;
+	width: 500px;
+	font: oblique bold 120% cursive;
+	font-size: 20;
 }
 
 * {
@@ -30,9 +35,12 @@ ul, ol {
 	float:left;
 }
 
+.menu ul {
+	border-style:; 
+}
 .menu li a {
-	background-color:#000;
-	color:#fff;
+	background-color: transparent;
+	color: #F1652E;
 	text-decoration:none;
 	padding:10px 12px;
 	display:block;
