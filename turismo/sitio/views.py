@@ -15,12 +15,7 @@ from django.urls import reverse
 
 def inicio(request):
     itinerarios = Itinerario.objects.all()
-    usuario = request.user
-    if not usuario.is_anonymous:
-        perfil = Perfil_Usuario.objects.filter(usuario = usuario)
-    else:
-        perfil = None
-    return render(request, 'inicio.html', {'lista_itinerarios': itinerarios, 'perfil': perfil})
+    return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
 def acerca_de(request):
     return render(request, 'acerca_de.html')

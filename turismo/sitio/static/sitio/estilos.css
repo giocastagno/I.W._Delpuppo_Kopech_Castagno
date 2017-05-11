@@ -15,7 +15,15 @@ p {
 	z-index:-1;
 }
 
+.bienvenida {
+	position: absolute;
+	top: 10px;
+  	left: 50px;
+  	font: oblique bold 120% cursive;
+  	font-size: 30;
+  	color: darkblue;
 
+}
 
 .cabecera_menu {
 	margin:auto;
@@ -24,7 +32,7 @@ p {
 	font-size: 23;
 	position: absolute;
   	top: 70px;
-  	right: 40px;
+  	right: 70px;
 }
 
 * {
@@ -49,9 +57,10 @@ ul, ol {
 }
 
 .menu li ul {
+	font-size: 17;
 	display:none;
 	position:absolute;
-	min-width:140px;
+	min-width:300px;
 }
 
 .menu li:hover {
@@ -81,4 +90,25 @@ li#inicio {
 
 li#inicio:hover {
 	background-image: url(imagenes/home.png);
+}
+
+table, th, td {
+   border: 1px solid black;
+}
+
+img#foto-itinerario {
+	height: 70px;
+	width: auto;
+	margin-top: 5px;
+}
+
+table{
+
+}
+
+table th{
+	
+}
+table td{
+
 }
