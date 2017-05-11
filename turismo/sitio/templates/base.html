@@ -21,21 +21,21 @@
         <div class="cabecera_menu">
             {% if user.is_anonymous %}
                 <ul class="menu">
-                    <li><a href="/inicio">Inicio</a></li>
-                    <li><a href="/acerca_de">Acerca de</a></li>
-                    <li><a href="/accounts/login">Ingresar</a></li>
-                    <li><a href="/accounts/register">Registrarse</a></li>
+                    <li id="inicio"><a href="/inicio">Inicio</a></li>
+                    <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
+                    <li id="login"><a href="/accounts/login">Ingresar</a></li>
+                    <li id="register"><a href="/accounts/register">Registrarse</a></li>
                 </ul>
             {% else %}
                 <ul class="menu">
-                    <li><a href="/inicio">Inicio</a></li>
-                    <li><a href="/acerca_de">Acerca de</a></li>
-                    <li><a href="/crear_itinerario">Nuevo Itinerario</a></li>
-                    <li><a href="">Perfil</a>
+                    <li id="inicio"><a href="/inicio">Inicio</a></li>
+                    <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
+                    <li id="crear_itinerario"><a href="/crear_itinerario">Nuevo Itinerario</a></li>
+                    <li id="perfil"><a href="">Perfil</a>
                         <ul>
-                            <li><a href="/perfil">Ver mi perfil</a></li>
-                            <li><a href="/accounts/password/reset">Cambiar contraseña</a></li>
-                            <li><a href="/accounts/logout">Cerrar sesión</a></li>
+                            <li id="ver-perfil"><a href="/perfil">Ver mi perfil</a></li>
+                            <li id="reset-password"><a href="/accounts/password/reset">Cambiar contraseña</a></li>
+                            <li id="logout"><a href="/accounts/logout">Cerrar sesión</a></li>
                         </ul>
                     </li>
                 </ul>
