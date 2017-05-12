@@ -1,23 +1,7 @@
-<table style="width:100%">
-  <!--<tr>
-    <th>Itinerario</th>
-    <th>Destino</th>
-    <th>Usuario</th> 
-    <th>Fecha</th>
-  </tr>-->
 {% for itinerario in lista_itinerarios %}
-  <tr>
-    <td><p><a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo}}</a><img id="foto-itinerario" src = "{{ itinerario.foto_general.url }}"></p></td>
-    <td><p>{{itinerario.pais_destino}}</p></td>
-    <td><p>{{itinerario.usuario.username}}</p></td>
-    <td><p>Hace {{itinerario.fecha|timesince}} </td>
-  </tr>
-{% endfor %}
-</table>
-<!--
-{% for itinerario in lista_itinerarios %}
+    <div id="itinerario">
     <h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h3>
     <h3>{{ itinerario.texto_general }} {{ itinerario.pais_destino }}</h3>
-    <img src = "{{ itinerario.foto_general.url }}" />
+    <img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/>
+    </div>
 {% endfor %}
--->
