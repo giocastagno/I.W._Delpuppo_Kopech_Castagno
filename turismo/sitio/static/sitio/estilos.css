@@ -12,7 +12,8 @@ p {
 }
 
 .banner {
-	background-size: all;
+	background-size: cover;
+	max-width: 120%
 	padding-left:0px;
 	padding-right:0px;
 	padding-bottom:0px;
