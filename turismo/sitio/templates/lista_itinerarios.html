@@ -1,7 +1,8 @@
 {% for itinerario in lista_itinerarios %}
     <div id="itinerario">
-    <h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h3>
-    <h3>{{ itinerario.texto_general }} {{ itinerario.pais_destino }}</h3>
-    <img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/>
+    <div id="fecha-itinerario"><h3>Hace {{ itinerario.fecha|timesince }} </h3></div>
+    <div id="titulo-itinerario"><h3><a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h3></div>
+    <div id="destino-itinerario"><h3>{{ itinerario.pais_destino }}</h3></div>
+    <img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/></div>
     </div>
 {% endfor %}
