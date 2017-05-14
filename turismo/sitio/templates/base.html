@@ -12,37 +12,39 @@
     </head>
 
     <body>
-    
-        {% block banner %}
-            <img src="{% static 'sitio/imagenes/banner.jpg' %}" alt="banner">
-            <ul class="bienvenida">Bienvenido a Turismo.com, <br><br>encontrá tu viaje perfecto!</ul> 
-        {% endblock %}
 
-        {% block menu %} 
-        <div class="cabecera_menu">
-            {% if user.is_anonymous %}
-                <ul class="menu">
-                    <li id="inicio"><a href="/inicio">Inicio</a></li>
-                    <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
-                    <li id="login"><a href="/accounts/login">Ingresar</a></li>
-                    <li id="register"><a href="/accounts/register">Registrarse</a></li>
-                </ul>
-            {% else %}
-                <ul class="menu">
-                    <li id="inicio"><a href="/inicio">Inicio</a></li>
-                    <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
-                    <li id="crear_itinerario"><a href="/crear_itinerario">Nuevo Itinerario</a></li>
-                    <li id="perfil"><a href="">Perfil</a>
-                        <ul>
-                            <li id="ver-perfil"><a href="/perfil">Ver mi perfil</a></li>
-                            <li id="reset-password"><a href="/accounts/password/reset">Cambiar contraseña</a></li>
-                            <li id="logout"><a href="/accounts/logout">Cerrar sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            {% endif %}
+        {% block header %} 
+        <div id="header">
+            <div id="banner"
+                <img src="{% static 'sitio/imagenes/banner.jpg' %}"/>
+            </div>
+            <div id="logo">
+                <h1>Bienvenidos a Turismo.com<br>Encontrá tu viaje perfecto!</h1>
+            </div>
+            <div id="menu">
+                {% if user.is_anonymous %}
+                    <ul class="menu">
+                        <li id="inicio"><a href="/inicio">Inicio</a></li>
+                        <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
+                        <li id="login"><a href="/accounts/login">Ingresar</a></li>
+                        <li id="register"><a href="/accounts/register">Registrarse</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="menu">
+                        <li id="inicio"><a href="/inicio">Inicio</a></li>
+                        <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
+                        <li id="crear_itinerario"><a href="/crear_itinerario">Nuevo Itinerario</a></li>
+                        <li id="perfil"><a href="">Perfil</a>
+                            <ul>
+                                <li id="ver-perfil"><a href="/perfil">Ver mi perfil</a></li>
+                                <li id="reset-password"><a href="/accounts/password/reset">Cambiar contraseña</a></li>
+                                <li id="logout"><a href="/accounts/logout">Cerrar sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
         </div>
-        <br><br>
         {% endblock %}
 
 
@@ -50,6 +52,12 @@
         <h1>{% block titulo %}{% endblock %}</h1>
         
         {% block contenido %}
+        {% endblock %}
+
+        {% block licencia %}
+        <div id="footer-wrapper">
+            <div id="footer"><div class="fleft"><p>Creative Commons BY-NC-ND 4.0.</p></div><div class="fclear"></div></div>
+        </div>
         {% endblock %}
 
         {% block extra_js %}

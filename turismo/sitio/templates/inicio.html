@@ -2,17 +2,20 @@
 {% load static %}
 {% block extra_html %}
 {% endblock %}
-{% block titulo %} Itinerarios {% endblock %}
+{% block titulo %}{% endblock %}
 
 {% block contenido %}
-    <div id="lista-itinerarios">
-        {% include 'lista_itinerarios.html' %}
+	<div id="page"><div class="inne_copy"></div>
+        <div id="page-bgtop">
+			<div id="lista-itinerarios">
+    			{% include 'lista_itinerarios.html' %}
+			</div>
+    	</div>
+    <div style="clear:both; height: 1px"></div>
     </div>
-    <a href="#" id="actualizar-usuarios">Actualizar</a>
 {% endblock %}
 
 {% block extra_js %}
-	<p>Usuarios online: <span id="cantidad-usuarios">0</span></p>
     <script src="{% static 'sitio/inicio.js' %}" ></script>
 {% endblock %}
 
