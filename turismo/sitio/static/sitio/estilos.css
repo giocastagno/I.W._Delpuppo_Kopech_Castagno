@@ -32,7 +32,7 @@ a:hover {text-decoration:none;color:#F40C42}
 }
 
 .menu li:hover > ul {
-	display: table-column;
+	display: inline-block;
 }
 
 /* Cuando tengamos busqueda
