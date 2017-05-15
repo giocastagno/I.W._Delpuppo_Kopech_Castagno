@@ -96,17 +96,18 @@ def crear_comentario(request, id_itiner):
 
 @login_required
 def crear_dia(request, id_itiner):
+    itinerario = Itinerario.objects.get(pk = id_itiner)
+    dias = Dia.objects.filter(itinerario = itinerario)
     if request.method == 'POST':
         dia_form = DiaForm(request.POST, request.FILES)
         if dia_form.is_valid():
             dia = dia_form.save(commit=False)
-            itinerario = Itinerario.objects.get(pk = id_itiner)
             dia.itinerario = itinerario
             dia.fecha = datetime.now()
             dia.usuario = request.user
             dia.save()
             if 'btn_guardar_agregar' in request.POST:
-                redirect('/crear_dia/' + str(id_itiner))
+                return HttpResponseRedirect(request.path)
             else:
                 estado = Estado.objects.get(pk = 2)
                 itinerario.estado = estado
@@ -115,7 +116,7 @@ def crear_dia(request, id_itiner):
     else:
         dia_form = DiaForm()
 
-    return render(request, 'crear_dia.html', {'form': dia_form})
+    return render(request, 'crear_dia.html', {'form': dia_form, 'lista_dias':dias})
 
 def lista_itinerarios_ajax(request):
     itinerarios = Itinerario.objects.order_by('-fecha')[:3]

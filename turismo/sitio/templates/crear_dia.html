@@ -13,6 +13,12 @@
     <input name="btn_guardar_agregar" type="submit" value="Guardar y agregar dia" />
     <input name="btn_guardar_finalizar" type="submit" value="Guardar y finalizar" />
 	</form>
+
+	{% for dia in lista_dias %}
+    	<h3>{{ dia.descripcion }}</h3><br>
+    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
+    {% endfor %}
+
 {% endblock %}
 
 {% block extra_js %}
