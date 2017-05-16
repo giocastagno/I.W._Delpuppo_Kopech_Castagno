@@ -6,9 +6,6 @@ from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario
 class ItinerarioForm(forms.ModelForm):
     class Meta:
         model = Itinerario
-        fecha_salida = forms.DateField(widget = forms.TextInput(attrs={
-        	'class':'datepicker'
-        	}))
         exclude = ['fecha', 'usuario', 'estado', ]
 
 class DiaForm(forms.ModelForm):

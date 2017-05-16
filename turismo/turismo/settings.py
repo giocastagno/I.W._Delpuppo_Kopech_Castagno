@@ -95,7 +95,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'miguelangeldelpuppo@gmail.com'
-EMAIL_HOST_PASSWORD = 'aA505215'
+EMAIL_HOST_PASSWORD = 'ucktunyxqdyccnqw'
 DEFAULT_FROM_EMAIL = 'miguelangeldelpuppo@gmail.com'
 
 

@@ -15,4 +15,5 @@ static3==0.7.0
 virtualenv==15.0.1
 virtualenv-clone==0.2.5
 virtualenvwrapper==4.3.1
-
+whoosh
+pyparsing
