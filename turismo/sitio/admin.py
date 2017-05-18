@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from sitio.models import Itinerario, Pais, Estado, Dia, Perfil_Usuario, Comentario 
+from sitio.models import Itinerario, Pais, Dia, Perfil_Usuario, Comentario 
 
 class AdminItinerario(admin.ModelAdmin):
     list_display = ('id', 'titulo', 'fecha', 'foto_general')
@@ -10,9 +10,6 @@ class AdminItinerario(admin.ModelAdmin):
 
 class AdminPais(admin.ModelAdmin):
     list_display = ('id', 'nombre')
-
-class AdminEstado(admin.ModelAdmin):
-    list_display = ('id', 'descripcion')
 
 class AdminDia(admin.ModelAdmin):
     list_display = ('id', 'itinerario', 'descripcion')
@@ -26,7 +23,6 @@ class AdminComentario(admin.ModelAdmin):
 
 admin.site.register(Itinerario, AdminItinerario)
 admin.site.register(Pais, AdminPais)
-admin.site.register(Estado, AdminEstado)
 admin.site.register(Dia, AdminDia)
 admin.site.register(Perfil_Usuario, AdminPerfil)
 admin.site.register(Comentario, AdminComentario)

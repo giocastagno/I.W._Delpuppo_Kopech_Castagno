@@ -6,7 +6,7 @@
 					<h2 class="title"><a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h2>
 					<p class="byline">Publicado por {{itinerario.usuario.username}} hace {{itinerario.fecha|timesince}}</p>
 					<div id="destino-itinerario"><h3>{{ itinerario.pais_destino }}</h3></div>
-					<img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/></div>
+					<img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/>
 				</div>
 			</div>
 		</div>

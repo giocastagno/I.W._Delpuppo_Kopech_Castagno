@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib.auth.models import User
-from sitio.models import Itinerario, Estado, Dia, Pais, Perfil_Usuario, Comentario
+from sitio.models import Itinerario, Dia, Pais, Perfil_Usuario, Comentario
 from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
@@ -14,7 +14,7 @@ from django.urls import reverse
 
 
 def inicio(request):
-    itinerarios = Itinerario.objects.all()
+    itinerarios = Itinerario.objects.all().order_by('-fecha')[:10]
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
 def acerca_de(request):
@@ -64,13 +64,11 @@ def crear_itinerario(request):
             itinerario.fecha = datetime.now()
             itinerario.usuario = request.user
             if 'btn_borrador' in request.POST:
-                estado = Estado.objects.get(pk = 3)
-                itinerario.estado = estado
+                itinerario.estado = 'Borrador'
                 itinerario.save()
                 return redirect('/inicio/')
             else:
-                estado = Estado.objects.get(pk = 1)
-                itinerario.estado = estado
+                itinerario.estado = 'PendientePublicacion'
                 itinerario.save()
                 return redirect('/crear_dia/' + str(itinerario.id))
     else:
@@ -109,8 +107,7 @@ def crear_dia(request, id_itiner):
             if 'btn_guardar_agregar' in request.POST:
                 return HttpResponseRedirect(request.path)
             else:
-                estado = Estado.objects.get(pk = 2)
-                itinerario.estado = estado
+                itinerario.estado = 'Publicado'
                 itinerario.save()
                 return redirect('/inicio/')
     else:

@@ -4,7 +4,7 @@
 {% endblock %}
 {% block titulo %}Mi Perfil{% endblock %}
 
-{% block contenido %}
+{% block content %}
 	<h2> {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h2>
 	<img src = "{{ perfil.foto_perfil.url }}" />
 	<p>{{ perfil.localidad}}</p>

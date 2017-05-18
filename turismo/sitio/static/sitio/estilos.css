@@ -1,39 +1,7 @@
 .fleft {float:left}
 .fclear {clear:both}
-.banner {background-size: cover;max-width: 120%;padding-left:0px;padding-right:0px;padding-bottom:0px;padding-top:0px; z-index:-1;}
-#header div logo{width: 500px;height: 76px;margin-bottom:0;margin-left:0;margin-right:0;margin-top:0;padding-top: 15px;padding-right: 0px;padding-bottom: 0px;padding-left: 30px;}
-#header div h1, #header div h2{background-color: rgba(255,0,0,0.4);font-weight: bold;color: black;text-align: center;}
 
-
-
-
-
-body {background:#fff url(imagenes/banner.jpg) repeat-x left top;text-align:justify;font-family:Tahoma, Geneva, sans-serif;font-size:11px;color:#757E82}
-* {margin:0;padding:0}
-h1, h2, h3 {color:#AA2808}
-h1 {}
-h2 {}
-h3 {}
-p, blockquote, ul, ol {margin-bottom:20px;line-height:2em}
-p {}
-blockquote {}
-ul, ol, li {margin:0;padding:0;list-style:none}
-a {text-decoration:underline;color:#F40C42}
-a:hover {text-decoration:none;color:#F40C42}
-#header {width:900px;height:200px;margin:0 auto}
-#menu {float:right;width:592px;height:90px;position:absolute;margin-top: 4%; margin-left: 11%}
-#menu ul {margin:0;padding:0 0 0 20px;list-style:none;line-height:normal;margin-left:30px}
-#menu li {display:inline;text-align:center}
-#menu a {display:block;float:left;height:90px;margin-right:1px;padding:35px 20px 0 20px;letter-spacing:-1px;text-decoration:none;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:normal;color:#383B3F}
-#menu a:hover{background:#F40C42 url(imagenes/img02.jpg) repeat-x left bottom;color:#fff}
-
-.menu li ul {
-	display:none;
-}
-
-.menu li:hover > ul {
-	display: inline-block;
-}
+body {background:#fff url(imagenes/banner.jpg) no-repeat}
 
 /* Cuando tengamos busqueda
 #search {padding:0 0 40px 0}
@@ -44,18 +12,19 @@ a:hover {text-decoration:none;color:#F40C42}
 #search-submit {height:21px;margin-left:10px;padding:0 2px;border:none;background:#E71810;color:#fff}
 */
 
-#page {width:900px;margin-left:25%}
+#page {width:900px;margin-left:22%}
 #content {float:left;width:630px}
 
-.post {background:url(imagenes/img05.jpg) repeat-y left top}
+.post {background:url(imagenes/img05.jpg) 
+	repeat-y left top}
 .post-bgtop {background:url(imagenes/img04.jpg) no-repeat left top}
 .post-bgbtm {background:url(imagenes/img06.jpg) no-repeat left bottom;padding:50px 40px 30px 40px}
 .post .title {margin:0;padding:0 0 5px 0;color:#232F01}
 .post .title a {letter-spacing:-1px;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-weight:normal;font-size:32px;color:#3A3D40}
 .post .y{}
 .post .imagen_itinerario {display:block;width:115px;height:32px;padding:8px 0 0 0; no-repeat left top;}
-.post img{height:150px;}
-.post .byline {font-size:11px;font-style:italic}
+.post img{height:150px}
+.post .byline {font-size:12px;font-style:italic}
 
 /* Barra de navegacion a la derecha de la pagina, puede servir
 #sidebar {float:right;width:260px;background:url(images/img08.jpg) repeat-y left top;font-size:11px}
@@ -72,9 +41,3 @@ a:hover {text-decoration:none;color:#F40C42}
 #sidebar a {border:none;text-decoration:none;color:#757E82}
 #sidebar a:hover {text-decoration:underline;color:#363636}
 */
-
-#footer-wrapper {background:#F7F7F7 url(imagenes/img03.jpg) repeat-x left top;padding:20px 0}
-#footer {width:900px;margin:0 auto;color:#757E82}
-#footer p {margin:0;text-align:center;font-size:11px}
-#footer a {text-decoration:underline;color:#757E82}
-#footer a:hover {text-decoration:none;color:#F90542}
