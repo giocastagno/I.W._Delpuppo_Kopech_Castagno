@@ -19,3 +19,4 @@ whoosh
 pyparsing
 django-summernote
 django_countries
+datetimewidget
