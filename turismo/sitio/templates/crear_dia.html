@@ -7,18 +7,14 @@
 {% block content %}
 	<form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
-    
     {{ form.as_p }}
-
-    <input name="btn_guardar_agregar" type="submit" value="Guardar y agregar dia" />
-    <input name="btn_guardar_finalizar" type="submit" value="Guardar y finalizar" />
+    <input class="btn btn-primary" name="btn_guardar_agregar" type="submit" value="Guardar y agregar dia" />
+    <input class="btn btn-primary" name="btn_guardar_finalizar" type="submit" value="Guardar y finalizar" />
 	</form>
-
 	{% for dia in lista_dias %}
     	<h3>{{ dia.descripcion }}</h3><br>
-    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
+    	<img src = "{{ dia.foto_dia.url }}"/> <br><br>
     {% endfor %}
-
 {% endblock %}
 
 {% block extra_js %}

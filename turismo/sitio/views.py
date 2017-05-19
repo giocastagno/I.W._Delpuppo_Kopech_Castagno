@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib.auth.models import User
-from sitio.models import Itinerario, Dia, Pais, Perfil_Usuario, Comentario
+from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario
 from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
@@ -14,7 +14,7 @@ from django.urls import reverse
 
 
 def inicio(request):
-    itinerarios = Itinerario.objects.all().order_by('-fecha')[:10]
+    itinerarios = Itinerario.objects.all().order_by('-fecha').filter(estado = 'Publicado')[:10]
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
 def acerca_de(request):
@@ -24,8 +24,21 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
+def modificar_itinerario(request, id_itiner):
+    itinerario = Itinerario.objects.get(pk=id_itiner)
+    if request.method == 'POST':
+        itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
+        if itinerario_form.is_valid():
+            itinerario = itinerario_form.save(commit=False)
+            itinerario.save()
+            return redirect('/ver_itinerario/' + str(itinerario.id))
+    else:
+        itinerario_form = ItinerarioForm(instance = itinerario)
+    return render(request, 'modificar_itinerario.html', {'form': itinerario_form})    
+
+
 def modificar_perfil(request, id_usuario, id_perfil):
-    perfil = Perfil_Usuario.objects.get(pk = id_perfil)
+    perfil = Perfil_Usuario.objects.get(pk=id_perfil)
     usuario = User.objects.get(pk = id_usuario)
     if request.method == 'POST':
         perfil_form = PerfilForm(request.POST, request.FILES, instance = perfil)
@@ -48,15 +61,18 @@ def ver_itinerario(request,id_itiner):
 
 def ver_perfil_usuario(request):
     usuario = request.user
-    perfil = (Perfil_Usuario.objects.filter(usuario = usuario).order_by('-id'))[0]
     itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')
+
+    
+    if Perfil_Usuario.objects.filter(usuario = usuario).count() == 0:
+        idperfil = Perfil_Usuario.objects.count() + 1
+        perfil = Perfil_Usuario.objects.crear_perfil(idperfil,usuario)
+    else:
+        perfil = Perfil_Usuario.objects.filter(usuario = usuario).order_by('-id')[0]
     return render(request, 'perfil.html', {'perfil': perfil, 'usuario': usuario, 'lista_itinerarios': itinerarios})
 
 @login_required
 def crear_itinerario(request):
-    #dias = (itinerario.fecha_salida - itinerario.fecha_llegada).days
-    #DiasFormSet = formset_factory(form=DiaForm, extra=10)
-    #formset = DiasFormSet(request.POST)
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES)
         if itinerario_form.is_valid():
@@ -74,7 +90,7 @@ def crear_itinerario(request):
     else:
         itinerario_form = ItinerarioForm()
 
-    return render(request, 'crear_itinerario.html', {'form':itinerario_form})#,'formset':formset})
+    return render(request, 'crear_itinerario.html', {'form':itinerario_form})
 
 @login_required
 def crear_comentario(request, id_itiner):

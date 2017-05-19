@@ -5,15 +5,20 @@
 {% block titulo %}Mi Perfil{% endblock %}
 
 {% block content %}
-	<h2> {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h2>
-	<img src = "{{ perfil.foto_perfil.url }}" />
-	<p>{{ perfil.localidad}}</p>
-	<p>{{ perfil.telefono}}</p>
+	<h3>Usuario: {{ perfil.usuario.username|upper}}</h3><br>
+	<img src = "{{ perfil.foto_perfil.url }}" /><br><br>
+	<h4>Nombre: {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h4>
+	<h5>Localidad: {{ perfil.localidad}}</h5>
+	<h5>Teléfono: {{ perfil.telefono}}</h5>
 	<form style="display: inline" action="/modificar_perfil/{{usuario.id}}/{{perfil.id}}" method="get">
-	  <button>Modificar Perfil</button>
+	  <button class="btn btn-primary">Modificar Perfil</button>
 	</form>
 	{% for itinerario in lista_itinerarios %}
     	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h3>
+    	{% if request.user == perfil.usuario %}
+    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-default btn-lg active" role="button">Editar</a>
+		{% endif %}
+
 	{% endfor %}
 {% endblock %}
 

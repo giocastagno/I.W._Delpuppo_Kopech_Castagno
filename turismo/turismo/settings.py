@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3_datetime',
     'django_extensions',
+    'django_summernote',
+    'django_countries',
+    'datetimewidget',
     'sitio',
 ]
 
@@ -98,6 +101,9 @@ EMAIL_HOST_USER = 'miguelangeldelpuppo@gmail.com'
 EMAIL_HOST_PASSWORD = 'ucktunyxqdyccnqw'
 DEFAULT_FROM_EMAIL = 'miguelangeldelpuppo@gmail.com'
 
+USE_L10N = True 
+USE_TZ = True 
+USE_I18N = True
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

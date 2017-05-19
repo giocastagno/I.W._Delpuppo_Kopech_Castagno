@@ -17,3 +17,5 @@ virtualenv-clone==0.2.5
 virtualenvwrapper==4.3.1
 whoosh
 pyparsing
+django-summernote
+django_countries

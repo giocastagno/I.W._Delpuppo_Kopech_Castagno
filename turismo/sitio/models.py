@@ -2,12 +2,18 @@ from django.contrib import admin
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
+from django_countries.fields import CountryField
 
 class Localidad(models.Model):
     nombre = models.CharField(max_length=50)
     
     def __str__(self):
         return self.nombre
+
+class ManejadorPerfil(models.Manager):
+    def crear_perfil(self, idperfil,usuario):
+        perfil = self.create(id=idperfil,usuario=usuario)
+        return perfil
 
 class Perfil_Usuario(models.Model):
     nombre = models.CharField(max_length=30)
@@ -17,16 +23,12 @@ class Perfil_Usuario(models.Model):
     localidad = models.ForeignKey(Localidad, null=True, blank=True)
     telefono = models.CharField(max_length=20)
     usuario = models.ForeignKey(User, null=True, blank=True)
+    objects = ManejadorPerfil()
 
     def __str__(self):
         return self.apellido + ', ' + self.nombre
 
 
-class Pais(models.Model):
-    nombre = models.CharField(max_length=50)
-    
-    def __str__(self):
-        return self.nombre
 
 class Itinerario(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
@@ -34,7 +36,7 @@ class Itinerario(models.Model):
     texto_general = models.CharField(max_length=1000)
     foto_general = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = 'sitio/imagenes/none/no-img.png')
-    pais_destino = models.ForeignKey(Pais, null=True, blank=True)
+    pais_destino = CountryField()
     fecha = models.DateTimeField()
     estado = models.CharField(max_length=20, null=True, blank=True)
     

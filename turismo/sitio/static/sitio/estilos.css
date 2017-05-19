@@ -26,6 +26,17 @@ body {background:#fff url(imagenes/banner.jpg) repeat-x left top}
 .post img{height:150px}
 .post .byline {font-size:12px;font-style:italic}
 
+button#perfilb {
+	margin-top: 7px;
+}
+
+h1#titulo-centrado{
+	position:relative;
+	text-align: center;
+	color: blue;
+	font-weight: bold;
+}
+
 /* Barra de navegacion a la derecha de la pagina, puede servir
 #sidebar {float:right;width:260px;background:url(images/img08.jpg) repeat-y left top;font-size:11px}
 #sidebar-bgtop {background:url(images/img07.jpg) no-repeat left top}

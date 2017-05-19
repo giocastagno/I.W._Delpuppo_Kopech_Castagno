@@ -10,8 +10,14 @@
         <!-- Latest compiled JavaScript -->
         <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 
+        <!-- include summernote css/js-->
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
+
         <link rel="stylesheet" href="{% static 'sitio/estilos.css' %}" type="text/css" />
-        
+
+        {{ form.media }}
+
         {% block extra_html %}
         {% endblock %}
     </head>
@@ -47,7 +53,7 @@
                             <li id="register"><a href="/accounts/register">Registrarse</a></li>
                         {% else %}
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> Perfil <span class="caret"></span></button>
+                                <button id="perfilb" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> Perfil <span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li role="presentation">
                                         <a role="menuitem" tabindex="-1" href="/perfil">Ver mi perfil</a>
@@ -67,7 +73,7 @@
             </div>
         </nav>
 
-        <h1>{% block titulo %}{% endblock %}</h1>
+        <h1 id="titulo-centrado">{% block titulo %}{% endblock %}</h1>
 
         {% block contenido %}
         <div class="container">

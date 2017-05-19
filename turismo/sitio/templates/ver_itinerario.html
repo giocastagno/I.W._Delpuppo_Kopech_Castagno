@@ -5,31 +5,47 @@
 {% block titulo %}{% endblock %}
 
 {% block content %}
-	<h2> {{ itinerario.usuario.username }}</h2>
-	<h2> {{ itinerario.titulo|upper }}</h2>
-	<h3>{{ itinerario.fecha|date:"j F" }}</h3>
-	<h3>{{ itinerario.pais_destino }}</h3>
-	<p>{{ itinerario.texto_general }}</p><br>
-	<img src = "{{ itinerario.foto_general.url }}" />
+    <div class="inne_copy">
+    </div>
+    <div id="page-bgtop">
+		<div id="ver-itinerario">
+			<h2> {{ itinerario.usuario.username }}</h2>
+			<h2> {{ itinerario.titulo|upper }}</h2>
+			<h3>{{ itinerario.fecha|date:"j F" }}</h3>
+			<h3>{{ itinerario.pais_destino }}</h3>
+			<p>{{ itinerario.texto_general }}</p><br>
+			<img src = "{{ itinerario.foto_general.url }}" />
+			<h1>Días de Viaje</h1>
+			{% for dia in lista_dias %}
+		    	<h3>{{ dia.descripcion }}</h3><br>
+		    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
+		    {% endfor %}
+		    {% if request.user == itinerario.usuario %}
+		    	<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-default btn-lg active" role="button">Editar</a>
+		    	<a id='eliminar' href="#" class="btn btn-primary" role="button">Eliminar</a>
+		    {% endif %}
+		    <form style="display: inline" action="/crear_comentario/{{itinerario.id}}" method="get">
+			  <button class="btn btn-primary">Comentar</button>
+			</form>
+			{% for comentario in lista_comentarios %}
+				<h3>{{ comentario.usuario.username }}</h3>
+		    	<h3>{{ comentario.calificacion|upper }}</h3>
+		    	<h3>{{ comentario.texto }}</h3><br>
+		    {% endfor %}
 
-	<h1>Días de Viaje</h1>
-
-	{% for dia in lista_dias %}
-    	<h3>{{ dia.descripcion }}</h3><br>
-    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
-    {% endfor %}
-
-    <form style="display: inline" action="/crear_comentario/{{itinerario.id}}" method="get">
-	  <button>Comentar</button>
-	</form>
-
-	{% for comentario in lista_comentarios %}
-		<h3>{{ comentario.usuario.username }}</h3>
-    	<h3>{{ comentario.calificacion|upper }}</h3>
-    	<h3>{{ comentario.texto }}</h3><br>
-    {% endfor %}
-
+		    
+		</div>
+	</div>
+	<div style="clear:both; height: 1px">
+	</div>
 {% endblock %}
 
 {% block extra_js %}
+<script>
+$( "#eliminar" ).click(function(itinerario) {
+	alert( "El itinerario ha sido eliminado" );
+	itinerario.estado = "EliminadoLogicamente"
+	
+});
+</script>
 {% endblock %}
