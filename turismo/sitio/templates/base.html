@@ -66,13 +66,21 @@
                 </div>
             </div>
         </nav>
-        
+
         <h1>{% block titulo %}{% endblock %}</h1>
-        
 
-
-        {% block content %}
-        {% endblock %}
+        {% block contenido %}
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="page">
+                        {% block content %}
+                        {% endblock %}    
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}         
 
         {% block licencia %}
         <div class="container">

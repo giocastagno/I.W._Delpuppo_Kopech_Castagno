@@ -1,7 +1,7 @@
 .fleft {float:left}
 .fclear {clear:both}
 
-body {background:#fff url(imagenes/banner.jpg) no-repeat}
+body {background:#fff url(imagenes/banner.jpg) repeat-x left top}
 
 /* Cuando tengamos busqueda
 #search {padding:0 0 40px 0}

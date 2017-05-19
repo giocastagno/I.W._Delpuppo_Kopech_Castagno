@@ -1,5 +1,5 @@
 function redirect_to_home() {
-    $.ajax({url: '/profile/redirect_to_home/'});
+    $.ajax({url: '/'});
 }
 
 function on_load_logout() {
