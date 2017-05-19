@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Espacio para editar itinerarios{% endblock %}
+
+{% block content %}
+	<form method="post" enctype='multipart/form-data'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input name="btn_crear_dias" type="submit" value="Finalizar edición" class= "btn btn-primary"/>
+    <input name="btn_borrador" type="submit" value="Guardar en borrador" class= "btn btn-secondary"/>
+    </form>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
