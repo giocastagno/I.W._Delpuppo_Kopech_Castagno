@@ -12,8 +12,8 @@
 						{% else %}
 							<p class="byline">Publicado por {{itinerario.usuario.username}} hace {{itinerario.fecha|timesince}}</p>
 						{% endif %}
-						<div id="destino-itinerario"><h3>{{ itinerario.pais_destino }}</h3></div>
-	    				<img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/>	
+						<div id="destino-itinerario"><h3>Destino: {{ itinerario.pais_destino.name }}</h3></div>
+	    				<img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);"/>	
 
 					</div>
 				</div>
@@ -21,3 +21,13 @@
 		</div>
 	{% endif %}
 {% endfor %}
+
+{% block extra_js %}
+    <script>
+        function imgError(image) {
+        image.onerror = "";
+        image.src = "/static/sitio/imagenes/turismo_noimagen.jpg";
+        return true;
+    }
+    </script>
+{% endblock %}

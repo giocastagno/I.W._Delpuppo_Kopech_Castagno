@@ -31,6 +31,7 @@ def modificar_itinerario(request, id_itiner):
         itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
         if itinerario_form.is_valid():
             itinerario = itinerario_form.save(commit=False)
+            itinerario.estado = "Publicado"
             itinerario.save()
             return redirect('/ver_itinerario/' + str(itinerario.id))
     else:
@@ -62,6 +63,9 @@ def modificar_perfil(request, id_usuario, id_perfil):
 
 def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
+    itinerario.visitas += 1
+    itinerario.save()
+    itinerario = Itinerario.objects.get(pk = id_itiner)
     usuario = itinerario.usuario
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
@@ -73,6 +77,19 @@ def ver_itinerario(request,id_itiner):
             comentario.usuario = request.user
             comentario.itinerario = itinerario
             comentario.save()
+            #comentarios = Comentario.objects.filter(itinerario = itinerario)
+            #comentario = comentarios[len(comentarios)-1]
+            if comentario.calificacion == 'Excelente':
+                itinerario.valoracion += 5
+            if comentario.calificacion == 'Muy Bueno':
+                itinerario.valoracion += 4
+            if comentario.calificacion == 'Bueno':
+                itinerario.valoracion += 3
+            if comentario.calificacion == 'Regular':
+                itinerario.valoracion += 2
+            if comentario.calificacion == 'Malo':
+                itinerario.valoracion += 1
+            itinerario.save()
             return redirect('/ver_itinerario/' + str(id_itiner))
     else:
         comentario_form = ComentarioForm()

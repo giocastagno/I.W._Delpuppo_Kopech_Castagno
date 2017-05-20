@@ -13,9 +13,6 @@
 	</form>
 	{% for dia in lista_dias %}
     	<h3>{{ dia.descripcion }}</h3><br>
-    	<img src = "{{ dia.foto_dia.url }}"/> <br><br>
+    	<img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
     {% endfor %}
-{% endblock %}
-
-{% block extra_js %}
 {% endblock %}

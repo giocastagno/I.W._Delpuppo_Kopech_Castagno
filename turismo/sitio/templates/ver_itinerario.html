@@ -14,11 +14,11 @@
 			<h3>{{ itinerario.fecha|date:"j F" }}</h3>
 			<h3>{{ itinerario.pais_destino }}</h3>
 			<p>{{ itinerario.texto_general }}</p><br>
-			<img src = "{{ itinerario.foto_general.url }}" />
+			<img src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" />
 			<h1>Días de Viaje</h1>
 			{% for dia in lista_dias %}
 		    	<h3>{{ dia.descripcion }}</h3><br>
-		    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
+		    	<img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
 		    {% endfor %}
 		    {% if request.user == itinerario.usuario %}
 		    	<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
@@ -41,5 +41,3 @@
 	</div>
 {% endblock %}
 
-{% block extra_js %}
-{% endblock %}

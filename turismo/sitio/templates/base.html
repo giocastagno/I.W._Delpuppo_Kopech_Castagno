@@ -98,6 +98,13 @@
 
         {% block extra_js %}
             <script src="{% static 'sitio/base.js' %}" ></script>
+            <script>
+                function imgError(image) {
+                image.onerror = "";
+                image.src = "/static/sitio/imagenes/turismo_noimagen.jpg";
+                return true;
+            }
+            </script>
         {% endblock %}
 
     </body>
