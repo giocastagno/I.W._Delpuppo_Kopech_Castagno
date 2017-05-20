@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 
 
 from sitio.views import inicio, crear_itinerario, ver_perfil_usuario, crear_dia 
-from sitio.views import ver_itinerario, acerca_de, modificar_perfil, crear_comentario
-from sitio.views import modificar_itinerario
+from sitio.views import ver_itinerario, acerca_de, modificar_perfil
+from sitio.views import modificar_itinerario, eliminar_itinerario
 urlpatterns = [
     url(r'^$', inicio),
     url(r'^inicio/$', inicio),
@@ -32,8 +32,8 @@ urlpatterns = [
     url(r'^ver_itinerario/(?P<id_itiner>\d+)/$', ver_itinerario),
     url(r'^perfil/$', ver_perfil_usuario),
     url(r'^modificar_perfil/(?P<id_usuario>\d+)/(?P<id_perfil>\d+)/$', modificar_perfil),
-    url(r'^crear_comentario/(?P<id_itiner>\d+)/$', crear_comentario),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'^modificar_itinerario/(?P<id_itiner>\d+)/$', modificar_itinerario),
+    url(r'^eliminar_itinerario/(?P<id_itiner>\d+)/$', eliminar_itinerario),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

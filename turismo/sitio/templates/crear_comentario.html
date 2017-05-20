@@ -8,7 +8,7 @@
 	<form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input name="btn_comentar" type="submit" value="Comentar" />
+    <input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
 	</form>
 {% endblock %}
 

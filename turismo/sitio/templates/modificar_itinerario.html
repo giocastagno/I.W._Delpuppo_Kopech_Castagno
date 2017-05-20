@@ -8,8 +8,7 @@
 	<form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input name="btn_crear_dias" type="submit" value="Finalizar edición" class= "btn btn-primary"/>
-    <input name="btn_borrador" type="submit" value="Guardar en borrador" class= "btn btn-secondary"/>
+    <input name="btn_crear_dias" type="submit" value="Finalizar edición" class= "btn btn-warning"/>
     </form>
 {% endblock %}
 

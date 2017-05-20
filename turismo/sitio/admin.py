@@ -3,7 +3,7 @@ from django.contrib import admin
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario 
 
 class AdminItinerario(admin.ModelAdmin):
-    list_display = ('id', 'titulo', 'fecha', 'foto_general', 'fecha_salida')
+    list_display = ('id', 'titulo', 'fecha', 'foto_general', 'fecha_salida', 'estado')
     #list_filter = ('archivada', 'fecha', 'categoria')
     #search_fields = ('texto', )
     date_hierarchy = 'fecha'

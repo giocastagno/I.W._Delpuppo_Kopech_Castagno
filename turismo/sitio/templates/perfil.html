@@ -14,9 +14,12 @@
 	  <button class="btn btn-primary">Modificar Perfil</button>
 	</form>
 	{% for itinerario in lista_itinerarios %}
-    	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h3>
-    	{% if request.user == perfil.usuario %}
-    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-default btn-lg active" role="button">Editar</a>
+    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}
+	    	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a> {{itinerario.estado}}</h3>
+	    	{% if request.user == perfil.usuario %}
+	    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
+	    		<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
+	    	{% endif %}
 		{% endif %}
 
 	{% endfor %}

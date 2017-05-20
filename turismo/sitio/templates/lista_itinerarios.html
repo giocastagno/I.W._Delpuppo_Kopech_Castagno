@@ -1,22 +1,23 @@
 {% for itinerario in lista_itinerarios %}
-	<div id="content">
-		<div class="post">
-			<div class="post-bgtop">
-				<div class="post-bgbtm">
-					<h2 class="title"><a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h2>
-					{% if request.user == itinerario.usuario %}
-						
-						<p class="byline">Publicado por mí hace {{itinerario.fecha|timesince}}</p>
-						<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-primary" role="button">Editar</a>
-						<a href="#" class="btn btn-primary" role="button">Eliminar</a>
-					{% else %}
-						<p class="byline">Publicado por {{itinerario.usuario.username}} hace {{itinerario.fecha|timesince}}</p>
-					{% endif %}
-					<div id="destino-itinerario"><h3>{{ itinerario.pais_destino }}</h3></div>
-    				<img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/>	
+	{%if itinerario.estado == 'Publicado' %}
+		<div id="content">
+			<div class="post">
+				<div class="post-bgtop">
+					<div class="post-bgbtm">
+						<h2 class="title"><a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a></h2>
+						{% if request.user == itinerario.usuario %}
+							<p class="byline">Publicado por mí hace {{itinerario.fecha|timesince}}</p>
+							<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
+							<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
+						{% else %}
+							<p class="byline">Publicado por {{itinerario.usuario.username}} hace {{itinerario.fecha|timesince}}</p>
+						{% endif %}
+						<div id="destino-itinerario"><h3>{{ itinerario.pais_destino }}</h3></div>
+	    				<img id="imagen-itinerario" src = "{{ itinerario.foto_general.url }}"/>	
 
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	{% endif %}
 {% endfor %}

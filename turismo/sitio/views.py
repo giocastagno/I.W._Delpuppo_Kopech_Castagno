@@ -24,6 +24,7 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
+@login_required
 def modificar_itinerario(request, id_itiner):
     itinerario = Itinerario.objects.get(pk=id_itiner)
     if request.method == 'POST':
@@ -34,9 +35,16 @@ def modificar_itinerario(request, id_itiner):
             return redirect('/ver_itinerario/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm(instance = itinerario)
-    return render(request, 'modificar_itinerario.html', {'form': itinerario_form})    
+    return render(request, 'modificar_itinerario.html', {'form': itinerario_form})   
 
+@login_required
+def eliminar_itinerario(request, id_itiner):
+    itinerario = Itinerario.objects.get(pk=id_itiner)
+    itinerario.estado = 'EliminadoLogicamente'
+    itinerario.save()
+    return render(request, 'eliminar_itinerario.html')
 
+@login_required
 def modificar_perfil(request, id_usuario, id_perfil):
     perfil = Perfil_Usuario.objects.get(pk=id_perfil)
     usuario = User.objects.get(pk = id_usuario)
@@ -57,7 +65,18 @@ def ver_itinerario(request,id_itiner):
     usuario = itinerario.usuario
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
-    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios})
+    if request.method == 'POST':
+        comentario_form = ComentarioForm(request.POST)
+        if comentario_form.is_valid():
+            comentario = comentario_form.save(commit=False)
+            comentario.fecha = datetime.now()
+            comentario.usuario = request.user
+            comentario.itinerario = itinerario
+            comentario.save()
+            return redirect('/ver_itinerario/' + str(id_itiner))
+    else:
+        comentario_form = ComentarioForm()
+    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form})
 
 def ver_perfil_usuario(request):
     usuario = request.user
@@ -91,22 +110,6 @@ def crear_itinerario(request):
         itinerario_form = ItinerarioForm()
 
     return render(request, 'crear_itinerario.html', {'form':itinerario_form})
-
-@login_required
-def crear_comentario(request, id_itiner):
-    itinerario = Itinerario.objects.get(pk = id_itiner)
-    if request.method == 'POST':
-        comentario_form = ComentarioForm(request.POST)
-        if comentario_form.is_valid():
-            comentario = comentario_form.save(commit=False)
-            comentario.fecha = datetime.now()
-            comentario.usuario = request.user
-            comentario.itinerario = itinerario
-            comentario.save()
-            return redirect('/ver_itinerario/' + str(id_itiner))
-    else:
-        comentario_form = ComentarioForm()
-    return render(request, 'crear_comentario.html', {'form':comentario_form})
 
 @login_required
 def crear_dia(request, id_itiner):

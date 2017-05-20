@@ -21,11 +21,14 @@
 		    	<img src = "{{ dia.foto_dia.url }}" /> <br><br>
 		    {% endfor %}
 		    {% if request.user == itinerario.usuario %}
-		    	<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-default btn-lg active" role="button">Editar</a>
-		    	<a id='eliminar' href="#" class="btn btn-primary" role="button">Eliminar</a>
+		    	<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
+		    	<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
 		    {% endif %}
-		    <form style="display: inline" action="/crear_comentario/{{itinerario.id}}" method="get">
-			  <button class="btn btn-primary">Comentar</button>
+
+		    <form method="post" enctype='multipart/form-data'>
+    			{% csrf_token %}
+    			{{ form.as_p }}
+    			<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
 			</form>
 			{% for comentario in lista_comentarios %}
 				<h3>{{ comentario.usuario.username }}</h3>
@@ -41,11 +44,4 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-$( "#eliminar" ).click(function(itinerario) {
-	alert( "El itinerario ha sido eliminado" );
-	itinerario.estado = "EliminadoLogicamente"
-	
-});
-</script>
 {% endblock %}
