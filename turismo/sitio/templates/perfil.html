@@ -11,7 +11,7 @@
 	<h5>Localidad: {{ perfil.localidad}}</h5>
 	<h5>Teléfono: {{ perfil.telefono}}</h5>
 	<form style="display: inline" action="/modificar_perfil/{{usuario.id}}/{{perfil.id}}" method="get">
-	  <button class="btn btn-primary">Modificar Perfil</button>
+	  <button class="btn btn-warning">Modificar Perfil</button>
 	</form>
 	{% for itinerario in lista_itinerarios %}
     	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}
