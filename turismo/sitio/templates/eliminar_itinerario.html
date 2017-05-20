@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Acerca de Turismo.com{% endblock %}
+
+{% block content %}
+	<body onLoad="redireccionar()">
+	<p>El itinerario ha sido eliminado, en instantes se te redireccionará a la página principal.</p>
+{% endblock %}
+
+{% block extra_js %}
+	<script language="JavaScript">
+  		function redireccionar() {
+    	setTimeout("location.href='/'", 5000);
+    	}
+	</script>
+{% endblock %}
