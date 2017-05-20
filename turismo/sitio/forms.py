@@ -13,7 +13,7 @@ class ItinerarioForm(forms.ModelForm):
             'fecha_salida': DateWidget(attrs={'usel10n':'True', 'bootstrap_version':'3'}),
             'fecha_llegada': DateWidget(attrs={'usel10n':'True', 'bootstrap_version':'3'}),
             	}
-        exclude = ['fecha', 'usuario', 'estado',]
+        exclude = ['fecha', 'usuario', 'estado', 'valoracion', 'visitas']
 
 class DiaForm(forms.ModelForm):
 	class Meta:
@@ -30,7 +30,10 @@ class PerfilForm(forms.ModelForm):
 
 class ComentarioForm(forms.ModelForm):
 	class Meta:
-		model = Comentario 
+		model = Comentario
+		widgets = {
+        	'texto': SummernoteInplaceWidget(),
+            	}
 		exclude = ['usuario', 'fecha', 'itinerario',]
 
 

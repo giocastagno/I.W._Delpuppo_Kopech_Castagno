@@ -2,7 +2,9 @@
 <html>
 
     <head>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        
       
         <!-- jQuery library -->
         <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
@@ -15,6 +17,8 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
 
         <link rel="stylesheet" href="{% static 'sitio/estilos.css' %}" type="text/css" />
+
+        
 
         {{ form.media }}
 
@@ -38,32 +42,32 @@
                 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li id="inicio"><a href="/inicio">Inicio</a></li>
-                        <li id="acerca-de"><a href="/acerca_de">Acerca de</a></li>
+                        <li id="inicio"><a id="a-menu" href="/inicio">Inicio</a></li>
+                        <li id="acerca-de"><a id="a-menu" href="/acerca_de">Acerca de</a></li>
                         {% if not user.is_anonymous %}
-                            <li id="crear_itinerario"><a href="/crear_itinerario">Nuevo Itinerario</a></li>
+                            <li id="crear_itinerario"><a id="a-menu" href="/crear_itinerario">Nuevo Itinerario</a></li>
                             {% if user.is_staff %}
-                                <li id="admin"><a href="/admin">Admin</a></li> 
+                                <li id="admin"><a id="a-menu" href="/admin">Admin</a></li> 
                             {% endif %}   
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_anonymous %}
-                            <li id="login"><a href="/accounts/login">Ingresar</a></li>
-                            <li id="register"><a href="/accounts/register">Registrarse</a></li>
+                            <li id="login"><a id="a-menu" href="/accounts/login">Ingresar</a></li>
+                            <li id="register"><a id="a-menu" href="/accounts/register">Registrarse</a></li>
                         {% else %}
                             <div class="dropdown">
                                 <button id="perfilb" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"> Perfil <span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li role="presentation">
-                                        <a role="menuitem" tabindex="-1" href="/perfil">Ver mi perfil</a>
+                                        <a id="a-menu" role="menuitem" tabindex="-1" href="/perfil">Ver mi perfil</a>
                                     </li>
                                     <li role="presentation">
-                                        <a role="menuitem" tabindex="-1" href="/accounts/password/reset">Cambiar Contraseña</a>
+                                        <a id="a-menu" role="menuitem" tabindex="-1" href="/accounts/password/reset">Cambiar Contraseña</a>
                                     </li>
                                     <li role="presentation" class="divider"></li>
                                     <li role="presentation">
-                                        <a role="menuitem" tabindex="-1" href="/accounts/logout">Cerrar sesión</a>
+                                        <a id="a-menu" role="menuitem" tabindex="-1" href="/accounts/logout">Cerrar sesión</a>
                                     </li>
                                 </ul>
                             </div>

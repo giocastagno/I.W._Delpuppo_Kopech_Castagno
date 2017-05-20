@@ -5,10 +5,11 @@
 {% block titulo %}Espacio para editar itinerarios{% endblock %}
 
 {% block content %}
-	<form method="post" enctype='multipart/form-data'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input name="btn_crear_dias" type="submit" value="Finalizar edición" class= "btn btn-warning"/>
-    </form>
+	<div id="content"> 
+		<form method="post" enctype='multipart/form-data'>
+	    {% csrf_token %}
+	    {{ form.as_p }}
+	    <input name="btn_crear_dias" type="submit" value="Finalizar edición" class= "btn btn-warning"/>
+	    </form>
+	</div>
 {% endblock %}
-

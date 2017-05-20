@@ -12,19 +12,34 @@ body {background:#fff url(imagenes/banner.jpg) repeat-x left top}
 #search-submit {height:21px;margin-left:10px;padding:0 2px;border:none;background:#E71810;color:#fff}
 */
 
-#page {width:900px;margin-left:22%}
-#content {float:left;width:630px}
+#page {width:900px;
+	margin-left:22%}
+#content {float:left;
+	width:630px}
 
 .post {background:url(imagenes/img05.jpg) 
 	repeat-y left top}
 .post-bgtop {background:url(imagenes/img04.jpg) no-repeat left top}
-.post-bgbtm {background:url(imagenes/img06.jpg) no-repeat left bottom;padding:50px 40px 30px 40px}
-.post .title {margin:0;padding:0 0 5px 0;color:#232F01}
-.post .title a {letter-spacing:-1px;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-weight:normal;font-size:32px;color:#3A3D40}
+.post-bgbtm {background:url(imagenes/img06.jpg) no-repeat left bottom;
+	padding:50px 40px 30px 40px}
+.post .title {margin:0;
+	padding:0 0 5px 0;
+	color:#232F01}
+.post .title a {letter-spacing:-1px;
+	text-decoration:none;
+	font-family:Arial,Helvetica,sans-serif;
+	font-weight:normal;
+	font-size:32px;
+	color:#3A3D40}
 .post .y{}
-.post .imagen_itinerario {display:block;width:115px;height:32px;padding:8px 0 0 0; no-repeat left top;}
+.post .imagen_itinerario {display:block;
+	width:115px;
+	height:32px;
+	padding:8px 0 0 0; 
+	no-repeat left top;}
 .post img{height:150px}
-.post .byline {font-size:12px;font-style:italic}
+.post .byline {font-size:12px;
+	font-style:italic}
 
 button#perfilb {
 	margin-top: 7px;
@@ -36,6 +51,19 @@ h1#titulo-centrado{
 	color: blue;
 	font-weight: bold;
 }
+
+button#perfilb {
+	color:black;
+}
+
+h2#titulo-itinerario, h3#titulo-itinerario {
+	text-align: center;
+}
+
+div#botones{
+	text-align: center;
+}
+
 
 /* Barra de navegacion a la derecha de la pagina, puede servir
 #sidebar {float:right;width:260px;background:url(images/img08.jpg) repeat-y left top;font-size:11px}

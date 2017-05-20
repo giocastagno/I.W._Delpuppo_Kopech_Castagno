@@ -5,39 +5,67 @@
 {% block titulo %}{% endblock %}
 
 {% block content %}
-    <div class="inne_copy">
-    </div>
-    <div id="page-bgtop">
-		<div id="ver-itinerario">
-			<h2> {{ itinerario.usuario.username }}</h2>
-			<h2> {{ itinerario.titulo|upper }}</h2>
-			<h3>{{ itinerario.fecha|date:"j F" }}</h3>
-			<h3>{{ itinerario.pais_destino }}</h3>
-			<p>{{ itinerario.texto_general }}</p><br>
-			<img src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" />
-			<h1>Días de Viaje</h1>
-			{% for dia in lista_dias %}
-		    	<h3>{{ dia.descripcion }}</h3><br>
-		    	<img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
-		    {% endfor %}
-		    {% if request.user == itinerario.usuario %}
-		    	<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
-		    	<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
-		    {% endif %}
 
-		    <form method="post" enctype='multipart/form-data'>
-    			{% csrf_token %}
-    			{{ form.as_p }}
-    			<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
-			</form>
-			{% for comentario in lista_comentarios %}
-				<h3>{{ comentario.usuario.username }}</h3>
-		    	<h3>{{ comentario.calificacion|upper }}</h3>
-		    	<h3>{{ comentario.texto }}</h3><br>
-		    {% endfor %}
+	<div id="content">
+		<h2 id="titulo-itinerario">Itinerario</h2>
+		<div class="post">
+			<div class="post-bgtop">
+				<div class="post-bgbtm">
+					<h2> {{ itinerario.titulo|upper }}</h2>
+					<h5>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h5>
+					<h5> Destino:{{ itinerario.pais_destino.name }}</h5><br>
+					<img id="general-itinerario" src = "/{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
+					<p>{{ itinerario.texto_general }}</p><br>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div style="clear:both; height: 1px">
+		
+	<div id="content">
+		<h2 id="titulo-itinerario">Días de Viaje</h2>
 	</div>
+
+	{% for dia in lista_dias %}
+		<div id="content">
+			<div class="post">
+				<div class="post-bgtop">
+					<div class="post-bgbtm">
+					    <h3>{{ dia.descripcion }}</h3><br>
+    					<img src = "/{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
+    				</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+
+	<div id="content">
+		{% if request.user == itinerario.usuario %}
+	    	<div id="botones">
+	    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
+	    		<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
+	    	</div>
+	    {% endif %}
+	   	<br><br>
+	   	<h3 id="titulo-itinerario">Dejá tu comentario</h3>
+	    <form method="post" enctype='multipart/form-data'>
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
+		</form>
+		<br>
+		
+		{% for comentario in lista_comentarios %}
+			<div id="content">
+				<div class="post">
+					<div class="post-bgtop">
+						<div class="post-bgbtm">
+							<h4>Comentado por: {{ comentario.usuario.username }} hace {{ comentario.fecha|timesince }}</h4>
+					    	<h4>{{ comentario.calificacion|upper }}</h4>
+					    	<h5>{{ comentario.texto }}</h5>
+	    				</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
 {% endblock %}
 

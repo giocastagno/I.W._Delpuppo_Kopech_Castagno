@@ -5,10 +5,11 @@
 {% block titulo %}Ingrese sus datos{% endblock %}
 
 {% block content %}
-	<form method="post" enctype='multipart/form-data'>
-    	{% csrf_token %}
-    	{{ form.as_p }}
-    	<input class="btn btn-danger" name="btn_guardar" type="submit" value="Guardar perfil" />
-    </form>
+	<div id="content"> 
+		<form method="post" enctype='multipart/form-data'>
+	    	{% csrf_token %}
+	    	{{ form.as_p }}
+	    	<input class="btn btn-danger" name="btn_guardar" type="submit" value="Guardar perfil" />
+	    </form>
+	</div>
 {% endblock %}
-

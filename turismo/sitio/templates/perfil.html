@@ -5,23 +5,25 @@
 {% block titulo %}Mi Perfil{% endblock %}
 
 {% block content %}
-	<h3>Usuario: {{ perfil.usuario.username|upper}}</h3><br>
-	<img src = "{{ perfil.foto_perfil.url }}" onerror="imgError(this);" /><br><br>
-	<h4>Nombre: {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h4>
-	<h5>Localidad: {{ perfil.localidad}}</h5>
-	<h5>Teléfono: {{ perfil.telefono}}</h5>
-	<form style="display: inline" action="/modificar_perfil/{{usuario.id}}/{{perfil.id}}" method="get">
-	  <button class="btn btn-warning">Modificar Perfil</button>
-	</form>
-	{% for itinerario in lista_itinerarios %}
-    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}
-	    	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a> {{itinerario.estado}}</h3>
-	    	{% if request.user == perfil.usuario %}
-	    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
-	    		<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
-	    	{% endif %}
-		{% endif %}
+	<div id="content"> 
+		<h3>Usuario: {{ perfil.usuario.username|upper}}</h3><br>
+		<img src = "/{{ perfil.foto_perfil.url }}" onerror="imgError(this);" /><br><br>
+		<h4>Nombre: {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h4>
+		<h5>Localidad: {{ perfil.localidad}}</h5>
+		<h5>Teléfono: {{ perfil.telefono}}</h5>
+		<form style="display: inline" action="/modificar_perfil/{{usuario.id}}/{{perfil.id}}" method="get">
+		  <button class="btn btn-warning">Modificar Perfil</button>
+		</form>
+		{% for itinerario in lista_itinerarios %}
+	    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}
+		    	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a> {{itinerario.estado}}</h3>
+		    	{% if request.user == perfil.usuario %}
+		    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
+		    		<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
+		    	{% endif %}
+			{% endif %}
 
-	{% endfor %}
+		{% endfor %}
+	</div> 
 {% endblock %}
 

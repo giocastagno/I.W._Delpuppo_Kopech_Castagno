@@ -5,14 +5,22 @@
 {% block titulo %}Dias de Viaje{% endblock %}
 
 {% block content %}
-	<form method="post" enctype='multipart/form-data'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input class="btn btn-warning" name="btn_guardar_agregar" type="submit" value="Guardar y agregar dia" />
-    <input class="btn btn-warning" name="btn_guardar_finalizar" type="submit" value="Guardar y finalizar" />
-	</form>
-	{% for dia in lista_dias %}
-    	<h3>{{ dia.descripcion }}</h3><br>
-    	<img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
-    {% endfor %}
+    <div id="content">
+    	<form method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-warning" name="btn_guardar_agregar" type="submit" value="Guardar y agregar dia" />
+        <input class="btn btn-warning" name="btn_guardar_finalizar" type="submit" value="Guardar y finalizar" />
+    	</form>
+        {% for dia in lista_dias %}
+        <div class="post">
+            <div class="post-bgtop">
+                <div class="post-bgbtm">
+                    	<h3>{{ dia.descripcion }}</h3><br>
+                        <img src = "/{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

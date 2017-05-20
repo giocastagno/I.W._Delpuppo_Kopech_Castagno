@@ -61,6 +61,7 @@ class Dia(models.Model):
 class Comentario(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     usuario = models.ForeignKey(User, null=True, blank=True)
+    texto = models.CharField(max_length=500)
     CALIFICACION_CHOICES = (
         ('Malo', 'Malo'),
         ('Regular', 'Regular'),
@@ -73,7 +74,6 @@ class Comentario(models.Model):
         choices=CALIFICACION_CHOICES,
         default='3',
     )
-    texto = models.CharField(max_length=500)
     fecha = models.DateTimeField()
 
     def __str__(self):
