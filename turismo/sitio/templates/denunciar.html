@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}{% endblock %}
+
+{% block content %}
+	<body onLoad="redireccionar()">
+	<p>El comentario ha sido denunciado. En instantes se le redigirá a la página de inicio.</p>
+{% endblock %}
+
+{% block extra_js %}
+	<script language="JavaScript">
+  		function redireccionar() {
+    	setTimeout("location.href='/'", 5000);
+    	}
+	</script>
+{% endblock %}
