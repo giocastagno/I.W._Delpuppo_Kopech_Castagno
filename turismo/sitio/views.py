@@ -27,6 +27,7 @@ def usuario(request):
 @login_required
 def modificar_itinerario(request, id_itiner):
     itinerario = Itinerario.objects.get(pk=id_itiner)
+    perfil = Perfil_Usuario.objects.get(usuario = request.user)
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
         if itinerario_form.is_valid():
@@ -36,7 +37,7 @@ def modificar_itinerario(request, id_itiner):
             return redirect('/ver_itinerario/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm(instance = itinerario)
-    return render(request, 'modificar_itinerario.html', {'form': itinerario_form})   
+    return render(request, 'modificar_itinerario.html', {'form': itinerario_form, 'perfil': perfil})   
 
 @login_required
 def eliminar_itinerario(request, id_itiner):
@@ -61,12 +62,26 @@ def modificar_perfil(request, id_usuario, id_perfil):
 
     return render(request, 'modificar_perfil.html', {'form': perfil_form})
 
+@login_required
+def denunciar(request, id_coment):
+    comentario = Comentario.objects.get(pk = id_coment)
+    aux_usuario = User.objects.get(pk = comentario.usuario.id)
+    usuario = Perfil_Usuario.objects.get(usuario = aux_usuario)
+    if (comentario.denuncias + 1) > 10 and not aux_usuario.is_staff:
+        usuario.estado = "Restringido"
+        comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+    comentario.denuncias += 1
+    comentario.save()
+    usuario.save()
+    return render(request, 'denunciar.html')
+
 def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
     itinerario.visitas += 1
     itinerario.save()
     itinerario = Itinerario.objects.get(pk = id_itiner)
     usuario = itinerario.usuario
+    perfil = Perfil_Usuario.objects.get(usuario = request.user)
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
     if request.method == 'POST':
@@ -93,7 +108,7 @@ def ver_itinerario(request,id_itiner):
             return redirect('/ver_itinerario/' + str(id_itiner))
     else:
         comentario_form = ComentarioForm()
-    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form})
+    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form, 'perfil': perfil})
 
 def ver_perfil_usuario(request):
     usuario = request.user
@@ -109,6 +124,7 @@ def ver_perfil_usuario(request):
 
 @login_required
 def crear_itinerario(request):
+    perfil = Perfil_Usuario.objects.get(usuario = request.user)
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES)
         if itinerario_form.is_valid():
@@ -126,7 +142,7 @@ def crear_itinerario(request):
     else:
         itinerario_form = ItinerarioForm()
 
-    return render(request, 'crear_itinerario.html', {'form':itinerario_form})
+    return render(request, 'crear_itinerario.html', {'form':itinerario_form, 'perfil': perfil})
 
 @login_required
 def crear_dia(request, id_itiner):

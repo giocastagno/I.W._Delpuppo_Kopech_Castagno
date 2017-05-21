@@ -20,12 +20,13 @@ class ManejadorPerfil(models.Manager):
 class Perfil_Usuario(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
-    foto_perfil = models.ImageField(upload_to = 'media/sitio/imagenes/', 
+    foto_perfil = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = os.path.join(settings.STATIC_URL,'sitio/imagenes/','turismo_noimagen.jpg'))
     localidad = models.ForeignKey(Localidad, null=True, blank=True)
     telefono = models.CharField(max_length=20)
     usuario = models.ForeignKey(User, null=True, blank=True)
     objects = ManejadorPerfil()
+    estado = models.CharField(max_length=20, default = "Activo")
 
     def __str__(self):
         return self.apellido + ', ' + self.nombre
@@ -34,7 +35,7 @@ class Itinerario(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
     titulo = models.CharField(max_length=50)
     texto_general = models.CharField(max_length=1000)
-    foto_general = models.ImageField(upload_to = 'media/sitio/imagenes/', 
+    foto_general = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = os.path.join(settings.STATIC_URL,'sitio/imagenes/','turismo_noimagen.jpg'))
     pais_destino = CountryField()
     fecha = models.DateTimeField()
@@ -52,7 +53,7 @@ class Itinerario(models.Model):
 class Dia(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     descripcion = models.CharField(max_length=1000)
-    foto_dia = models.ImageField(upload_to = 'media/sitio/imagenes/', 
+    foto_dia = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = os.path.join(settings.STATIC_URL,'sitio/imagenes/','turismo_noimagen.jpg'))
 
     def __str__(self):
@@ -75,6 +76,7 @@ class Comentario(models.Model):
         default='3',
     )
     fecha = models.DateTimeField()
+    denuncias = models.IntegerField(default=0)
 
     def __str__(self):
         return self.texto

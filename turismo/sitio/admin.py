@@ -12,10 +12,10 @@ class AdminDia(admin.ModelAdmin):
     list_display = ('id', 'itinerario', 'descripcion')
 
 class AdminPerfil(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'nombre', 'apellido')   
+    list_display = ('id', 'usuario', 'nombre', 'apellido', 'estado')   
 
 class AdminComentario(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'calificacion', 'texto', 'itinerario')  
+    list_display = ('id', 'usuario', 'calificacion', 'texto', 'itinerario', 'denuncias')  
 
 
 admin.site.register(Itinerario, AdminItinerario)

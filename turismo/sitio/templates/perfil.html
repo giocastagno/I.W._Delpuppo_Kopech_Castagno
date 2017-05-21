@@ -7,12 +7,13 @@
 {% block content %}
 	<div id="content"> 
 		<h3>Usuario: {{ perfil.usuario.username|upper}}</h3><br>
-		<img src = "/{{ perfil.foto_perfil.url }}" onerror="imgError(this);" /><br><br>
+		<img src = "{{ perfil.foto_perfil.url }}" onerror="imgError(this);" /><br><br>
 		<h4>Nombre: {{ perfil.nombre|upper}} {{ perfil.apellido|upper}}</h4>
 		<h5>Localidad: {{ perfil.localidad}}</h5>
 		<h5>Teléfono: {{ perfil.telefono}}</h5>
+		<h5>Email: {{usuario.email}}</h5>
 		<form style="display: inline" action="/modificar_perfil/{{usuario.id}}/{{perfil.id}}" method="get">
-		  <button class="btn btn-warning">Modificar Perfil</button>
+		<button class="btn btn-warning">Modificar Perfil</button>
 		</form>
 		{% for itinerario in lista_itinerarios %}
 	    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}

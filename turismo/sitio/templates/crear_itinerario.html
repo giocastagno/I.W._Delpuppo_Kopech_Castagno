@@ -6,11 +6,15 @@
 
 {% block content %}
 	<div id="content"> 
-		<form method="post" enctype='multipart/form-data'>
-	    {% csrf_token %}
-	    {{ form.as_p }}
-	    <input name="btn_crear_dias" type="submit" value="Agregar dias de viaje" class= "btn btn-warning"/>
-	    <input name="btn_borrador" type="submit" value="Guardar en borrador" class= "btn btn-warning"/>
-	    </form>
+		{% if perfil.estado == "Activo" %}
+			<form method="post" enctype='multipart/form-data'>
+		    {% csrf_token %}
+		    {{ form.as_p }}
+		    <input name="btn_crear_dias" type="submit" value="Agregar dias de viaje" class= "btn btn-warning"/>
+		    <input name="btn_borrador" type="submit" value="Guardar en borrador" class= "btn btn-warning"/>
+		    </form>
+		{% else %}
+			<p>Usted actualmente se encuentra restringido. Si cree que esto es un error, contáctese con un administrador</p>
+		{% endif %}
 	</div>
 {% endblock %}

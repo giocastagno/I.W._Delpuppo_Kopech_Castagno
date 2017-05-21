@@ -14,7 +14,7 @@
 					<h2> {{ itinerario.titulo|upper }}</h2>
 					<h5>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h5>
 					<h5> Destino:{{ itinerario.pais_destino.name }}</h5><br>
-					<img id="general-itinerario" src = "/{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
+					<img id="general-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
 					<p>{{ itinerario.texto_general }}</p><br>
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 				<div class="post-bgtop">
 					<div class="post-bgbtm">
 					    <h3>{{ dia.descripcion }}</h3><br>
-    					<img src = "/{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
+    					<img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
     				</div>
 				</div>
 			</div>
@@ -46,12 +46,18 @@
 	    	</div>
 	    {% endif %}
 	   	<br><br>
-	   	<h3 id="titulo-itinerario">Dejá tu comentario</h3>
-	    <form method="post" enctype='multipart/form-data'>
-			{% csrf_token %}
-			{{ form.as_p }}
-			<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
-		</form>
+	   	
+	    
+	    {% if user.is_authenticated and perfil.estado == "Activo" %}
+	    	<h3 id="titulo-itinerario">Dejá tu comentario</h3>
+		    <form method="post" enctype='multipart/form-data'>
+				{% csrf_token %}
+				{{ form.as_p }}
+				<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
+			</form>
+		{% else %}
+			<h3 id="titulo-itinerario">Comentarios</h3>
+		{% endif %}
 		<br>
 		
 		{% for comentario in lista_comentarios %}
@@ -62,6 +68,9 @@
 							<h4>Comentado por: {{ comentario.usuario.username }} hace {{ comentario.fecha|timesince }}</h4>
 					    	<h4>{{ comentario.calificacion|upper }}</h4>
 					    	<h5>{{ comentario.texto }}</h5>
+					    	{% if user.is_authenticated and perfil.estado == "Activo" %}
+					    		<a class="btn btn-link" href="/denunciar/{{comentario.id}}" type="button">Denunciar</a>
+					    	{% endif %}
 	    				</div>
 					</div>
 				</div>
