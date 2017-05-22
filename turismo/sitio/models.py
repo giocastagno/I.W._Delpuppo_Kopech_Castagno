@@ -73,7 +73,7 @@ class Comentario(models.Model):
     calificacion = models.CharField(
         max_length=9,
         choices=CALIFICACION_CHOICES,
-        default='3',
+        default='Bueno',
     )
     fecha = models.DateTimeField()
     denuncias = models.IntegerField(default=0)

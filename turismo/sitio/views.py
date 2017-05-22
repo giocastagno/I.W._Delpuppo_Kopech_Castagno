@@ -81,7 +81,6 @@ def ver_itinerario(request,id_itiner):
     itinerario.save()
     itinerario = Itinerario.objects.get(pk = id_itiner)
     usuario = itinerario.usuario
-    perfil = Perfil_Usuario.objects.get(usuario = request.user)
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
     if request.method == 'POST':
@@ -108,11 +107,16 @@ def ver_itinerario(request,id_itiner):
             return redirect('/ver_itinerario/' + str(id_itiner))
     else:
         comentario_form = ComentarioForm()
-    return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form, 'perfil': perfil})
+    if not request.user.is_anonymous:
+        perfil = Perfil_Usuario.objects.get(usuario = request.user)
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form, 'perfil': perfil})
+    else:
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form})
+
 
 def ver_perfil_usuario(request):
     usuario = request.user
-    itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')
+    itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')[:10]
 
     
     if Perfil_Usuario.objects.filter(usuario = usuario).count() == 0:
@@ -181,5 +185,3 @@ def usuarios_online_ajax(request):
 
     }
     return JsonResponse(datos)
-
-

@@ -13,8 +13,9 @@ body {background:#fff url(imagenes/banner.jpg) repeat-x left top}
 */
 
 #page {width:900px;
-	margin-left:22%}
+	margin-left:0%}
 #content {float:left;
+    margin-left: 20%;
 	width:630px}
 
 .post {background:url(imagenes/img05.jpg) 
@@ -77,16 +78,10 @@ div#botones{
     /* Standard syntax */
     padding: 0px;
     min-height: 100%;
+    min-width: 16%;
+    border-radius: 4px;
 }
-.logo {
-    max-height: 130px;
-}
-.logo>img {
-    margin-top: 30px;
-    padding: 3px;
-    border: 3px solid white;
-    border-radius: 100%;
-}
+
 .list {
     color: #fff;
     list-style: none;
@@ -96,7 +91,7 @@ div#botones{
     color: rgba(255, 255, 255, 0.5);
 }
 .list> li, h5 {
-    padding: 5px 0px 5px 40px;
+    padding: 5px 0px 5px 20px;
 }
 .list>li:hover {
     background-color: rgba(255, 255, 255, 0.2);
@@ -108,19 +103,3 @@ div#botones{
 .main-content{
 text-align:center;
 }
-
-/* Barra de navegacion a la derecha de la pagina, puede servir
-#sidebar {float:right;width:260px;background:url(images/img08.jpg) repeat-y left top;font-size:11px}
-#sidebar-bgtop {background:url(images/img07.jpg) no-repeat left top}
-#sidebar-bgbtm {background:url(images/img09.jpg) no-repeat left bottom;padding:40px 40px 20px 40px}
-#sidebar ul {margin:0;padding:0;list-style:none;line-height:normal}
-#sidebar li {margin-bottom:1px}
-#sidebar li ul {margin:0;padding:0 0 40px 0}
-#sidebar li li {margin:0;padding:7px 0;border:none;background:url(images/img10.jpg) repeat-x left bottom;font-family:Tahoma, Geneva, sans-serif}
-#sidebar li li a {background:url(images/img11.jpg) no-repeat left 3px;padding-left:20px}
-#sidebar h2 {margin:0;padding:0 0 20px 0;font-family:Arial,Helvetica,sans-serif;font-size:180%;font-weight:normal;color:#454E55}
-#sidebar h3 {font-size:77%;color:#454E55}
-#sidebar p {margin:0;line-height:normal;color:#D4C792}
-#sidebar a {border:none;text-decoration:none;color:#757E82}
-#sidebar a:hover {text-decoration:underline;color:#363636}
-*/

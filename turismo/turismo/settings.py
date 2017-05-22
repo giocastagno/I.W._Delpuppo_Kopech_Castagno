@@ -42,8 +42,16 @@ INSTALLED_APPS = [
     'django_summernote',
     'django_countries',
     'datetimewidget',
+    'haystack',
     'sitio',
 ]
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index')
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -153,3 +161,18 @@ if os.environ.get('HEROKU', False):
     ALLOWED_HOSTS = ['*']
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+    from urllib.parse import urlparse
+
+    es = urlparse(os.environ.get('SEARCHBOX_URL') or 'https://127.0.0.1:9200/')
+    port = es.port or 80
+
+    HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': es.scheme + '://' + es.hostname + ':' + str(port),
+        'INDEX_NAME': 'documents',
+        },
+    }
+
+    if es.username:
+        HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": es.username + ':' + es.password}

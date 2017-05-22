@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^inicio/$', inicio),
     url(r'^acerca_de/$', acerca_de),
     url(r'^admin/', admin.site.urls),
+    url(r'^search/', include('haystack.urls')),
     url(r'^crear_itinerario/$', crear_itinerario),
     url(r'^crear_dia/(?P<id_itiner>\d+)/$', crear_dia),
     url(r'^ver_itinerario/(?P<id_itiner>\d+)/$', ver_itinerario),

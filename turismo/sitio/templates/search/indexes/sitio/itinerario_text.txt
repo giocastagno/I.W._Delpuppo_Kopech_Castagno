@@ -1,0 +1,3 @@
+{{ object.titulo }}
+{{ object.estado }}
+{{ object.texto_general }}

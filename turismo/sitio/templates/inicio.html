@@ -5,11 +5,38 @@
 {% block titulo %}{% endblock %}
 
 {% block content %}
-    <div class="inne_copy"></div>
-        <div id="page-bgtop">
-    		{% include 'lista_itinerarios.html' %}
-    	</div>
-    	<div style="clear:both; height: 1px"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-4 sidebar1">
+                <br>
+                <div class="left-navigation">
+                    <ul class="list">
+                        <h5><strong>FILTRAR</strong></h5>
+                        <li>Última semana</li>
+                    </ul>
+
+                    <br>
+
+                    <ul class="list">
+                        <h5><strong>ORDENAR</strong></h5>
+                        <li>Más votados</li>
+                        <li>Mejor puntuación</li>
+                        <li>Fecha publicado</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-8 main-content">
+            	<div class="inne_copy">
+            	</div>
+        		<div id="page-bgtop">
+    				{% include 'lista_itinerarios.html' %}
+    			</div>
+    			<div style="clear:both; height: 1px">
+    			</div>
+    		</div>
+        </div>
+    </div>
+    
 {% endblock %}
 
 
