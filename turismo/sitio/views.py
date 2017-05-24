@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib.auth.models import User
-from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario
-from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm
+from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
+from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
@@ -11,6 +11,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q
 from django.urls import reverse
+
+
+PUNTAJES = {
+    'Excelente': 5,
+    'Muy Bueno': 4,
+    'Bueno': 3,
+    'Regular': 2,
+    'Malo': 1,
+}
 
 
 def inicio(request):
@@ -83,42 +92,52 @@ def ver_itinerario(request,id_itiner):
     usuario = itinerario.usuario
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
+    puntaje = None
     if request.method == 'POST':
         comentario_form = ComentarioForm(request.POST)
-        if comentario_form.is_valid():
-            comentario = comentario_form.save(commit=False)
-            comentario.fecha = datetime.now()
-            comentario.usuario = request.user
-            comentario.itinerario = itinerario
-            comentario.save()
-            #comentarios = Comentario.objects.filter(itinerario = itinerario)
-            #comentario = comentarios[len(comentarios)-1]
-            if comentario.calificacion == 'Excelente':
-                itinerario.valoracion += 5
-            if comentario.calificacion == 'Muy Bueno':
-                itinerario.valoracion += 4
-            if comentario.calificacion == 'Bueno':
-                itinerario.valoracion += 3
-            if comentario.calificacion == 'Regular':
-                itinerario.valoracion += 2
-            if comentario.calificacion == 'Malo':
-                itinerario.valoracion += 1
-            itinerario.save()
-            return redirect('/ver_itinerario/' + str(id_itiner))
+        if 'btn_comentar' in request.POST:
+            if comentario_form.is_valid():
+                comentario = comentario_form.save(commit=False)    
+                comentario.fecha = datetime.now()
+                comentario.usuario = request.user
+                comentario.itinerario = itinerario
+                comentario.save()
+        else:
+            if not request.user.is_anonymous:
+                puntaje = Puntaje.objects.filter(usuario = request.user).filter(itinerario = itinerario)
+                if len(puntaje) == 0:
+                    puntaje_form = PuntajeForm(request.POST)
+                    if puntaje_form.is_valid():
+                        puntaje = puntaje_form.save(commit=False)
+                        puntaje = Puntaje.objects.crear_puntaje(request.user,itinerario, puntaje.calificacion)
+                        puntaje.save()
+                        puntaje = Puntaje.objects.filter(usuario = request.user).filter(itinerario = itinerario)[0]
+                        itinerario.valoracion += puntaje.calificacion
+                else:
+                    puntaje_form = PuntajeForm(request.POST, instance=puntaje[0])
+                    if puntaje_form.is_valid():
+                        puntaje = puntaje_form.save(commit=False)
+                        aux_puntaje = Puntaje.objects.filter(usuario = request.user).filter(itinerario = itinerario)[0]
+                        itinerario.valoracion -= aux_puntaje.calificacion
+                        puntaje.save()
+                        puntaje = Puntaje.objects.filter(usuario = request.user).filter(itinerario = itinerario)[0]
+                        itinerario.valoracion += puntaje.calificacion
+        itinerario.save()
+        return redirect('/ver_itinerario/' + str(id_itiner))
     else:
         comentario_form = ComentarioForm()
+        puntaje_form = PuntajeForm()
     if not request.user.is_anonymous:
         perfil = Perfil_Usuario.objects.get(usuario = request.user)
-        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form, 'perfil': perfil})
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'perfil': perfil, 'puntaje': puntaje, 'form2': puntaje_form})
+
     else:
         return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form})
 
-
+@login_required
 def ver_perfil_usuario(request):
     usuario = request.user
     itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')[:10]
-
-    
     if Perfil_Usuario.objects.filter(usuario = usuario).count() == 0:
         idperfil = Perfil_Usuario.objects.count() + 1
         perfil = Perfil_Usuario.objects.crear_perfil(idperfil,usuario)

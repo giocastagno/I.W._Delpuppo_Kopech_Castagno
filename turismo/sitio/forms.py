@@ -1,5 +1,5 @@
 from django import forms
-from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario
+from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
 
@@ -35,6 +35,11 @@ class ComentarioForm(forms.ModelForm):
         	'texto': SummernoteInplaceWidget(),
             	}
 		exclude = ['usuario', 'fecha', 'itinerario', 'denuncias',]
+
+class PuntajeForm(forms.ModelForm):
+	class Meta:
+		model = Puntaje
+		exclude = ['usuario', 'itinerario',]
 
 
 

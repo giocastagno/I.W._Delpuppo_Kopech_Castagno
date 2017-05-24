@@ -17,13 +17,18 @@ class ManejadorPerfil(models.Manager):
         perfil = self.create(id=idperfil,usuario=usuario)
         return perfil
 
+class ManejadorPuntaje(models.Manager):
+    def crear_puntaje(self, usuario, itinerario,vcalificacion):
+        puntaje = self.create(usuario=usuario,itinerario=itinerario,calificacion = vcalificacion)
+        return puntaje
+
 class Perfil_Usuario(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     foto_perfil = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = os.path.join(settings.STATIC_URL,'sitio/imagenes/','turismo_noimagen.jpg'))
     localidad = models.ForeignKey(Localidad, null=True, blank=True)
-    telefono = models.CharField(max_length=20)
+    telefono = models.CharField(max_length=20, null=True, blank = True)
     usuario = models.ForeignKey(User, null=True, blank=True)
     objects = ManejadorPerfil()
     estado = models.CharField(max_length=20, default = "Activo")
@@ -50,6 +55,30 @@ class Itinerario(models.Model):
     def __str__(self):
         return self.titulo + '(' + str(self.fecha) + ')'
 
+'''class ContenidoDenunciado(models.Model): 
+    usuario = models.ForeignKey(User, null=True, blank=True)
+    tipo = models.CharField(max_length=20, null=True, blank=True)'''
+
+class Puntaje(models.Model):
+    usuario = models.ForeignKey(User, null=True, blank=True)
+    itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
+    CALIFICACION_CHOICES = (
+        (1, 'Malo'),
+        (2, 'Regular'),
+        (3, 'Bueno'),
+        (4, 'Muy Bueno'),
+        (5, 'Excelente'),
+    )
+    calificacion = models.IntegerField(
+        choices=CALIFICACION_CHOICES,
+        null = True,
+        blank = True,
+    )
+    objects = ManejadorPuntaje()
+
+    def __str__(self):
+        return str(self.calificacion)
+
 class Dia(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     descripcion = models.CharField(max_length=1000)
@@ -63,20 +92,7 @@ class Comentario(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     usuario = models.ForeignKey(User, null=True, blank=True)
     texto = models.CharField(max_length=500)
-    CALIFICACION_CHOICES = (
-        ('Malo', 'Malo'),
-        ('Regular', 'Regular'),
-        ('Bueno', 'Bueno'),
-        ('Muy Bueno', 'Muy Bueno'),
-        ('Excelente', 'Excelente'),
-    )
-    calificacion = models.CharField(
-        max_length=9,
-        choices=CALIFICACION_CHOICES,
-        default='Bueno',
-    )
     fecha = models.DateTimeField()
-    denuncias = models.IntegerField(default=0)
 
     def __str__(self):
         return self.texto

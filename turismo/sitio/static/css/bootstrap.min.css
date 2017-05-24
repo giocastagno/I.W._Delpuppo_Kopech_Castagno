@@ -31,7 +31,15 @@
   font-size: 14px;
   text-align: left;
   list-style: none;
-  background-color: #ffc09b;
+  background: #F17153;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#F17153, #F58D63, #f1ab53);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#F17153, #F58D63, #f1ab53);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#F17153, #F58D63, #f1ab53);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#F17153, #F58D63, #f1ab53);
   -webkit-background-clip: padding-box;
           background-clip: padding-box;
   border: 1px solid #ccc;
@@ -42,12 +50,9 @@
 }
 
 a#a-menu{
-	color: black;
+	color: white;
 }
 
-a#a-menu:hover{
-	background-color: white;
-}
 
 .panel {
 	margin-top: 30px;

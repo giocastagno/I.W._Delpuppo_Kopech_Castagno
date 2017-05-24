@@ -15,7 +15,12 @@
 					<h5>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h5>
 					<h5> Destino:{{ itinerario.pais_destino.name }}</h5><br>
 					<img id="general-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
-					<p>{{ itinerario.texto_general }}</p><br>
+					<p>{{ itinerario.texto_general | safe}}</p><br>
+					<form method="post" enctype='multipart/form-data'>
+						{% csrf_token %}
+						{{ form2.as_p }}
+						<input name="btn_puntuar" type="submit" value="Calificar" class="btn btn-warning" />
+					</form>
 				</div>
 			</div>
 		</div>
@@ -30,7 +35,7 @@
 			<div class="post">
 				<div class="post-bgtop">
 					<div class="post-bgbtm">
-					    <h3>{{ dia.descripcion }}</h3><br>
+					    <h3>{{ dia.descripcion | safe}}</h3><br>
     					<img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
     				</div>
 				</div>
@@ -52,7 +57,7 @@
 	    	<h3 id="titulo-itinerario">Dejá tu comentario</h3>
 		    <form method="post" enctype='multipart/form-data'>
 				{% csrf_token %}
-				{{ form.as_p }}
+				{{ form1.as_p }}
 				<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
 			</form>
 		{% else %}
@@ -67,7 +72,7 @@
 						<div class="post-bgbtm">
 							<h4>Comentado por: {{ comentario.usuario.username }} hace {{ comentario.fecha|timesince }}</h4>
 					    	<h4>{{ comentario.calificacion|upper }}</h4>
-					    	<h5>{{ comentario.texto }}</h5>
+					    	<h5>{{ comentario.texto | safe}}</h5>
 					    	{% if user.is_authenticated and perfil.estado == "Activo" %}
 					    		<a class="btn btn-link" href="/denunciar/{{comentario.id}}" type="button">Denunciar</a>
 					    	{% endif %}

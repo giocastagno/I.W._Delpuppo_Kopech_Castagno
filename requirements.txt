@@ -14,11 +14,11 @@ static3==0.7.0
 virtualenv==15.0.1
 virtualenv-clone==0.2.5
 virtualenvwrapper==4.3.1
+whoosh
 pyparsing
 django-summernote
 django_countries
 django-datetime-widget
-haystack
 elasticsearch
-whoosh
 git+https://github.com/django-haystack/django-haystack
+

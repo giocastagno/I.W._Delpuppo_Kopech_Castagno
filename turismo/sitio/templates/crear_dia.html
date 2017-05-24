@@ -16,7 +16,7 @@
         <div class="post">
             <div class="post-bgtop">
                 <div class="post-bgbtm">
-                    	<h3>{{ dia.descripcion }}</h3><br>
+                    	<h3>{{ dia.descripcion | safe }}</h3><br>
                         <img src = "{{ dia.foto_dia.url }}" onerror="imgError(this);"/> <br><br>
                 </div>
             </div>

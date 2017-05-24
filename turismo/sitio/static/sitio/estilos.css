@@ -49,8 +49,10 @@ button#perfilb {
 h1#titulo-centrado{
 	position:relative;
 	text-align: center;
-	color: blue;
+	color: #F17153;
 	font-weight: bold;
+    text-shadow: -1px -1px 1px black;
+    font-family: cursive;
 }
 
 button#perfilb {
@@ -100,6 +102,15 @@ div#botones{
     font-weight: bolder;
     padding-left: 35px;
 }
+
+li#li-menu:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+    border-bottom: 3px solid white;
+    color: white;
+    font-weight: bolder;
+    padding: 0px 0px 0px 0px;
+}
+
 .main-content{
 text-align:center;
 }
