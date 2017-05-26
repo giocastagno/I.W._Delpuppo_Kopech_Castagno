@@ -6,7 +6,11 @@
 
 {% block content %}
 	<body onLoad="redireccionar()">
-	<p>El comentario ha sido denunciado. En instantes se le redigirá a la página de inicio.</p>
+	{% if ya_denunciado == 0 %}
+		<p>El contenido ha sido denunciado. En instantes se le redigirá a la página de inicio.</p>
+	{% else %}
+		<p>Usted ya ha denunciado este contenido. En instantes se le redigirá a la página de inicio. </p>
+	{% endif %}
 {% endblock %}
 
 {% block extra_js %}

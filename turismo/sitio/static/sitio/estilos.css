@@ -197,6 +197,11 @@ div#heading-perfil, div#footer-perfil {
 /*Fin Perfil Usuario*/
 
 /*logo*/
-img#logo-img1, img#logo-img2 {
-    height: 30px;
+img#logo-img1{
+    padding-bottom: 7px;
+    height: 40px;
+    width: 200px;
+    position: relative;
+    margin-top: -5px;
 }
+/*fin logo*/

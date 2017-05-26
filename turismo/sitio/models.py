@@ -16,6 +16,26 @@ class ManejadorPuntaje(models.Manager):
         puntaje = self.create(usuario=usuario,itinerario=itinerario,calificacion = vcalificacion)
         return puntaje
 
+class ManejadorComentariosDenunciados(models.Manager):
+    def crear_comentariodenunciado(self, u_denunciado, comentario):
+        comentario_denunciado = self.create(usuario_denunciado=u_denunciado,comentario=comentario)
+        return comentario_denunciado
+
+class ManejadorItinerariosDenunciados(models.Manager):
+    def crear_itinerariodenunciado(self, u_denunciado, itinerario):
+        itinerario_denunciado = self.create(usuario_denunciado=u_denunciado,itinerario=itinerario)
+        return itinerario_denunciado
+
+class ManejadorComentarioDenuncia(models.Manager):
+    def crear_comentariodenuncia(self, u_denunciante, comentario):
+        denuncia = self.create(usuario_denunciante=u_denunciante,comentario=comentario)
+        return denuncia
+
+class ManejadorItinerarioDenuncia(models.Manager):
+    def crear_itinerariodenuncia(self, u_denunciante, itinerario):
+        denuncia = self.create(usuario_denunciante=u_denunciante,itinerario=itinerario)
+        return denuncia
+
 class Perfil_Usuario(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
@@ -185,17 +205,13 @@ class Itinerario(models.Model):
     estado = models.CharField(max_length=20, null=True, blank=True)
     valoracion = models.IntegerField(default=0) 
     visitas = models.IntegerField(default=0)
-    
+
     #tiempo viaje (restringir fecha llegada mayor)
     fecha_salida = models.DateField()
     fecha_llegada = models.DateField()
 
     def __str__(self):
         return self.titulo + '(' + str(self.fecha) + ')'
-
-'''class ContenidoDenunciado(models.Model): 
-    usuario = models.ForeignKey(User, null=True, blank=True)
-    tipo = models.CharField(max_length=20, null=True, blank=True)'''
 
 class Puntaje(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
@@ -234,3 +250,38 @@ class Comentario(models.Model):
 
     def __str__(self):
         return self.texto
+
+class ComentariosDenunciados(models.Model): 
+    usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
+    comentario = models.ForeignKey(Comentario, null=True, blank=True)
+    cantidad = models.IntegerField(default=0) 
+    objects = ManejadorComentariosDenunciados() 
+    
+    def __str__(self):
+        return str(self.comentario) + '(' + str(self.cantidad) + ')'
+
+
+class ItinerariosDenunciados(models.Model):
+    usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
+    itinerario = models.ForeignKey(Itinerario, null=True, blank=True) 
+    cantidad = models.IntegerField(default=0) 
+    objects = ManejadorItinerariosDenunciados() 
+
+    def __str__(self):
+        return str(self.itinerario) + '(' + str(self.cantidad) + ')'
+
+class ComentarioDenuncia(models.Model):
+    usuario_denunciante = models.ForeignKey(User, null=True, blank=True)
+    comentario = models.ForeignKey(Comentario, null=True, blank=True)
+    objects = ManejadorComentarioDenuncia() 
+
+    def __str__(self):
+        return self.comentario
+
+class ItinerarioDenuncia(models.Model):
+    usuario_denunciante = models.ForeignKey(User, null=True, blank=True)
+    itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
+    objects = ManejadorItinerarioDenuncia() 
+
+    def __str__(self):
+        return self.itinerario

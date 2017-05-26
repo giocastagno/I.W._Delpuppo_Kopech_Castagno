@@ -12,6 +12,9 @@
 			<div class="post-bgtop">
 				<div class="post-bgbtm">
 					<h2> {{ itinerario.titulo|upper }}</h2>
+					{% if user.is_authenticated and perfil.estado == "Activo" %}
+					    <a class="btn btn-link" href="/denunciar/Itinerario/{{itinerario.id}}" type="button">Denunciar</a>
+					{% endif %}
 					<h5>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h5>
 					<h5> Destino:{{ itinerario.pais_destino.name }}</h5><br>
 					<img id="general-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
@@ -74,7 +77,7 @@
 					    	<h4>{{ comentario.calificacion|upper }}</h4>
 					    	<h5>{{ comentario.texto | safe}}</h5>
 					    	{% if user.is_authenticated and perfil.estado == "Activo" %}
-					    		<a class="btn btn-link" href="/denunciar/{{comentario.id}}" type="button">Denunciar</a>
+					    		<a class="btn btn-link" href="/denunciar/Comentario/{{comentario.id}}" type="button">Denunciar</a>
 					    	{% endif %}
 	    				</div>
 					</div>

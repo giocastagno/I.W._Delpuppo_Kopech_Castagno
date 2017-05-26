@@ -37,5 +37,5 @@ urlpatterns = [
     url(r'^summernote/', include('django_summernote.urls')),
     url(r'^modificar_itinerario/(?P<id_itiner>\d+)/$', modificar_itinerario),
     url(r'^eliminar_itinerario/(?P<id_itiner>\d+)/$', eliminar_itinerario),
-    url(r'^denunciar/(?P<id_coment>\d+)/$', denunciar),
+    url(r'^denunciar/(?P<tipo>[\w\-]+)/(?P<id_objeto>\d+)/$', denunciar),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

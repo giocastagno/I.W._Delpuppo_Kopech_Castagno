@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib.auth.models import User
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
+from sitio.models import ComentariosDenunciados, ItinerariosDenunciados
+from sitio.models import ComentarioDenuncia, ItinerarioDenuncia
 from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
@@ -72,17 +74,52 @@ def modificar_perfil(request, id_usuario, id_perfil):
     return render(request, 'modificar_perfil.html', {'form': perfil_form})
 
 @login_required
-def denunciar(request, id_coment):
-    comentario = Comentario.objects.get(pk = id_coment)
-    aux_usuario = User.objects.get(pk = comentario.usuario.id)
-    usuario = Perfil_Usuario.objects.get(usuario = aux_usuario)
-    if (comentario.denuncias + 1) > 10 and not aux_usuario.is_staff:
-        usuario.estado = "Restringido"
-        comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
-    comentario.denuncias += 1
-    comentario.save()
-    usuario.save()
-    return render(request, 'denunciar.html')
+def denunciar(request, tipo, id_objeto):
+    udenunciante = request.user
+    ya_denunciado = 0
+    if tipo == "Comentario":
+        comentario = Comentario.objects.get(pk = id_objeto)
+        cdenuncia = ComentarioDenuncia.objects.filter(usuario_denunciante=udenunciante).filter(comentario=comentario)
+        if len(cdenuncia) == 0:
+            nueva_denuncia = ComentarioDenuncia.objects.crear_comentariodenuncia(request.user,comentario)
+            nueva_denuncia.save()
+            cdenunciado = ComentariosDenunciados.objects.filter(usuario_denunciado=comentario.usuario).filter(comentario=comentario)
+            if len(cdenunciado) == 0:
+                nueva_denuncia = ComentariosDenunciados.objects.crear_comentariodenunciado(comentario.usuario,comentario)
+                nueva_denuncia.save()
+                cdenunciado = ComentariosDenunciados.objects.filter(usuario_denunciado=comentario.usuario).filter(comentario=comentario)
+            clave = cdenunciado[0].id
+            cdenunciado = ComentariosDenunciados.objects.get(pk = clave)
+            cdenunciado.cantidad += 1
+            if cdenunciado.cantidad > 20:
+                cdenunciado.usuario.estado = "Restringido"
+                comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+                comentario.save()
+            cdenunciado.save()
+        else:
+            ya_denunciado = 1
+    else:
+        itinerario = Itinerario.objects.get(pk = id_objeto)
+        idenuncia = ItinerarioDenuncia.objects.filter(usuario_denunciante=udenunciante).filter(itinerario=itinerario)
+        if len(idenuncia) == 0:
+            nueva_denuncia = ItinerarioDenuncia.objects.crear_itinerariodenuncia(request.user,itinerario)
+            nueva_denuncia.save()
+            idenunciado = ItinerariosDenunciados.objects.filter(usuario_denunciado=itinerario.usuario).filter(itinerario=itinerario)
+            if len(idenunciado) == 0:
+                nueva_denuncia = ItinerariosDenunciados.objects.crear_itinerariodenunciado(itinerario.usuario,itinerario)
+                nueva_denuncia.save()
+                idenunciado = ItinerariosDenunciados.objects.filter(usuario_denunciado=itinerario.usuario).filter(itinerario=itinerario)
+            clave = idenunciado[0].id
+            idenunciado =ItinerariosDenunciados.objects.get(pk = clave)
+            idenunciado.cantidad += 1
+            if idenunciado.cantidad > 20:
+                idenunciado.usuario.estado = "Restringido"
+                itinerario.estado = "EliminadoLogicamente"
+                itinerario.save()
+            idenunciado.save()
+        else:
+            ya_denunciado = 1
+    return render(request, 'denunciar.html', {'ya_denunciado':ya_denunciado})
 
 def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
