@@ -43,7 +43,7 @@ body {background:#fff url(imagenes/banner.jpg) repeat-x left top}
 	font-style:italic}
 
 button#perfilb {
-	margin-top: 7px;
+    margin-top: 7px;
 }
 
 button#perfilb > a {
@@ -205,3 +205,13 @@ img#logo-img1{
     margin-top: -5px;
 }
 /*fin logo*/
+
+img#img-licencia {
+    margin-left: 40%;
+    margin-top: -2.5%;
+    height: 30px;
+}
+
+input#busqueda {
+    width: 250px;
+}

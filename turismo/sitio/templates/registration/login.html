@@ -9,7 +9,7 @@
 	<form method="post" action=".">
   		{% csrf_token %} 
   		{{ form.as_p }}
-		<input type="submit" value="{% trans 'Log in' %}" />
+		<input type="submit" class = "btn btn-danger" value="{% trans 'Log in' %}" />
   		<input type="hidden" name="next" value="{{ next }}" />
 	</form>
 	<p>{% trans "Olvido su clave" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reestablecer" %}</a>!</p>

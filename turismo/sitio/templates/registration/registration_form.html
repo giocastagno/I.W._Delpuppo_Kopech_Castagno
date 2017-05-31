@@ -4,6 +4,6 @@
 	<form method="post" action=".">
   		{% csrf_token %}
   		{{ form.as_p }}
-  		<input type="submit" value="{% trans 'Enviar Datos' %}"/>
+  		<input type="submit" class = "btn btn-danger" value="{% trans 'Enviar Datos' %}"/>
 	</form>
 {% endblock %}

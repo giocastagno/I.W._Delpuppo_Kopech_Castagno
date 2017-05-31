@@ -10,19 +10,20 @@
             <div class="col-md-2 col-sm-4 sidebar1">
                 <br>
                 <div class="left-navigation">
-                    <ul class="list">
-                        <h5><strong>FILTRAR</strong></h5>
-                        <li>Última semana</li>
-                    </ul>
-
-                    <br>
-
-                    <ul class="list">
-                        <h5><strong>ORDENAR</strong></h5>
-                        <li>Más votados</li>
-                        <li>Mejor puntuación</li>
-                        <li>Fecha publicado</li>
-                    </ul>
+                	<form id="myform" method="post" action="/">
+                		{% csrf_token %}
+	                    <ul class="list">
+	                        <h5><strong>FILTRAR</strong></h5>
+	                        <li id="li-sidebar"><a href="/"><input class = "btn btn-link" id="a-menu" name="btn_hoy" value="Hoy" type="submit"></a></li>
+	                        <li id="li-sidebar"><a href="/"><input class = "btn btn-link" name="btn_ultima_semana" value="Última semana" type="submit" id="a-menu"></a></li>
+	                    </ul>
+	                    <br>
+	                    <ul class="list">
+	                        <h5><strong>TOP 10</strong></h5>
+	                        <li id="li-sidebar"><a href="/"><input class = "btn btn-link" name="btn_mas_visitados" value="Más visitados" type="submit" id="a-menu"></a></li>
+	                        <li id="li-sidebar"><a href="/"><input class = "btn btn-link" name="btn_mejor_puntuacion" value="Mejor puntuación" type="submit" id="a-menu"></a></li>
+	                    </ul>
+	                </form>
                 </div>
             </div>
             <div class="col-md-10 col-sm-8 main-content">

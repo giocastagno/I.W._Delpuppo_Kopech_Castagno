@@ -52,11 +52,19 @@
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                         <form id="busqueda" class="nav navbar-nav navbar-left navbar-form" method="get" action="/search/">
+                            <div class="input-group">
+                                <input type="text" name="btn_buscar" id="busqueda" class="form-control" placeholder="Buscar">
+                                <span class="input-group-btn">
+                                    <button id="busqueda" class="btn btn-danger" type="button">Buscar</button>
+                                </span>
+                            </div>
+                        </form>
                         {% if user.is_anonymous %}
                             <li id="li-menu"><a id="a-menu" href="/accounts/login">Ingresar</a></li>
                             <li id="li-menu"><a id="a-menu" href="/accounts/register">Registrarse</a></li>
                         {% else %}
-                            <div class="dropdown">
+                            <div class="nav navbar-nav navbar-right dropdown">
                                 <button id="perfilb" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><a href="#">Perfil </a><span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li role="presentation">
@@ -96,7 +104,7 @@
         {% block licencia %}
         <div class="container">
             <div class="panel panel-default">
-                <div class="panel-footer"><p>Creative Commons BY-NC-ND 4.0.</p></div>
+                <div class="panel-footer"><p>Creative Commons BY-NC-ND 4.0.</p><img id= "img-licencia" src= "{% static 'sitio/imagenes/by-nc-nd.eu.png' %}"></div>
             </div>
         </div>
         {% endblock %}

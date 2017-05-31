@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q
 from django.urls import reverse
+from datetime import datetime, timedelta
 
 
 PUNTAJES = {
@@ -26,6 +27,15 @@ PUNTAJES = {
 
 def inicio(request):
     itinerarios = Itinerario.objects.all().order_by('-fecha').filter(estado = 'Publicado')[:10]
+    if request.method == 'POST':
+        if "btn_hoy" in request.POST:
+            itinerarios = Itinerario.objects.all().order_by('-fecha').filter(fecha__gt = datetime.today() - timedelta(days=1)).filter(estado = 'Publicado')
+        if "btn_ultima_semana" in request.POST:
+            itinerarios = Itinerario.objects.all().order_by('-fecha').filter(fecha__gt = datetime.today() - timedelta(days=7)).filter(estado = 'Publicado')
+        if "btn_mas_visitados" in request.POST:
+            itinerarios = Itinerario.objects.all().order_by('-visitas').filter(estado = 'Publicado')[:10]
+        if "btn_mejor_puntuacion" in request.POST:
+            itinerarios = Itinerario.objects.all().order_by('-valoracion').filter(estado = 'Publicado')[:10]
     return render(request, 'inicio.html', {'lista_itinerarios': itinerarios})
 
 def acerca_de(request):

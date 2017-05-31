@@ -18,9 +18,18 @@
             <h3>Resultados:</h3>
 
             {% for result in page.object_list %}
-                <p>{{ result.titulo }}, {{ result.fecha }}</p>
+                {% if result.model_name == 'itinerario' %}
+                    <a href="/ver_itinerario/{{result.pk}}">Itinerario: {{ result.titulo }}, {{ result.fecha }}</a>
+                {% endif %}
+                {% if result.model_name == 'dia' and result.estado == 'Publicado' %}
+                    <a href="/ver_itinerario/{{result.id_itinerario}}">Día: {{ result.descripcion | safe }}</a>
+                {% endif %}
+                {% if result.model_name == 'comentario' and result.estado == 'Publicado' %}
+                    <a href="/ver_itinerario/{{result.id_itinerario}}"> Comentario: {{ result.texto | safe }}, {{ result.fecha }}</a>
+                {% endif %}
+                <br>
             {% empty %}
-                <p>No se encontraron itinerarios.</p>
+                <p>No se encontró contenido.</p>
             {% endfor %}
 
             {% if page.has_previous or page.has_next %}
