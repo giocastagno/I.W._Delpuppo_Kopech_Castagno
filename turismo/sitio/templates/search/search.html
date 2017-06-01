@@ -1,57 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_html %}
+{% endblock %}
+
 {% block content %}
-
-    <form id="busqueda" class="nav navbar-nav navbar-left navbar-form" method="get" action=".">
-        <div class="input-group">
-            <input type="text" name="btn_buscar" id="busqueda" class="form-control" placeholder="Buscar">
-            <span class="input-group-btn">
-                <button id="busqueda" class="btn btn-danger" type="button">Buscar</button>
-            </span>
-        </div>
-    </form>
-
- <!--   <form method="get" action=".">
-        <table>
-            {{ form.as_table }}
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <input type="submit" value="Buscar">
-                </td>
-            </tr>
-        </table> -->
     {% if query %}
+        <div id="content">
+            <div class="post">
+                <div class="post-bgtop">
+                    <div class="post-bgbtm">
+                        <h3>Resultados:</h3>
+                        {% for result in page.object_list %}
+                            {% if result.model_name == 'itinerario' %}
+                                <a href="/ver_itinerario/{{result.pk}}">Itinerario: {{ result.titulo }}, {{ result.fecha }}</a>
+                            {% endif %}
+                            {% if result.model_name == 'dia' and result.estado == 'Publicado' %}
+                                <a href="/ver_itinerario/{{result.id_itinerario}}">Itinerario: {{ result.titulo_itinerario }}, {{ result.fecha_itinerario }}</a>
+                            {% endif %}
+                            {% if result.model_name == 'comentario' and result.estado == 'Publicado' %}
+                                <a href="/ver_itinerario/{{result.id_itinerario}}">Itinerario: {{ result.titulo_itinerario }}, {{ result.fecha_itinerario }}</a>
+                            {% endif %}
+                            <br>
+                        {% empty %}
+                            <p>No se encontró contenido.</p>
+                        {% endfor %}
 
-    <div id="content">
-        <div class="post">
-            <div class="post-bgtop">
-                <div class="post-bgbtm">
-                    <h3>Resultados:</h3>
-
-                    {% for result in page.object_list %}
-                        {% if result.model_name == 'itinerario' %}
-                            <a href="/ver_itinerario/{{result.pk}}">Itinerario: {{ result.titulo }}, {{ result.fecha }}</a>
+                        {% if page.has_previous or page.has_next %}
+                            <div>
+                                {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                                |
+                                {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                            </div>
                         {% endif %}
-                        {% if result.model_name == 'dia' and result.estado == 'Publicado' %}
-                            <a href="/ver_itinerario/{{result.id_itinerario}}">Día: {{ result.descripcion | safe }}</a>
-                        {% endif %}
-                        {% if result.model_name == 'comentario' and result.estado == 'Publicado' %}
-                            <a href="/ver_itinerario/{{result.id_itinerario}}"> Comentario: {{ result.texto | safe }}, {{ result.fecha }}</a>
-                        {% endif %}
-                        <br>
-                    {% empty %}
-                        <p>No se encontró contenido.</p>
-                    {% endfor %}
-
-                    {% if page.has_previous or page.has_next %}
-                        <div>
-                            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-                            |
-                            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endif %}
 {% endblock %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
 from sitio.models import ComentariosDenunciados, ItinerariosDenunciados
 from sitio.models import ComentarioDenuncia, ItinerarioDenuncia
-from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm, BaseDiaFormSet
+from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm, DiaFormSet
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
@@ -14,6 +14,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.urls import reverse
 from datetime import datetime, timedelta
+from django.forms.models import inlineformset_factory
 
 
 PUNTAJES = {
@@ -45,6 +46,7 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
+#VIEJO MODIFICAR_ITINERARIO
 @login_required
 def modificar_itinerario(request, id_itiner):
     itinerario = Itinerario.objects.get(pk=id_itiner)
@@ -58,7 +60,16 @@ def modificar_itinerario(request, id_itiner):
             return redirect('/ver_itinerario/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm(instance = itinerario)
-    return render(request, 'modificar_itinerario.html', {'form': itinerario_form, 'perfil': perfil})   
+    return render(request, 'modificar_itinerario.html', {'form': itinerario_form, 'perfil': perfil})
+
+#NUEVO MODIFICAR_ITINERARIO
+'''@login_required
+def modificar_itinerario(request, id_itiner):
+    itinerario = Itinerario.objects.get(pk=id_itiner)
+    DiaFormSet = formset_factory(DiaForm, extra = 2, max_num = 20, can_delete = True)
+    formset = DiaFormSet(initial=[
+     {'descripcion': 'Django is now open source',}])
+    return render(request, 'modificar_itinerario.html', {'form1': formset,})'''
 
 @login_required
 def eliminar_itinerario(request, id_itiner):
@@ -194,7 +205,11 @@ def ver_perfil_usuario(request):
 
 @login_required
 def crear_itinerario(request):
-    perfil = Perfil_Usuario.objects.get(usuario = request.user)
+    perfil = Perfil_Usuario.objects.filter(usuario = request.user)
+    if len(perfil) == 0:
+        perfil = None
+    else:
+        perfil = perfil[0]
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES)
         if itinerario_form.is_valid():
@@ -251,53 +266,3 @@ def usuarios_online_ajax(request):
 
     }
     return JsonResponse(datos)
-
-
-#NUEVO MODIFICAR_ITINERARIO
-@login_required
-def a_itinerario(request, id_itiner):
-    itinerario = Itinerario.objects.get(pk=id_itiner)
-    perfil = Perfil_Usuario.objects.get(usuario = request.user)
-    # Crea el set de formularios con el formulario de día
-    DiaFormSet = formset_factory(DiaForm, formset=BaseDiaFormSet)
-    # Trae los datos del itinerario y días cargados
-    dias_usuario = Dia.objects.filter(itinerario = itinerario).order_by('id')
-    dia_datos = [{'descripcion': dia.descripcion, 'foto_dia': dia.foto_dia}
-                    for dia in dias_usuario]
-
-    if request.method == 'POST':
-        itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
-        dia_formset = DiaFormSet(request.POST, request.FILES)
-
-        if itinerario_form.is_valid() and dia_formset.is_valid():
-            itinerario = itinerario_form.save(commit=False)
-
-            # guarda una lista de dias para agregar después
-            nuevos_dias = []
-            for dia_form in dia_formset:
-                descripcion = dia_form.cleaned_data.get('descripcion')
-                foto_dia = link_form.cleaned_data.get('foto_dia')
-                if descripcion:
-                    nuevos_dias.append(Dia(descripcion=descripcion, foto_dia=foto_dia))
-            try:
-                with transaction.atomic():
-                    #Reemplaza lo viejo con lo nuevo
-                    Dia.objects.filter(itinerario=itinerario).delete()
-                    Dia.objects.bulk_create(nuevos_dias)
-
-                    # Mensaje de éxito
-                    messages.success(request, 'Tus cambios han sido realizados.')
-                    itinerario.estado = "Publicado"
-                    itinerario.fecha = datetime.now()
-                    itinerario.save()
-                    return redirect('/ver_itinerario/' + str(itinerario.id))
-
-            except IntegrityError: #Transacción fallida
-                messages.error(request, 'Ocurrió un error al guardar sus cambios.')
-                return redirect(reverse('inicio'))
-
-    else:
-        itinerario_form = ItinerarioForm(id = id_itiner)
-        dia_formset = DiaFormSet(initial = dia_datos)
-
-    return render(request, 'modificar_itinerario.html', {'perfil': perfil, 'form1': form_itinerario, 'form2': dia_formset})

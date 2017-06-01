@@ -16,6 +16,8 @@
         <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
         <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
 
+        <link rel="stylesheet" href="{% static 'sitio/estilos.css' %}" type="text/css" />
+
         
 
         {{ form.media }}
@@ -50,7 +52,14 @@
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        {% include "search/search.html" %}
+                        <form id="busqueda" class="nav navbar-nav navbar-left navbar-form" method="get" action="/search/">
+                            <div class="input-group">
+                                <input type="text" name="q" id="busqueda" class="form-control" placeholder="Buscar">
+                                <span class="input-group-btn">
+                                    <button id="busqueda" class="btn btn-danger" type="submit">Buscar</button>
+                                </span>
+                            </div>
+                        </form>
                         {% if user.is_anonymous %}
                             <li id="li-menu"><a id="a-menu" href="/accounts/login">Ingresar</a></li>
                             <li id="li-menu"><a id="a-menu" href="/accounts/register">Registrarse</a></li>
@@ -80,16 +89,16 @@
         <h1 id="titulo-centrado">{% block titulo %}{% endblock %}</h1>
 
         {% block contenido %}
-        <div class="container">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div id="page">
-                        {% block content %}
-                        {% endblock %}    
+            <div class="container">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="page">
+                            {% block content %}
+                            {% endblock %}    
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         {% endblock %}         
 
         {% block licencia %}

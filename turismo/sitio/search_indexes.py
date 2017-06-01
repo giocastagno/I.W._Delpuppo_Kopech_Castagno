@@ -20,6 +20,8 @@ class ComentarioIndex(indexes.SearchIndex, indexes.Indexable):
 	fecha = indexes.DateTimeField(model_attr='fecha')
 	id_itinerario = indexes.IntegerField(model_attr='itinerario__pk')
 	estado = indexes.CharField(model_attr = 'itinerario__estado')
+	titulo_itinerario = indexes.CharField(model_attr='itinerario__titulo')
+	fecha_itinerario = indexes.DateTimeField(model_attr = 'itinerario__fecha')
 
 	def get_model(self):
 		return Comentario
@@ -32,6 +34,8 @@ class DiaIndex(indexes.SearchIndex, indexes.Indexable):
 	descripcion = indexes.CharField(model_attr='descripcion')
 	id_itinerario = indexes.IntegerField(model_attr='itinerario__pk')
 	estado = indexes.CharField(model_attr = 'itinerario__estado')
+	titulo_itinerario = indexes.CharField(model_attr='itinerario__titulo')
+	fecha_itinerario = indexes.DateTimeField(model_attr = 'itinerario__fecha')
 
 	def get_model(self):
 		return Dia

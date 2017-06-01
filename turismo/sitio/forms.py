@@ -4,7 +4,7 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
 from django.forms.formsets import BaseFormSet
 
-class BaseDiaFormSet(BaseFormSet):
+class DiaFormSet(BaseFormSet):
     def clean(self):
         if any(self.errors):
             return
