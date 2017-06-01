@@ -252,10 +252,12 @@ def usuarios_online_ajax(request):
     }
     return JsonResponse(datos)
 
+
+#NUEVO MODIFICAR_ITINERARIO
 @login_required
-def test_dia(request, id_itiner):
-    user = request.user
+def a_itinerario(request, id_itiner):
     itinerario = Itinerario.objects.get(pk=id_itiner)
+    perfil = Perfil_Usuario.objects.get(usuario = request.user)
     # Crea el set de formularios con el formulario de día
     DiaFormSet = formset_factory(DiaForm, formset=BaseDiaFormSet)
     # Trae los datos del itinerario y días cargados
@@ -264,13 +266,11 @@ def test_dia(request, id_itiner):
                     for dia in dias_usuario]
 
     if request.method == 'POST':
-        itinerario_form = ItinerarioForm(request.POST, request.FILES)
+        itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
         dia_formset = DiaFormSet(request.POST, request.FILES)
 
         if itinerario_form.is_valid() and dia_formset.is_valid():
             itinerario = itinerario_form.save(commit=False)
-            itinerario.fecha = datetime.now()
-            itinerario.save()
 
             # guarda una lista de dias para agregar después
             nuevos_dias = []
@@ -286,19 +286,18 @@ def test_dia(request, id_itiner):
                     Dia.objects.bulk_create(nuevos_dias)
 
                     # Mensaje de éxito
-                    messages.success(request, 'You have updated your profile.')
+                    messages.success(request, 'Tus cambios han sido realizados.')
+                    itinerario.estado = "Publicado"
+                    itinerario.fecha = datetime.now()
+                    itinerario.save()
+                    return redirect('/ver_itinerario/' + str(itinerario.id))
 
             except IntegrityError: #Transacción fallida
-                messages.error(request, 'There was an error saving your profile.')
-                return redirect(reverse('profile-settings'))
+                messages.error(request, 'Ocurrió un error al guardar sus cambios.')
+                return redirect(reverse('inicio'))
 
     else:
-        profile_form = ProfileForm(user=user)
-        link_formset = LinkFormSet(initial=link_data)
+        itinerario_form = ItinerarioForm(id = id_itiner)
+        dia_formset = DiaFormSet(initial = dia_datos)
 
-    context = {
-        'profile_form': profile_form,
-        'link_formset': link_formset,
-    }
-
-    return render(request, 'our_template.html', context)
+    return render(request, 'modificar_itinerario.html', {'perfil': perfil, 'form1': form_itinerario, 'form2': dia_formset})
