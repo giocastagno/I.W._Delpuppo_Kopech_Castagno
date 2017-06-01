@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django_countries',
     'datetimewidget',
     'haystack',
-    'crispy_forms',
     'sitio',
 ]
 
@@ -154,8 +153,6 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_server_files')
-
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 if os.environ.get('HEROKU', False):
     # settings especificas para heroku
