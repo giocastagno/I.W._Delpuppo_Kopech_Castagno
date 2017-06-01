@@ -52,14 +52,7 @@
                         {% endif %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                         <form id="busqueda" class="nav navbar-nav navbar-left navbar-form" method="get" action="/search/">
-                            <div class="input-group">
-                                <input type="text" name="btn_buscar" id="busqueda" class="form-control" placeholder="Buscar">
-                                <span class="input-group-btn">
-                                    <button id="busqueda" class="btn btn-danger" type="button">Buscar</button>
-                                </span>
-                            </div>
-                        </form>
+                        {% include "search/search.html" %}
                         {% if user.is_anonymous %}
                             <li id="li-menu"><a id="a-menu" href="/accounts/login">Ingresar</a></li>
                             <li id="li-menu"><a id="a-menu" href="/accounts/register">Registrarse</a></li>

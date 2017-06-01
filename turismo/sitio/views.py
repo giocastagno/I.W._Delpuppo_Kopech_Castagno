@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
 from sitio.models import ComentariosDenunciados, ItinerariosDenunciados
 from sitio.models import ComentarioDenuncia, ItinerarioDenuncia
-from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm
+from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm, BaseDiaFormSet
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
@@ -251,3 +251,54 @@ def usuarios_online_ajax(request):
 
     }
     return JsonResponse(datos)
+
+@login_required
+def test_dia(request, id_itiner):
+    user = request.user
+    itinerario = Itinerario.objects.get(pk=id_itiner)
+    # Crea el set de formularios con el formulario de día
+    DiaFormSet = formset_factory(DiaForm, formset=BaseDiaFormSet)
+    # Trae los datos del itinerario y días cargados
+    dias_usuario = Dia.objects.filter(itinerario = itinerario).order_by('id')
+    dia_datos = [{'descripcion': dia.descripcion, 'foto_dia': dia.foto_dia}
+                    for dia in dias_usuario]
+
+    if request.method == 'POST':
+        itinerario_form = ItinerarioForm(request.POST, request.FILES)
+        dia_formset = DiaFormSet(request.POST, request.FILES)
+
+        if itinerario_form.is_valid() and dia_formset.is_valid():
+            itinerario = itinerario_form.save(commit=False)
+            itinerario.fecha = datetime.now()
+            itinerario.save()
+
+            # guarda una lista de dias para agregar después
+            nuevos_dias = []
+            for dia_form in dia_formset:
+                descripcion = dia_form.cleaned_data.get('descripcion')
+                foto_dia = link_form.cleaned_data.get('foto_dia')
+                if descripcion:
+                    nuevos_dias.append(Dia(descripcion=descripcion, foto_dia=foto_dia))
+            try:
+                with transaction.atomic():
+                    #Reemplaza lo viejo con lo nuevo
+                    Dia.objects.filter(itinerario=itinerario).delete()
+                    Dia.objects.bulk_create(nuevos_dias)
+
+                    # Mensaje de éxito
+                    messages.success(request, 'You have updated your profile.')
+
+            except IntegrityError: #Transacción fallida
+                messages.error(request, 'There was an error saving your profile.')
+                return redirect(reverse('profile-settings'))
+
+    else:
+        profile_form = ProfileForm(user=user)
+        link_formset = LinkFormSet(initial=link_data)
+
+    context = {
+        'profile_form': profile_form,
+        'link_formset': link_formset,
+    }
+
+    return render(request, 'our_template.html', context)

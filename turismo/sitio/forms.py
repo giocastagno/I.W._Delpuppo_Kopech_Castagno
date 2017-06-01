@@ -2,7 +2,21 @@ from django import forms
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
+from django.forms.formsets import BaseFormSet
 
+class BaseDiaFormSet(BaseFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+        for form in self.forms:
+            if form.cleaned_data:
+                descripcion = form.cleaned_data['descripcion']
+                # Check that all links have both an anchor and URL
+                if not descripcion:
+                    raise forms.ValidationError(
+                        'Debe ingresar una descripción',
+                        code='falta_descripcion'
+                    )
 
 class ItinerarioForm(forms.ModelForm):
     class Meta:
