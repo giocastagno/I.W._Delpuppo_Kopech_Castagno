@@ -8,7 +8,7 @@ class ItinerarioForm(forms.ModelForm):
     class Meta:
         model = Itinerario
         widgets = {
-        	'titulo': forms.Textarea(attrs={'cols': 82, 'rows': 1, 'style':'resize:none;'}),
+        	'titulo': forms.Textarea(attrs={'cols': 50, 'rows': 1, 'style':'resize:none;'}),
             'texto_general': SummernoteInplaceWidget(),
             'fecha_salida': DateWidget(attrs={'usel10n':'True', 'bootstrap_version':'3'}),
             'fecha_llegada': DateWidget(attrs={'usel10n':'True', 'bootstrap_version':'3'}),

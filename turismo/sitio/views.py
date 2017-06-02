@@ -62,7 +62,10 @@ def modificar_itinerario(request, id_itiner):
         formset = DiaFormSet(request.POST, request.FILES, queryset= q)
         if itinerario_form.is_valid() and formset.is_valid():
             itinerario = itinerario_form.save(commit=False)
-            itinerario.estado = "Publicado"
+            if 'btn_borrador' in request.POST:
+                itinerario.estado = "Borrador"
+            else:
+                itinerario.estado = "Publicado"
             itinerario.save()
             dias = formset.save()
             for dia in dias:
@@ -71,6 +74,8 @@ def modificar_itinerario(request, id_itiner):
         if 'btn_agregar' in request.POST:
             nuevo_dia = Dia.objects.crear_dia(itinerario)
             return redirect('/modificar_itinerario/' + str(itinerario.id))
+        if 'btn_borrador' in request.POST:
+            return redirect('/inicio')
         if 'btn_finalizar' in request.POST:
             return redirect('/ver_itinerario/' + str(itinerario.id))
     else:
@@ -226,7 +231,7 @@ def crear_itinerario(request):
             itinerario.fecha = datetime.now()
             itinerario.usuario = request.user
             if 'btn_borrador' in request.POST:
-                itinerario.estado = 'Borrador'
+                itinerario.estado = "Borrador"
                 itinerario.save()
                 return redirect('/inicio/')
             else:
@@ -235,7 +240,6 @@ def crear_itinerario(request):
                 return redirect('/crear_dia/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm()
-
     return render(request, 'crear_itinerario.html', {'form':itinerario_form, 'perfil': perfil})
 
 @login_required

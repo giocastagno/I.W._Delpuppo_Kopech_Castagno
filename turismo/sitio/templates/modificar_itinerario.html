@@ -8,22 +8,70 @@
 	<div id="content"> 
 		{% if perfil.estado == "Activo" %}
 			<form method="post" enctype='multipart/form-data'>
-		    {% csrf_token %}
-		    {{ form1.as_p}}
+			    <h3 id="titulo-itinerario">Editar itinerario</h3>
+			    {% csrf_token %}
+			    <strong>{{ form1.titulo.label}}</strong>
+			    {{ form1.titulo }}<br><br>
+			    <strong>{{ form1.texto_general.label}}</strong>
+			    <div id="summernote"> {{ form1.texto_general}} </div><br>
+			    <strong>{{ form1.foto_general.label}}</strong><br>
+			    {{ form1.foto_general }}<br>
+			    <strong>{{ form1.pais_destino.label}}</strong>
+			    {{ form1.pais_destino }}<br><br>
+			    <strong>{{ form1.fecha_salida.label}}</strong>
+			    {{ form1.fecha_salida }}<br><br>
+			    <strong>{{ form1.fecha_llegada.label}}</strong>
+			    {{ form1.fecha_llegada }}<br>
 
-		    {% csrf_token %}
-		    {{ form2.management_form }}
+			    <h3 id="titulo-itinerario">Editar días</h3>
 
-		    {% for form in form2 %}
-		        {{form}}
-		        <br>
-		    {% endfor %}
-		    <br>
-		    <input name="btn_finalizar" type="submit" value="Finalizar edición" class= "btn btn-warning"/>
-		    <input name="btn_agregar" type="submit" value="Agregar día" class= "btn btn-warning"/>
+			    {% csrf_token %}
+			    {{ form2.management_form }}
+
+			    {% for form in form2 %}
+			    	<div style='display:none;'> "{{form.id}}"</div>
+			        <strong>{{ form.descripcion.label}}</strong>
+			        <div class="summernote2"> {{form.descripcion}} </div><br>
+			        <strong>{{ form.foto_dia.label}}</strong><br>
+			    	{{ form.foto_dia }}<br>
+			    	{{ form.DELETE.label}}
+			    	{{ form.DELETE }}<br><br>
+			    {% endfor %}
+			    <br>
+			    <input name="btn_finalizar" type="submit" value="Guardar cambios y publicar" class= "btn btn-danger"/>
+			    <input name="btn_agregar" type="submit" value="Agregar día" class= "btn btn-warning"/>
+			     <input name="btn_borrador" type="submit" value="Guardar borrador" class= "btn btn-info"/>
 		    </form>
 		{% else %}
 			<p>Usted actualmente se encuentra restringido. Si cree que esto es un error, contáctese con un administrador</p>
 		{% endif %}
 	</div>
+{% endblock %}
+
+{% block extra_js %}
+	<script type = "text/javascript">
+        $('#summernote').summernote({
+        	maxHeight: 200,
+			toolbar: [
+			    // [groupName, [list of button]]
+			    ['style', ['bold', 'italic', 'underline', 'clear']],
+			    ['font', ['strikethrough', 'superscript', 'subscript']],
+			    ['fontsize', ['fontsize']],
+			    ['color', ['color']],
+			    ['para', ['ul', 'ol', 'paragraph']],
+			    ['height', ['height']]
+  			],
+		});
+    </script>
+    <script type = "text/javascript">
+        $('.summernote2').summernote({
+        	maxHeight: 80,
+			toolbar: [
+			    // [groupName, [list of button]]
+			    ['style', ['bold', 'italic', 'underline', 'clear']],
+			    ['fontsize', ['fontsize']],
+			    ['color', ['color']],
+  			],
+		});
+    </script>
 {% endblock %}
