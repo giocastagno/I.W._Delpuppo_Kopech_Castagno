@@ -9,8 +9,18 @@
 		{% if perfil.estado == "Activo" %}
 			<form method="post" enctype='multipart/form-data'>
 		    {% csrf_token %}
-		    {{ form.as_p }}
-		    <input name="btn_crear_dias" type="submit" value="Finalizar edición" class= "btn btn-warning"/>
+		    {{ form1.as_p}}
+
+		    {% csrf_token %}
+		    {{ form2.management_form }}
+
+		    {% for form in form2 %}
+		        {{form}}
+		        <br>
+		    {% endfor %}
+		    <br>
+		    <input name="btn_finalizar" type="submit" value="Finalizar edición" class= "btn btn-warning"/>
+		    <input name="btn_agregar" type="submit" value="Agregar día" class= "btn btn-warning"/>
 		    </form>
 		{% else %}
 			<p>Usted actualmente se encuentra restringido. Si cree que esto es un error, contáctese con un administrador</p>

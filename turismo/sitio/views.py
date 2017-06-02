@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje
 from sitio.models import ComentariosDenunciados, ItinerariosDenunciados
 from sitio.models import ComentarioDenuncia, ItinerarioDenuncia
-from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm, DiaFormSet
+from sitio.forms import ItinerarioForm, DiaForm, PerfilForm, ComentarioForm, PuntajeForm
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponseRedirect
@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.urls import reverse
 from datetime import datetime, timedelta
 from django.forms.models import inlineformset_factory
+from django.forms import modelformset_factory
 
 
 PUNTAJES = {
@@ -50,17 +51,29 @@ def usuario(request):
 @login_required
 def modificar_itinerario(request, id_itiner):
     itinerario = Itinerario.objects.get(pk=id_itiner)
+    q = Dia.objects.filter(itinerario = itinerario)
+    DiaFormSet = modelformset_factory(Dia,form = DiaForm, extra = 0, can_delete = True)
     perfil = Perfil_Usuario.objects.get(usuario = request.user)
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
-        if itinerario_form.is_valid():
+        formset = DiaFormSet(request.POST, request.FILES, queryset= q)
+        if itinerario_form.is_valid() and formset.is_valid():
             itinerario = itinerario_form.save(commit=False)
             itinerario.estado = "Publicado"
             itinerario.save()
+            dias = formset.save()
+            for dia in dias:
+                dia.itinerario = itinerario
+                dia.save()
+        if 'btn_agregar' in request.POST:
+            nuevo_dia = Dia.objects.crear_dia(itinerario)
+            return redirect('/modificar_itinerario/' + str(itinerario.id))
+        if 'btn_finalizar' in request.POST:
             return redirect('/ver_itinerario/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm(instance = itinerario)
-    return render(request, 'modificar_itinerario.html', {'form': itinerario_form, 'perfil': perfil})
+        formset = DiaFormSet(queryset = q)
+    return render(request, 'modificar_itinerario.html', {'form1': itinerario_form, 'form2': formset, 'perfil': perfil})
 
 #NUEVO MODIFICAR_ITINERARIO
 '''@login_required

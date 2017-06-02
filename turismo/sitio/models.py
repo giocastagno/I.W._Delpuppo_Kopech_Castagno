@@ -36,6 +36,11 @@ class ManejadorItinerarioDenuncia(models.Manager):
         denuncia = self.create(usuario_denunciante=u_denunciante,itinerario=itinerario)
         return denuncia
 
+class ManejadorDia(models.Manager):
+    def crear_dia(self, itinerario):
+        dia = self.create(itinerario = itinerario)
+        return dia
+
 class Perfil_Usuario(models.Model):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
@@ -239,6 +244,8 @@ class Dia(models.Model):
     foto_dia = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = os.path.join(settings.STATIC_URL,'sitio/imagenes/','turismo_noimagen.jpg'))
 
+    objects = ManejadorDia()
+    
     def __str__(self):
         return self.descripcion
 
