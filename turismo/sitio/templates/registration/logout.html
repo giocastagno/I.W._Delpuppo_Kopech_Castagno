@@ -7,8 +7,14 @@
 
 {% block content %}
 	{% load i18n %}
+	<body onLoad="redireccionar()">
 	<p>{% trans "Sesion finalizada" %}</p>
 {% endblock %}
 
 {% block extra_js %}
+	<script language="JavaScript">
+  		function redireccionar() {
+    	setTimeout("location.href='/'", 5000);
+    	}
+	</script>
 {% endblock %}

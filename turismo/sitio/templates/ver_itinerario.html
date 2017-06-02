@@ -16,13 +16,20 @@
 					    <a class="btn btn-link" href="/denunciar/Itinerario/{{itinerario.id}}" type="button">Denunciar</a>
 					{% endif %}
 					<h5>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h5>
-					<h5> Destino:{{ itinerario.pais_destino.name }}</h5><br>
+					<h5> Destino: {{ itinerario.pais_destino.name }}</h5><br>
 					<img id="general-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
 					<p>{{ itinerario.texto_general | safe}}</p><br>
 					<form method="post" enctype='multipart/form-data'>
 						{% csrf_token %}
 						{{ form2.as_p }}
-						<input name="btn_puntuar" type="submit" value="Calificar" class="btn btn-warning" />
+						{% if not request.user.is_anonymous %}
+							<input name="btn_puntuar" type="submit" value="Calificar" class="btn btn-warning" />
+						{% else %}
+							<div class="alert alert-info alert-dismissable">
+								<button type="button" class= "close" data-dismiss="alert">&times;</button>
+								<strong>Atención!</strong> Si desea calificar este itinerario, debe iniciar sesión
+							</div>
+						{% endif %}
 					</form>
 				</div>
 			</div>

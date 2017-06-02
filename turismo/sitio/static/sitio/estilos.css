@@ -42,7 +42,7 @@ button#perfilb > a {
     color:white;
 }
 
-h1#titulo-centrado{
+h1#titulo-centrado, h2#titulo-itinerario, h3#titulo-itinerario{
 	position:relative;
 	text-align: center;
 	color: #F17153;
@@ -57,10 +57,6 @@ button#perfilb {
 
 .caret{
     border-top:4px solid white;
-}
-
-h2#titulo-itinerario, h3#titulo-itinerario {
-	text-align: center;
 }
 
 div#botones{
@@ -206,4 +202,8 @@ img#img-licencia {
 
 input#busqueda {
     width: 250px;
+}
+
+p#mensajes{
+
 }

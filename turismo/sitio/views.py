@@ -47,13 +47,16 @@ def usuario(request):
     usuarios = User.objects.all()
     return render(request, 'usuario.html', {'lista_usuarios': usuarios})
 
-#VIEJO MODIFICAR_ITINERARIO
 @login_required
 def modificar_itinerario(request, id_itiner):
     itinerario = Itinerario.objects.get(pk=id_itiner)
     q = Dia.objects.filter(itinerario = itinerario)
     DiaFormSet = modelformset_factory(Dia,form = DiaForm, extra = 0, can_delete = True)
-    perfil = Perfil_Usuario.objects.get(usuario = request.user)
+    perfil = Perfil_Usuario.objects.filter(usuario = request.user)
+    if len(perfil) == 0:
+        perfil = None
+    else:
+        perfil = perfil[0]
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES, instance = itinerario)
         formset = DiaFormSet(request.POST, request.FILES, queryset= q)
@@ -74,15 +77,6 @@ def modificar_itinerario(request, id_itiner):
         itinerario_form = ItinerarioForm(instance = itinerario)
         formset = DiaFormSet(queryset = q)
     return render(request, 'modificar_itinerario.html', {'form1': itinerario_form, 'form2': formset, 'perfil': perfil})
-
-#NUEVO MODIFICAR_ITINERARIO
-'''@login_required
-def modificar_itinerario(request, id_itiner):
-    itinerario = Itinerario.objects.get(pk=id_itiner)
-    DiaFormSet = formset_factory(DiaForm, extra = 2, max_num = 20, can_delete = True)
-    formset = DiaFormSet(initial=[
-     {'descripcion': 'Django is now open source',}])
-    return render(request, 'modificar_itinerario.html', {'form1': formset,})'''
 
 @login_required
 def eliminar_itinerario(request, id_itiner):
@@ -199,11 +193,13 @@ def ver_itinerario(request,id_itiner):
         comentario_form = ComentarioForm()
         puntaje_form = PuntajeForm()
     if not request.user.is_anonymous:
-        perfil = Perfil_Usuario.objects.get(usuario = request.user)
-        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'perfil': perfil, 'puntaje': puntaje, 'form2': puntaje_form})
-
+        if len(Perfil_Usuario.objects.filter(usuario = request.user)) != 0:
+            perfil = Perfil_Usuario.objects.get(usuario = request.user)
+            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': perfil, 'puntaje': puntaje})
+        else:
+            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': None, 'puntaje':puntaje})
     else:
-        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form': comentario_form})
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': None})
 
 @login_required
 def ver_perfil_usuario(request):
