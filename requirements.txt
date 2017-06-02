@@ -21,4 +21,3 @@ django_countries
 django-datetime-widget
 elasticsearch
 git+https://github.com/django-haystack/django-haystack
-django-crispy-forms
