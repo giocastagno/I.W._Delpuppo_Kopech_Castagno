@@ -6,7 +6,7 @@
 
 {% block content %}
 	<div id="content"> 
-		{% if perfil and perfil.estado == "Activo" %}
+		{% if perfil == 'None' and perfil.estado == "Activo" %}
 			<form method="post" enctype='multipart/form-data'>
 			    <h3 id="titulo-itinerario">Editar itinerario</h3>
 			    {% csrf_token %}
