@@ -6,7 +6,7 @@
 
 {% block content %}
 	<div id="content"> 
-		{% if not perfil != 'None' and perfil.estado == "Activo" %}
+		{% if perfil.estado != "Restringido" %}
 			<form method="post" enctype='multipart/form-data' action=".">
 			    {% csrf_token %}
 			    {{ form.as_p }}
