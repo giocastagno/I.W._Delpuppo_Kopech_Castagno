@@ -208,7 +208,7 @@ def ver_perfil_usuario(request):
     usuario = request.user
     itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')[:10]
     if Perfil_Usuario.objects.filter(usuario = usuario).count() == 0:
-        idperfil = Perfil_Usuario.objects.count() + 1
+        idperfil = Perfil_Usuario.objects.count() + 1000
         perfil = Perfil_Usuario.objects.crear_perfil(idperfil,usuario)
     else:
         perfil = Perfil_Usuario.objects.filter(usuario = usuario).order_by('-id')[0]
