@@ -12,9 +12,11 @@
 			<div class="post-bgtop">
 				<div class="post-bgbtm">
 					<h2> {{ itinerario.titulo|upper }}</h2>
-					<h6>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h6>
+					<h6>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h6><br>
 					{% if user.is_authenticated and perfil.estado == "Activo" %}
-					    <img id = "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-200-ban-circle.png' %}"> <a class="btn btn-link" href="/denunciar/Itinerario/{{itinerario.id}}" aria-label="Left Align" type="button">Denunciar</a>
+					    <div align="right" id = "denunciar">
+					    	<img id = "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-200-ban-circle.png' %}"> <a class="btn btn-link" href="/denunciar/Itinerario/{{itinerario.id}}" aria-label="Left Align" type="button">Denunciar</a>
+					    </div>
 					{% endif %}
 					<h5> Destino: {{ itinerario.pais_destino.name }}</h5><br>
 					<img id="general-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
@@ -23,6 +25,28 @@
 						{% csrf_token %}
 						{{ form2.as_p }}
 						{% if not request.user.is_anonymous %}
+							{% if puntaje != 'None' %}
+								<div class="alert alert-info">
+									<img id= "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-194-ok-sign.png' %}">
+									Usted ya ha calificado este itinerario como <strong>
+									{% if puntaje.calificacion == 1 %}
+										Malo
+									{% endif %}
+									{% if puntaje.calificacion == 2 %}
+										Regular
+									{% endif %}
+									{% if puntaje.calificacion == 3 %}
+										Bueno
+									{% endif %}
+									{% if puntaje.calificacion == 4 %}
+										Muy Bueno
+									{% endif %}
+									{% if puntaje.calificacion == 5 %}
+										Excelente
+									{% endif %}
+									</strong>
+								</div>
+							{% endif %}
 							<input name="btn_puntuar" type="submit" value="Calificar" class="btn btn-warning" />
 						{% else %}
 							<div class="alert alert-info alert-dismissable">
@@ -63,7 +87,7 @@
 	   	<br><br>
 	   	
 	    
-	    {% if user.is_authenticated and perfil.estado == "Activo" %}
+	    {% if user.is_authenticated and perfil and perfil.estado == "Activo" %}
 	    	<h3 id="titulo-itinerario">Dejá tu comentario</h3>
 		    <form method="post" enctype='multipart/form-data'>
 				{% csrf_token %}
@@ -71,6 +95,12 @@
 				<input name="btn_comentar" type="submit" value="Comentar" class="btn btn-warning" />
 			</form>
 		{% else %}
+			{% if not perfil %}
+				<div class="alert alert-info alert-dismissable">
+					<button type="button" class= "close" data-dismiss="alert">&times;</button><img id= "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-196-info-sign.png' %}">
+					<strong>Atención!</strong> Si desea comentar este itinerario, debe crear su <a href="/perfil/">perfil</a>. 
+				</div>
+			{% endif %}
 			<h3 id="titulo-itinerario">Comentarios</h3>
 		{% endif %}
 		<br>
@@ -81,10 +111,11 @@
 					<div class="post-bgtop">
 						<div class="post-bgbtm">
 							<h4>Comentado por: {{ comentario.usuario.username }} hace {{ comentario.fecha|timesince }}</h4>
-					    	<h4>{{ comentario.calificacion|upper }}</h4>
 					    	<h5>{{ comentario.texto | safe}}</h5>
-					    	{% if user.is_authenticated and perfil.estado == "Activo" %}
-					    		<a class="btn btn-link" href="/denunciar/Comentario/{{comentario.id}}" type="button">Denunciar</a>
+					    	{% if user.is_authenticated and perfil and perfil.estado == "Activo" %}
+					    		<div align="right" id="denunciar">
+					    			<img id = "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-200-ban-circle.png' %}"> <a class="btn btn-link" href="/denunciar/Comentario/{{comentario.id}}" aria-label="Left Align" type="button">Denunciar</a>
+					    		</div>
 					    	{% endif %}
 	    				</div>
 					</div>

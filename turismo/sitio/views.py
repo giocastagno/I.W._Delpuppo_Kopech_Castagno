@@ -17,16 +17,6 @@ from datetime import datetime, timedelta
 from django.forms.models import inlineformset_factory
 from django.forms import modelformset_factory
 
-
-PUNTAJES = {
-    'Excelente': 5,
-    'Muy Bueno': 4,
-    'Bueno': 3,
-    'Regular': 2,
-    'Malo': 1,
-}
-
-
 def inicio(request):
     itinerarios = Itinerario.objects.all().order_by('-fecha').filter(estado = 'Publicado')[:10]
     if request.method == 'POST':
@@ -162,7 +152,14 @@ def ver_itinerario(request,id_itiner):
     usuario = itinerario.usuario
     dias = Dia.objects.filter(itinerario = itinerario)
     comentarios = Comentario.objects.filter(itinerario = itinerario)
-    puntaje = None
+    if not request.user.is_anonymous:
+        puntaje = Puntaje.objects.filter(usuario = request.user, itinerario = itinerario)
+        if len(puntaje) == 0:
+            puntaje = None
+        else:
+            puntaje = puntaje[0]
+    else:
+        puntaje = None
     if request.method == 'POST':
         comentario_form = ComentarioForm(request.POST)
         if 'btn_comentar' in request.POST:
@@ -204,7 +201,7 @@ def ver_itinerario(request,id_itiner):
         else:
             return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': None, 'puntaje':puntaje})
     else:
-        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': None})
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': puntaje})
 
 @login_required
 def ver_perfil_usuario(request):
@@ -237,7 +234,8 @@ def crear_itinerario(request):
             else:
                 itinerario.estado = 'PendientePublicacion'
                 itinerario.save()
-                return redirect('/crear_dia/' + str(itinerario.id))
+                nuevo_dia = Dia.objects.crear_dia(itinerario)
+                return redirect('/modificar_itinerario/' + str(itinerario.id))
     else:
         itinerario_form = ItinerarioForm()
     return render(request, 'crear_itinerario.html', {'form':itinerario_form, 'perfil': perfil})

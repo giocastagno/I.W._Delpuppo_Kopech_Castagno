@@ -22,7 +22,7 @@
 	            	</div>
 	            	<div class="panel-body">
 	              		<div class="row">
-	                		<div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{{perfil.foto_perfil.url}}" class="img-circle img-responsive"> 
+	                		<div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{{perfil.foto_perfil.url}}" class="img-circle img-responsive onerror=" onerror= "imgError(this);"> 
 	                		</div>
 	                		<div class=" col-md-9 col-lg-9 "> 
 	                  			<table class="table table-user-information">
@@ -42,7 +42,9 @@
 			                   			<tr>
 			                   				<tr>
 			                        			<td id="tbl-titulo">Teléfono</td>
-			                        			<td>{{perfil.telefono}}</td>
+			                        			<td>
+			                        				{{perfil.telefono}}
+			                        			</td>
 			                      			</tr>
 			                             	<tr>
 			                        			<td id="tbl-titulo">Email</td>
@@ -85,5 +87,16 @@
 		</div> 
 	</div>
 {% endblock %}
+
+{% block extra_js %}
+            <script src="{% static 'sitio/base.js' %}" ></script>
+            <script>
+                function imgError(image) {
+                image.onerror = "";
+                image.src = "/static/sitio/imagenes/no-profile-photo.png";
+                return true;
+            }
+            </script>
+        {% endblock %}
 
 

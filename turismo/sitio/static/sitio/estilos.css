@@ -207,3 +207,7 @@ input#busqueda {
 img#iconos {
 	height:15px;
 }
+
+div#denunciar {
+	margin-top: -10%;
+}

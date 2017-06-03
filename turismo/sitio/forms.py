@@ -14,11 +14,9 @@ class ItinerarioForm(forms.ModelForm):
         		'height': '300',
 				'toolbar': [
 			    	['style', ['bold', 'italic', 'underline', 'clear']],
-			    	['font', ['strikethrough', 'superscript', 'subscript']],
-			    	['fontsize', ['fontsize']],
+			    	['font', ['strikethrough']],
 			    	['color', ['color']],
-			    	['para', ['ul', 'ol', 'paragraph']],
-			    	['height', ['height']]]
+			    	['para', ['ul', 'ol', 'paragraph']]]
 				}),
             'fecha_salida': DateWidget(attrs={'usel10n':'True', 'bootstrap_version':'3'}),
             'fecha_llegada': DateWidget(attrs={'usel10n':'True', 'bootstrap_version':'3'}),
@@ -33,7 +31,7 @@ class DiaForm(forms.ModelForm):
         	'height': '150',
 			'toolbar': [
 			    ['style', ['bold', 'italic', 'underline', 'clear']],
-			    ['fontsize', ['fontsize']],
+			    ['font', ['strikethrough']],
 			    ['color', ['color']]]
 			}),
 		} 
@@ -42,7 +40,7 @@ class DiaForm(forms.ModelForm):
 class PerfilForm(forms.ModelForm):
 	class Meta:
 		model = Perfil_Usuario 
-		exclude = ['usuario',]
+		exclude = ['usuario','estado']
 
 class ComentarioForm(forms.ModelForm):
 	class Meta:
@@ -51,7 +49,8 @@ class ComentarioForm(forms.ModelForm):
         	'texto': SummernoteWidget({
         	'height': '150',
 			'toolbar': [
-			    ['style', ['bold', 'italic', 'underline', 'clear']]]
+			    ['style', ['bold', 'italic', 'underline', 'clear']],
+			    ['font', ['strikethrough']]]
 			}),
         }
 		exclude = ['usuario', 'fecha', 'itinerario', 'denuncias',]
