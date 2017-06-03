@@ -7,21 +7,9 @@
 {% block content %}
 	<div id="content"> 
 		{% if perfil.estado == "Activo" %}
-			<form method="post" enctype='multipart/form-data'>
+			<form method="post" enctype='multipart/form-data' action=".">
 			    {% csrf_token %}
-			    <strong>{{ form.titulo.label}}</strong><br>
-			    {{ form.titulo }}<br><br>
-			    <strong>{{ form.texto_general.label}}</strong><br>
-			    <div class="summernote"> {{ form.texto_general}} </div><br>
-			    <strong>{{ form.foto_general.label}}</strong>
-			    {{ form.foto_general }}<br>
-			    <strong>{{ form.pais_destino.label}}</strong>
-			    {{ form.pais_destino }}<br><br>
-			    <strong>{{ form.fecha_salida.label}}</strong>
-			    {{ form.fecha_salida }}<br><br>
-			    <strong>{{ form.fecha_llegada.label}}</strong>
-			    {{ form.fecha_llegada }}<br>
-
+			    {{ form.as_p }}
 			    <input name="btn_crear_dias" type="submit" value="Agregar dias de viaje" class= "btn btn-warning"/>
 			    <input name="btn_borrador" type="submit" value="Guardar en borrador" class= "btn btn-warning"/>
 		    </form>
@@ -29,21 +17,4 @@
 			<p>Usted actualmente se encuentra restringido. Si cree que esto es un error, contáctese con un administrador</p>
 		{% endif %}
 	</div>
-{% endblock %}
-
-{% block extra_js %}
-	<script type = "text/javascript">
-        $('.summernote').summernote({
-        	maxHeight: 200,
-			toolbar: [
-			    // [groupName, [list of button]]
-			    ['style', ['bold', 'italic', 'underline', 'clear']],
-			    ['font', ['strikethrough', 'superscript', 'subscript']],
-			    ['fontsize', ['fontsize']],
-			    ['color', ['color']],
-			    ['para', ['ul', 'ol', 'paragraph']],
-			    ['height', ['height']]
-  			],
-		});
-    </script>
 {% endblock %}
