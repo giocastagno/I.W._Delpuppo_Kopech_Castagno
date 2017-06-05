@@ -197,16 +197,18 @@ def ver_itinerario(request,id_itiner):
     itinerario = Itinerario.objects.get(pk = id_itiner)
     if len(Puntaje.objects.filter(itinerario = itinerario)) != 0:
         promedio = itinerario.valoracion / len(Puntaje.objects.filter(itinerario = itinerario))
+        cantidad = len(Puntaje.objects.filter(itinerario = itinerario))
     else:
         promedio = 0
+        cantidad = 0
     if not request.user.is_anonymous:
         if len(Perfil_Usuario.objects.filter(usuario = request.user)) != 0:
             perfil = Perfil_Usuario.objects.get(usuario = request.user)
-            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': perfil, 'puntaje': puntaje, 'promedio': promedio})
+            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': perfil, 'puntaje': puntaje, 'promedio': promedio, 'cantidad': cantidad})
         else:
-            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': None, 'puntaje':puntaje, 'promedio': promedio})
+            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': None, 'puntaje':puntaje, 'promedio': promedio,'cantidad': cantidad})
     else:
-        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': puntaje, 'promedio': promedio})
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': puntaje, 'promedio': promedio, 'cantidad': cantidad})
 
 @login_required
 def ver_perfil_usuario(request):
