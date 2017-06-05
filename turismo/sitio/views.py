@@ -208,11 +208,22 @@ def ver_perfil_usuario(request):
     usuario = request.user
     itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')[:10]
     if Perfil_Usuario.objects.filter(usuario = usuario).count() == 0:
-        idperfil = Perfil_Usuario.objects.count() + 1000
+        idperfil = Perfil_Usuario.objects.count() * 100 - 5
         perfil = Perfil_Usuario.objects.crear_perfil(idperfil,usuario)
     else:
         perfil = Perfil_Usuario.objects.filter(usuario = usuario).order_by('-id')[0]
     return render(request, 'perfil.html', {'perfil': perfil, 'usuario': usuario, 'lista_itinerarios': itinerarios})
+
+@login_required
+def ver_perfil(request, id_usuario):
+    usuario = User.objects.get(pk = id_usuario)
+    itinerarios = Itinerario.objects.filter(usuario = usuario).order_by('-fecha')[:10]
+    if Perfil_Usuario.objects.filter(usuario = usuario).count() == 0:
+        idperfil = Perfil_Usuario.objects.count() * 100 - 5
+        perfil = Perfil_Usuario.objects.crear_perfil(idperfil,usuario)
+    else:
+        perfil = Perfil_Usuario.objects.filter(usuario = usuario).order_by('-id')[0]
+    return render(request, 'ver_perfil.html', {'perfil': perfil, 'usuario': usuario, 'lista_itinerarios': itinerarios})
 
 @login_required
 def crear_itinerario(request):

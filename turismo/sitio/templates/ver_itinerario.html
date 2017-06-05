@@ -12,7 +12,7 @@
 			<div class="post-bgtop">
 				<div class="post-bgbtm">
 					<h2> {{ itinerario.titulo|upper }}</h2>
-					<h6>Creado por: {{ itinerario.usuario.username }} hace {{ itinerario.fecha|timesince }}</h6><br>
+					<h6>Creado por: <a href="/ver_perfil/{{itinerario.usuario.id}}">{{ itinerario.usuario.username }}</a> hace {{ itinerario.fecha|timesince }}</h6><br>
 					{% if user.is_authenticated and perfil.estado != "Restringido" %}
 					    <div align="right" id = "denunciar">
 					    	<img id = "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-200-ban-circle.png' %}"> <a class="btn btn-link" href="/denunciar/Itinerario/{{itinerario.id}}" aria-label="Left Align" type="button">Denunciar</a>
@@ -25,7 +25,7 @@
 						{% csrf_token %}
 						{{ form2.as_p }}
 						{% if not request.user.is_anonymous %}
-							{% if puntaje != 'None' %}
+							{% if puntaje.calificacion != None %}
 								<div class="alert alert-info">
 									<img id= "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-194-ok-sign.png' %}">
 									Usted ya ha calificado este itinerario como <strong>

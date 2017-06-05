@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Activa tu cuenta de " %}Turismo.com
+{% load i18n %}{% trans "Activa tu cuenta de " %}Santa Fe por el mundo

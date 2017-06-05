@@ -1,5 +1,5 @@
 {% load i18n %}
-{% trans "Activa tu cuenta en " %}Turismo.com:
+{% trans "Activa tu cuenta en " %}Santa Fe por el mundo:
 
 http://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
