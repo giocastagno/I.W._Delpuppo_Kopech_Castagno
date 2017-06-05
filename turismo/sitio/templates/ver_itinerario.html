@@ -21,6 +21,7 @@
 					<h5> Destino: {{ itinerario.pais_destino.name }}</h5><br>
 					<img id="general-itinerario" src = "{{ itinerario.foto_general.url }}" onerror="imgError(this);" /><br><br>
 					<p>{{ itinerario.texto_general | safe}}</p><br>
+					<p>Calificación promedio: {{promedio}}</p>
 					<form method="post" enctype='multipart/form-data'>
 						{% csrf_token %}
 						{{ form2.as_p }}

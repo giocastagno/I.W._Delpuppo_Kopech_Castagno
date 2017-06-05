@@ -194,14 +194,19 @@ def ver_itinerario(request,id_itiner):
     else:
         comentario_form = ComentarioForm()
         puntaje_form = PuntajeForm()
+    itinerario = Itinerario.objects.get(pk = id_itiner)
+    if len(Puntaje.objects.filter(itinerario = itinerario)) != 0:
+        promedio = itinerario.valoracion / len(Puntaje.objects.filter(itinerario = itinerario))
+    else:
+        promedio = 0
     if not request.user.is_anonymous:
         if len(Perfil_Usuario.objects.filter(usuario = request.user)) != 0:
             perfil = Perfil_Usuario.objects.get(usuario = request.user)
-            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': perfil, 'puntaje': puntaje})
+            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': perfil, 'puntaje': puntaje, 'promedio': promedio})
         else:
-            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': None, 'puntaje':puntaje})
+            return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': comentario_form, 'form2': puntaje_form, 'perfil': None, 'puntaje':puntaje, 'promedio': promedio})
     else:
-        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': puntaje})
+        return render(request, 'ver_itinerario.html', {'itinerario': itinerario, 'lista_dias': dias, 'lista_comentarios': comentarios, 'form1': None, 'form2': None, 'perfil': None, 'puntaje': puntaje, 'promedio': promedio})
 
 @login_required
 def ver_perfil_usuario(request):
