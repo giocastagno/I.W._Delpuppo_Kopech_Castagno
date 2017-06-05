@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_html %}
+{% endblock %}
+{% block titulo %}Perfil de {{usuario.username}}{% endblock %}
+
+
+
+{% block content %}
+	<div class="container">
+	    <div class="row">
+	        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+	   			<div class="panel panel-info">
+	            	<div id="heading-perfil" class="panel-heading">
+	              		<h3 class="panel-title">Usuario: {{perfil.usuario.username}} -
+	              		{% if perfil.usuario.is_staff %}
+	              			Moderador
+	              		{% else %}
+	              			Miembro
+	              		{% endif %}
+	              		</h3>
+	            	</div>
+	            	<div class="panel-body">
+	              		<div class="row">
+	                		<div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="{{perfil.foto_perfil.url}}" class="img-circle img-responsive onerror=" onerror= "imgError(this);"> 
+	                		</div>
+	                		<div class=" col-md-9 col-lg-9 "> 
+	                  			<table class="table table-user-information">
+			                    	<tbody>
+			                      		<tr>
+			                        		<td id="tbl-titulo">Nombre</td>
+			                        		<td>{{perfil.nombre|title}}</td>
+			                      		</tr>
+			                      		<tr>
+			                        		<td id="tbl-titulo">Apellido</td>
+			                        		<td>{{perfil.apellido|title}}</td>
+			                      		</tr>
+			                      		<tr>
+			                        		<td id="tbl-titulo">Localidad</td>
+			                        		<td>{{perfil.localidad}}</td>
+			                      		</tr>
+			                   			<tr>
+			                   				<tr>
+			                        			<td id="tbl-titulo">Teléfono</td>
+			                        			<td>
+			                        				{{perfil.telefono}}
+			                        			</td>
+			                      			</tr>
+			                             	<tr>
+			                        			<td id="tbl-titulo">Email</td>
+			                        			<td>{{perfil.usuario.email}}</td>
+			                      			</tr>
+			                        		<tr>
+			                        			<td id="tbl-titulo">Miembro desde</td>
+			                        			<td>{{perfil.usuario.date_joined|date:"F o"}}</td>
+			                      			</tr>
+			                      		</tr>
+			                     	</tbody>
+	                  			</table>
+	                  		</div>
+	              		</div>
+	            	</div>
+	                <div id="footer-perfil" class="panel-footer">
+	                    <a id="contacto" data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning" href="mailto:{{perfil.usuario.email}}?Subject=Santa%20Fe%20por%20el%20mundo" target="_top">Contactar <i class="glyphicon glyphicon-envelope"></i></a>
+	                </div>  
+	          	</div>
+	        </div>
+	    </div>
+		<h2 id="titulo-itinerario">Últimos Posts</h2>
+		<div id="content">
+			{% for itinerario in lista_itinerarios %}
+		    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}
+		    		<div class="post">
+						<div class="post-bgtop">
+							<div class="post-bgbtm">
+						    	<h3>{{ itinerario.fecha|date:"j F" }} <a href="/ver_itinerario/{{ itinerario.id }}">{{itinerario.titulo|upper}}</a> {{itinerario.estado}}</h3>
+						    	{% if request.user == perfil.usuario %}
+						    		<a href="/modificar_itinerario/{{itinerario.id}}" class="btn btn-warning" role="button">Editar</a>
+						    		<a href="/eliminar_itinerario/{{itinerario.id}}" class="btn btn-danger" role="button">Eliminar</a>
+						    	{% endif %}
+						    </div>
+						</div>
+					</div>
+				{% endif %}	
+			{% endfor %}
+		</div> 
+	</div>
+{% endblock %}
+
+{% block extra_js %}
+            <script src="{% static 'sitio/base.js' %}" ></script>
+            <script>
+                function imgError(image) {
+                image.onerror = "";
+                image.src = "/static/sitio/imagenes/no-profile-photo.png";
+                return true;
+            }
+            </script>
+        {% endblock %}
+
+
