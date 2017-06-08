@@ -1,12 +1,8 @@
 User-agent: *
-Disallow: /perfil/
 Disallow: /accounts/
-Disallow: /modificar_perfil/$
-Disallow: /crear_dia/$
+Disallow: /modificar_perfil/
+Disallow: /crear_dia/
 Disallow: /crear_itinerario/
-Disallow: /modificar_itinerario/$
-Disallow: /eliminar_itinerario/$
-Disallow: /denunciar/$
-Allow: /inicio/
-Allow: /acerca_de/
-Allow: /ver_itinerario/$
+Disallow: /modificar_itinerario/
+Disallow: /eliminar_itinerario/
+Disallow: /denunciar/

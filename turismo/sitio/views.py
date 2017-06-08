@@ -54,9 +54,6 @@ def modificar_itinerario(request, id_itiner):
             itinerario = itinerario_form.save(commit=False)
             if 'btn_borrador' in request.POST:
                 itinerario.estado = "Borrador"
-            else:
-                itinerario.estado = "Publicado"
-            itinerario.save()
             dias = formset.save()
             for dia in dias:
                 dia.itinerario = itinerario
@@ -67,7 +64,9 @@ def modificar_itinerario(request, id_itiner):
         if 'btn_borrador' in request.POST:
             return redirect('/inicio')
         if 'btn_finalizar' in request.POST:
+            itinerario.estado = "Publicado"
             return redirect('/ver_itinerario/' + str(itinerario.id))
+        itinerario.save()
     else:
         itinerario_form = ItinerarioForm(instance = itinerario)
         formset = DiaFormSet(queryset = q)
@@ -150,7 +149,7 @@ def ver_itinerario(request,id_itiner):
     itinerario.save()
     itinerario = Itinerario.objects.get(pk = id_itiner)
     usuario = itinerario.usuario
-    dias = Dia.objects.filter(itinerario = itinerario)
+    dias = Dia.objects.filter(itinerario = itinerario).order_by('id')
     comentarios = Comentario.objects.filter(itinerario = itinerario)
     if not request.user.is_anonymous:
         puntaje = Puntaje.objects.filter(usuario = request.user, itinerario = itinerario)

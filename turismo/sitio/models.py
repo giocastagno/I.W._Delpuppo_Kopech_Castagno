@@ -240,7 +240,7 @@ class Puntaje(models.Model):
 
 class Dia(models.Model):
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
-    descripcion = models.CharField(max_length=1000)
+    descripcion = models.CharField(max_length=1000, null=False, blank=False)
     foto_dia = models.ImageField(upload_to = 'sitio/imagenes/', 
         default = os.path.join(settings.STATIC_URL,'sitio/imagenes/','turismo_noimagen.jpg'))
 
