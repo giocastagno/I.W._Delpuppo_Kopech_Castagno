@@ -57,7 +57,7 @@ def modificar_itinerario(request, id_itiner):
             dias = formset.save()
             for dia in dias:
                 dia.itinerario = itinerario
-                if not (dia.descripcion == '' or dia.descripcion == '<p></p>'):
+                if not (dia.descripcion == None or dia.descripcion == ''):
                     dia.save()
         if 'btn_agregar' in request.POST:
             nuevo_dia = Dia.objects.crear_dia(itinerario)
