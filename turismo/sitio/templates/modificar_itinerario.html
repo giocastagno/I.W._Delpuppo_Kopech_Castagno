@@ -19,6 +19,9 @@
 
 			    {% for form in form2 %}
 			    	{{form}}
+			    	{% for field in form %}
+			    		{{field.errors}}
+			    	{% endfor %}
 			    	<br>
 			    {% endfor %}
 			    <br>
