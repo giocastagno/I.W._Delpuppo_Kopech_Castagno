@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje, ComentarioDenuncia
+from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje, ComentarioDenuncia, User
 from sitio.models import ItinerariosDenunciados, ComentariosDenunciados, ItinerarioDenuncia
 
 
@@ -9,29 +9,59 @@ def RestringirUsuario(modeladmin, request, queryset):
 		usuario.estado = "Restringido"
 		usuario.save()
 RestringirUsuario.short_description = "Restringir los usuarios seleccionados"
+
 def ActivarUsuario(modeladmin, request, queryset):
 	for usuario in queryset:
 		usuario.estado = "Activo"
 		usuario.save()
 ActivarUsuario.short_description = "Activar los usuarios seleccionados"
+
 def EliminarLogItinerario(modeladmin, request, queryset):
 	for itinerario in queryset:
 		itinerario.estado = "EliminadoLogicamente"
 		itinerario.save()
 EliminarLogItinerario.short_description = "Eliminar lógicamente los itinerarios seleccionados"
-def EliminarComentarioDenunciado(modeladmin, request, queryset):
+
+def EliminarComentario(modeladmin, request, queryset):
 	for comentario in queryset:
 		comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
 		comentario.save()
-EliminarComentarioDenunciado.short_description = "Eliminar los comentarios denunciados seleccionados"
+EliminarComentario.short_description = "Eliminar los comentarios seleccionados"
 
+def RestringirUsuarioDenunciado(modeladmin, request, queryset):
+	for denuncia in queryset:
+		usuario = User.objects.get(username = denuncia.usuario_denunciado)
+		perfil = Perfil_Usuario.objects.get(usuario = usuario)
+		perfil.estado = "Restringido"
+		perfil.save()
+RestringirUsuarioDenunciado.short_description = "Restringir los usuarios seleccionados"
+
+def EliminarLogItinerarioDenunciado(modeladmin, request, queryset):
+	for denuncia in queryset:
+		itinerario = denuncia.itinerario
+		itinerario.estado = "EliminadoLogicamente"
+		itinerario.save()
+EliminarLogItinerarioDenunciado.short_description = "Eliminar lógicamente los itinerarios seleccionados"
+
+def EliminarLogComentarioDenunciado(modeladmin, request, queryset):
+	for denuncia in queryset:
+		comentario = denuncia.comentario
+		comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+		comentario.save()
+EliminarLogComentarioDenunciado.short_description = "Eliminar los comentarios seleccionados"
+
+def RestaurarItinerarioEliminado(modeladmin, request, queryset):
+	for itinerario in queryset:
+		itinerario.estado = "Publicado"
+		itinerario.save()
+RestaurarItinerarioEliminado.short_description = "Restaurar los itinerarios seleccionados"
 
 class AdminItinerario(admin.ModelAdmin):
     list_display = ('id', 'titulo', 'fecha', 'foto_general', 'fecha_salida', 'estado', 'valoracion', 'visitas')
     #list_filter = ('archivada', 'fecha', 'categoria')
     #search_fields = ('texto', )
     date_hierarchy = 'fecha'
-    actions = [EliminarLogItinerario]
+    actions = [EliminarLogItinerario, RestaurarItinerarioEliminado]
 
 class AdminDia(admin.ModelAdmin):
     list_display = ('id', 'itinerario', 'descripcion')
@@ -42,16 +72,16 @@ class AdminPerfil(admin.ModelAdmin):
 
 class AdminComentario(admin.ModelAdmin):
     list_display = ('id', 'usuario', 'texto', 'itinerario')  
-    actions = [EliminarComentarioDenunciado]
+    actions = [EliminarComentario]
 class AdminPuntaje(admin.ModelAdmin):
 	list_display = ('id','usuario','itinerario','calificacion')
 
 class AdminItinerariosDenunciados(admin.ModelAdmin):
 	list_display = ('id','usuario_denunciado','itinerario','cantidad')
-	#def url_itinerario(self, itinerario):
-     #   return format_html("<a href='{url}'>{url}</a>", url=obj.firm_url)
+	actions = [RestringirUsuarioDenunciado, EliminarLogItinerarioDenunciado]
 class AdminComentariosDenunciados(admin.ModelAdmin):
 	list_display = ('id','usuario_denunciado','comentario','cantidad')
+	actions = [RestringirUsuarioDenunciado, EliminarLogComentarioDenunciado]
 
 #Esto no lo maneja el administrador, solo lo dejamos para control nuestro
 class AdminItinerarioDenuncia(admin.ModelAdmin):

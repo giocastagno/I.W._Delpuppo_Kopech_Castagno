@@ -243,9 +243,8 @@ def ver_perfil(request, id_usuario):
 def crear_itinerario(request):
     perfil = Perfil_Usuario.objects.filter(usuario = request.user)
     if len(perfil) == 0:
-        perfil = None
-    else:
-        perfil = perfil[0]
+        id_perfil = Perfil.Usuario.objects.count() * 100 - 5
+        perfil = Perfil_Usuario.objects.crear_perfil(idperfil, request.user)
     if request.method == 'POST':
         itinerario_form = ItinerarioForm(request.POST, request.FILES)
         if itinerario_form.is_valid():
