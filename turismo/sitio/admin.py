@@ -19,6 +19,11 @@ def EliminarLogItinerario(modeladmin, request, queryset):
 		itinerario.estado = "EliminadoLogicamente"
 		itinerario.save()
 EliminarLogItinerario.short_description = "Eliminar lógicamente los itinerarios seleccionados"
+def EliminarComentarioDenunciado(modeladmin, request, queryset):
+	for comentario in queryset:
+		comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+		comentario.save()
+EliminarComentarioDenunciado.short_description = "Eliminar los comentarios denunciados seleccionados"
 
 
 class AdminItinerario(admin.ModelAdmin):
@@ -37,7 +42,7 @@ class AdminPerfil(admin.ModelAdmin):
 
 class AdminComentario(admin.ModelAdmin):
     list_display = ('id', 'usuario', 'texto', 'itinerario')  
-
+    actions = [EliminarComentarioDenunciado]
 class AdminPuntaje(admin.ModelAdmin):
 	list_display = ('id','usuario','itinerario','calificacion')
 
