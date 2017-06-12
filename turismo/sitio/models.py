@@ -261,7 +261,6 @@ class Comentario(models.Model):
 class ComentariosDenunciados(models.Model): 
     usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
     comentario = models.ForeignKey(Comentario, null=True, blank=True)
-    url_comentario = models.CharField(max_length = 500)
     cantidad = models.IntegerField(default=0) 
     objects = ManejadorComentariosDenunciados() 
     
@@ -272,7 +271,6 @@ class ComentariosDenunciados(models.Model):
 class ItinerariosDenunciados(models.Model):
     usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
-    url_itinerario = models.CharField(max_length = 500) 
     cantidad = models.IntegerField(default=0) 
     objects = ManejadorItinerariosDenunciados() 
 
