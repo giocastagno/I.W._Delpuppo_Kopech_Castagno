@@ -69,7 +69,7 @@
 		<h2 id="titulo-itinerario">Últimos Posts</h2>
 		<div id="content">
 			{% for itinerario in lista_itinerarios %}
-		    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' %}
+		    	{%if itinerario.estado == 'Publicado' or itinerario.estado == 'Borrador' or itinerario.estado == 'PendientePublicacion' %}
 		    		<div class="post">
 						<div class="post-bgtop">
 							<div class="post-bgbtm">
