@@ -113,12 +113,14 @@ def denunciar(request, tipo, id_objeto):
             if len(cdenunciado) == 0:
                 nueva_denuncia = ComentariosDenunciados.objects.crear_comentariodenunciado(comentario.usuario,comentario)
                 nueva_denuncia.save()
-                cdenunciado = ComentariosDenunciados.objects.filter(usuario_denunciado=comentario.usuario).filter(comentario=comentario)
+            cdenunciado = ComentariosDenunciados.objects.filter(usuario_denunciado=comentario.usuario).filter(comentario=comentario)
             clave = cdenunciado[0].id
             cdenunciado = ComentariosDenunciados.objects.get(pk = clave)
-            cdenunciado.cantidad += 1
-            if cdenunciado.cantidad > 20:
-                cdenunciado.usuario.estado = "Restringido"
+            cdenunciado.cantidad = ComentarioDenuncia.objects.filter(comentario = comentario).count()
+            if cdenunciado.cantidad >= 20:
+                perfil = Perfil_Usuario.objects.get(usuario = comentario.usuario)
+                perfil.estado = "Restringido"
+                perfil.save()
                 comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
                 comentario.save()
             cdenunciado.save()
@@ -134,12 +136,14 @@ def denunciar(request, tipo, id_objeto):
             if len(idenunciado) == 0:
                 nueva_denuncia = ItinerariosDenunciados.objects.crear_itinerariodenunciado(itinerario.usuario,itinerario)
                 nueva_denuncia.save()
-                idenunciado = ItinerariosDenunciados.objects.filter(usuario_denunciado=itinerario.usuario).filter(itinerario=itinerario)
+            idenunciado = ItinerariosDenunciados.objects.filter(usuario_denunciado=itinerario.usuario).filter(itinerario=itinerario)
             clave = idenunciado[0].id
-            idenunciado =ItinerariosDenunciados.objects.get(pk = clave)
-            idenunciado.cantidad += 1
-            if idenunciado.cantidad > 20:
-                idenunciado.usuario.estado = "Restringido"
+            idenunciado = ItinerariosDenunciados.objects.get(pk = clave)
+            idenunciado.cantidad = ItinerarioDenuncia.objects.filter(itinerario = itinerario).count()
+            if idenunciado.cantidad >= 20:
+                perfil = Perfil_Usuario.objects.get(usuario = itinerario.usuario)
+                perfil.estado = "Restringido"
+                perfil.save()
                 itinerario.estado = "EliminadoLogicamente"
                 itinerario.save()
             idenunciado.save()

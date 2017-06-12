@@ -216,7 +216,7 @@ class Itinerario(models.Model):
     fecha_llegada = models.DateField()
 
     def __str__(self):
-        return self.titulo + '(' + str(self.fecha) + ')'
+        return self.titulo + '(' + str(self.id) + ')'
 
 class Puntaje(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
@@ -256,11 +256,12 @@ class Comentario(models.Model):
     fecha = models.DateTimeField()
 
     def __str__(self):
-        return self.texto
+        return self.texto + '(' + str(self.id) + ')'
 
 class ComentariosDenunciados(models.Model): 
     usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
     comentario = models.ForeignKey(Comentario, null=True, blank=True)
+    url_comentario = models.CharField(max_length = 500)
     cantidad = models.IntegerField(default=0) 
     objects = ManejadorComentariosDenunciados() 
     
@@ -270,7 +271,8 @@ class ComentariosDenunciados(models.Model):
 
 class ItinerariosDenunciados(models.Model):
     usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
-    itinerario = models.ForeignKey(Itinerario, null=True, blank=True) 
+    itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
+    url_itinerario = models.CharField(max_length = 500) 
     cantidad = models.IntegerField(default=0) 
     objects = ManejadorItinerariosDenunciados() 
 
@@ -283,7 +285,7 @@ class ComentarioDenuncia(models.Model):
     objects = ManejadorComentarioDenuncia() 
 
     def __str__(self):
-        return self.comentario
+        return str(self.comentario)
 
 class ItinerarioDenuncia(models.Model):
     usuario_denunciante = models.ForeignKey(User, null=True, blank=True)
@@ -291,4 +293,4 @@ class ItinerarioDenuncia(models.Model):
     objects = ManejadorItinerarioDenuncia() 
 
     def __str__(self):
-        return self.itinerario
+        return str(self.itinerario)
