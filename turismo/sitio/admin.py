@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from sitio.models import Itinerario, Dia, Perfil_Usuario, Comentario, Puntaje, ComentarioDenuncia, User
 from sitio.models import ItinerariosDenunciados, ComentariosDenunciados, ItinerarioDenuncia
+from turismo import settings
 
 
 def RestringirUsuario(modeladmin, request, queryset):
@@ -77,11 +78,23 @@ class AdminPuntaje(admin.ModelAdmin):
 	list_display = ('id','usuario','itinerario','calificacion')
 
 class AdminItinerariosDenunciados(admin.ModelAdmin):
-	list_display = ('id','usuario_denunciado','itinerario','cantidad')
+	list_display = ('id','usuario_denunciado','itinerario','cantidad','view_on_site')
 	actions = [RestringirUsuarioDenunciado, EliminarLogItinerarioDenunciado]
+	view_on_site = True
+	def view_on_site(self, obj):
+		url = '/ver_itinerario/'+ str(obj.itinerario.id)
+		if not settings.os.environ.get('HEROKU', False):
+			return '<a href="http://127.0.0.1:8000%s">Ver Itinerario</a>' % url
+		else:
+			return '<a href="https://iwturismo.herokuapp.com%s">Ver Itinerario</a>' % url
+	view_on_site.allow_tags = True
+
 class AdminComentariosDenunciados(admin.ModelAdmin):
 	list_display = ('id','usuario_denunciado','comentario','cantidad')
 	actions = [RestringirUsuarioDenunciado, EliminarLogComentarioDenunciado]
+	list_display_links = ('usuario_denunciado', 'comentario')
+	view_on_site = True
+
 
 #Esto no lo maneja el administrador, solo lo dejamos para control nuestro
 class AdminItinerarioDenuncia(admin.ModelAdmin):

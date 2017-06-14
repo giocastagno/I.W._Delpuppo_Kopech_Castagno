@@ -272,7 +272,7 @@ class ItinerariosDenunciados(models.Model):
     usuario_denunciado = models.ForeignKey(User, null=True, blank=True)
     itinerario = models.ForeignKey(Itinerario, null=True, blank=True)
     cantidad = models.IntegerField(default=0) 
-    objects = ManejadorItinerariosDenunciados() 
+    objects = ManejadorItinerariosDenunciados()
 
     def __str__(self):
         return str(self.itinerario) + '(' + str(self.cantidad) + ')'
