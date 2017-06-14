@@ -78,22 +78,30 @@ class AdminPuntaje(admin.ModelAdmin):
 	list_display = ('id','usuario','itinerario','calificacion')
 
 class AdminItinerariosDenunciados(admin.ModelAdmin):
-	list_display = ('id','usuario_denunciado','itinerario','cantidad','view_on_site')
+	list_display = ('id','usuario_denunciado', 'itinerario','cantidad', 'ver_itinerario')
 	actions = [RestringirUsuarioDenunciado, EliminarLogItinerarioDenunciado]
 	view_on_site = True
-	def view_on_site(self, obj):
+	def ver_itinerario(self, obj):
 		url = '/ver_itinerario/'+ str(obj.itinerario.id)
 		if not settings.os.environ.get('HEROKU', False):
-			return '<a href="http://127.0.0.1:8000%s">Ver Itinerario</a>' % url
+			return '<a href="http://127.0.0.1:8000%s">Ir</a>' % url
 		else:
-			return '<a href="https://iwturismo.herokuapp.com%s">Ver Itinerario</a>' % url
-	view_on_site.allow_tags = True
+			return '<a href="https://iwturismo.herokuapp.com%s">Ir</a>' % url
+	ver_itinerario.allow_tags = True
+	ver_itinerario.short_description = 'Ver itinerario denunciado'
 
 class AdminComentariosDenunciados(admin.ModelAdmin):
-	list_display = ('id','usuario_denunciado','comentario','cantidad')
+	list_display = ('id','usuario_denunciado','comentario','cantidad', 'ver_comentario')
 	actions = [RestringirUsuarioDenunciado, EliminarLogComentarioDenunciado]
-	list_display_links = ('usuario_denunciado', 'comentario')
 	view_on_site = True
+	def ver_comentario(self, obj):
+		url = '/ver_itinerario/'+ str(obj.comentario.itinerario.id)
+		if not settings.os.environ.get('HEROKU', False):
+			return '<a href="http://127.0.0.1:8000%s">Ir</a>' % url
+		else:
+			return '<a href="https://iwturismo.herokuapp.com%s">Ir</a>' % url
+	ver_comentario.allow_tags = True
+	ver_comentario.short_description = 'Ver comentario denunciado'
 
 
 #Esto no lo maneja el administrador, solo lo dejamos para control nuestro
