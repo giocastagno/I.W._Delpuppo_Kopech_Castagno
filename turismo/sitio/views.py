@@ -69,6 +69,7 @@ def modificar_itinerario(request, id_itiner):
             return redirect('/inicio')
         if 'btn_finalizar' in request.POST:
             itinerario.estado = "Publicado"
+            itinerario.save()
             return redirect('/ver_itinerario/' + str(itinerario.id))
         itinerario.save()
     else:
