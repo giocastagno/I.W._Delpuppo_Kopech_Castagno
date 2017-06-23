@@ -17,17 +17,17 @@ def ActivarUsuario(modeladmin, request, queryset):
 		usuario.save()
 ActivarUsuario.short_description = "Activar los usuarios seleccionados"
 
-def EliminarLogItinerario(modeladmin, request, queryset):
+def RestringirItinerario(modeladmin, request, queryset):
 	for itinerario in queryset:
 		itinerario.estado = "EliminadoLogicamente"
 		itinerario.save()
-EliminarLogItinerario.short_description = "Eliminar lógicamente los itinerarios seleccionados"
+RestringirItinerario.short_description = "Restringir lógicamente los itinerarios seleccionados"
 
-def EliminarComentario(modeladmin, request, queryset):
+def RestringirComentario(modeladmin, request, queryset):
 	for comentario in queryset:
-		comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+		comentario.estado = "Restringido"
 		comentario.save()
-EliminarComentario.short_description = "Eliminar los comentarios seleccionados"
+RestringirComentario.short_description = "Restringir los comentarios seleccionados"
 
 def RestringirUsuarioDenunciado(modeladmin, request, queryset):
 	for denuncia in queryset:
@@ -37,32 +37,46 @@ def RestringirUsuarioDenunciado(modeladmin, request, queryset):
 		perfil.save()
 RestringirUsuarioDenunciado.short_description = "Restringir los usuarios seleccionados"
 
-def EliminarLogItinerarioDenunciado(modeladmin, request, queryset):
+def RestringirItinerarioDenunciado(modeladmin, request, queryset):
 	for denuncia in queryset:
 		itinerario = denuncia.itinerario
 		itinerario.estado = "EliminadoLogicamente"
 		itinerario.save()
-EliminarLogItinerarioDenunciado.short_description = "Eliminar lógicamente los itinerarios seleccionados"
+RestringirItinerarioDenunciado.short_description = "Restringir los itinerarios seleccionados"
 
-def EliminarLogComentarioDenunciado(modeladmin, request, queryset):
+def RestringirComentarioDenunciado(modeladmin, request, queryset):
 	for denuncia in queryset:
 		comentario = denuncia.comentario
-		comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+		comentario.estado = "Restringido"
 		comentario.save()
-EliminarLogComentarioDenunciado.short_description = "Eliminar los comentarios seleccionados"
+RestringirComentarioDenunciado.short_description = "Restringir los comentarios seleccionados"
 
-def RestaurarItinerarioEliminado(modeladmin, request, queryset):
-	for itinerario in queryset:
+def RestaurarItinerarioRestringido(modeladmin, request, queryset):
+	for itinerariodenunciado in queryset:
+		itinerario = itinerariodenunciado.itinerario
 		itinerario.estado = "Publicado"
+		denuncia = ItinerariosDenunciados.objects.get(itinerario = itinerario)
+		denuncia.cantidad = 0
+		denuncia.save()
 		itinerario.save()
-RestaurarItinerarioEliminado.short_description = "Restaurar los itinerarios seleccionados"
+RestaurarItinerarioRestringido.short_description = "Restaurar los itinerarios seleccionados"
+
+def RestaurarComentarioRestringido(modeladmin, request, queryset):
+	for comentariodenunciado in queryset:
+		comentario = comentariodenunciado.comentario
+		comentario.estado = "Activo"
+		denuncia = ComentariosDenunciados.objects.get(comentario = comentario)
+		denuncia.cantidad = 0
+		denuncia.save()
+		comentario.save()
+RestaurarComentarioRestringido.short_description = "Restaurar los comentarios seleccionados"
 
 class AdminItinerario(admin.ModelAdmin):
     list_display = ('id', 'titulo', 'fecha', 'foto_general', 'fecha_salida', 'estado', 'valoracion', 'visitas')
     #list_filter = ('archivada', 'fecha', 'categoria')
     #search_fields = ('texto', )
     date_hierarchy = 'fecha'
-    actions = [EliminarLogItinerario, RestaurarItinerarioEliminado]
+    actions = [RestringirItinerario, RestaurarItinerarioRestringido]
 
 class AdminDia(admin.ModelAdmin):
     list_display = ('id', 'itinerario', 'descripcion')
@@ -72,14 +86,14 @@ class AdminPerfil(admin.ModelAdmin):
     actions = [RestringirUsuario, ActivarUsuario]
 
 class AdminComentario(admin.ModelAdmin):
-    list_display = ('id', 'usuario', 'texto', 'itinerario')  
-    actions = [EliminarComentario]
+    list_display = ('id', 'usuario', 'texto', 'itinerario', 'estado')  
+    actions = [RestringirComentario]
 class AdminPuntaje(admin.ModelAdmin):
 	list_display = ('id','usuario','itinerario','calificacion')
 
 class AdminItinerariosDenunciados(admin.ModelAdmin):
 	list_display = ('id','usuario_denunciado', 'itinerario','cantidad', 'ver_itinerario')
-	actions = [RestringirUsuarioDenunciado, EliminarLogItinerarioDenunciado]
+	actions = [RestringirUsuarioDenunciado, RestringirItinerarioDenunciado, RestaurarItinerarioRestringido]
 	view_on_site = True
 	def ver_itinerario(self, obj):
 		url = '/ver_itinerario/'+ str(obj.itinerario.id)
@@ -89,10 +103,15 @@ class AdminItinerariosDenunciados(admin.ModelAdmin):
 			return '<a href="https://iwturismo.herokuapp.com%s">Ir</a>' % url
 	ver_itinerario.allow_tags = True
 	ver_itinerario.short_description = 'Ver itinerario denunciado'
+	def get_actions(self, request):
+		actions = super(AdminItinerariosDenunciados, self).get_actions(request)
+		if 'delete_selected' in actions:
+			del actions['delete_selected']
+		return actions
 
 class AdminComentariosDenunciados(admin.ModelAdmin):
 	list_display = ('id','usuario_denunciado','comentario','cantidad', 'ver_comentario')
-	actions = [RestringirUsuarioDenunciado, EliminarLogComentarioDenunciado]
+	actions = [RestringirUsuarioDenunciado, RestringirComentarioDenunciado, RestaurarComentarioRestringido]
 	view_on_site = True
 	def ver_comentario(self, obj):
 		url = '/ver_itinerario/'+ str(obj.comentario.itinerario.id)
@@ -102,6 +121,11 @@ class AdminComentariosDenunciados(admin.ModelAdmin):
 			return '<a href="https://iwturismo.herokuapp.com%s">Ir</a>' % url
 	ver_comentario.allow_tags = True
 	ver_comentario.short_description = 'Ver comentario denunciado'
+	def get_actions(self, request):
+		actions = super(AdminComentariosDenunciados, self).get_actions(request)
+		if 'delete_selected' in actions:
+			del actions['delete_selected']
+		return actions
 
 
 #Esto no lo maneja el administrador, solo lo dejamos para control nuestro

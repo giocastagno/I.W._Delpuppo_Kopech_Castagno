@@ -117,11 +117,11 @@ def denunciar(request, tipo, id_objeto):
             clave = cdenunciado[0].id
             cdenunciado = ComentariosDenunciados.objects.get(pk = clave)
             cdenunciado.cantidad = ComentarioDenuncia.objects.filter(comentario = comentario).count()
-            if cdenunciado.cantidad >= 20:
+            if cdenunciado.cantidad >= 1:
                 perfil = Perfil_Usuario.objects.get(usuario = comentario.usuario)
                 perfil.estado = "Restringido"
                 perfil.save()
-                comentario.texto = "Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo"
+                comentario.estado = "Restringido"
                 comentario.save()
             cdenunciado.save()
         else:
@@ -140,7 +140,7 @@ def denunciar(request, tipo, id_objeto):
             clave = idenunciado[0].id
             idenunciado = ItinerariosDenunciados.objects.get(pk = clave)
             idenunciado.cantidad = ItinerarioDenuncia.objects.filter(itinerario = itinerario).count()
-            if idenunciado.cantidad >= 20:
+            if idenunciado.cantidad >= 1:
                 perfil = Perfil_Usuario.objects.get(usuario = itinerario.usuario)
                 perfil.estado = "Restringido"
                 perfil.save()

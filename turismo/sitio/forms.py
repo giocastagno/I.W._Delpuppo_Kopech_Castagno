@@ -53,7 +53,7 @@ class ComentarioForm(forms.ModelForm):
 			    ['font', ['strikethrough']]]
 			}),
         }
-		exclude = ['usuario', 'fecha', 'itinerario', 'denuncias',]
+		exclude = ['usuario', 'fecha', 'itinerario', 'denuncias', 'estado']
 
 class PuntajeForm(forms.ModelForm):
 	class Meta:

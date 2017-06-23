@@ -254,6 +254,7 @@ class Comentario(models.Model):
     usuario = models.ForeignKey(User, null=True, blank=True)
     texto = models.CharField(max_length=500)
     fecha = models.DateTimeField()
+    estado = models.CharField(max_length=20, null=True, blank=True, default = 'Activo')
 
     def __str__(self):
         return self.texto + '(' + str(self.id) + ')'
