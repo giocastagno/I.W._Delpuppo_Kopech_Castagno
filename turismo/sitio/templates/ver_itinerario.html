@@ -112,16 +112,16 @@
 					<div class="post-bgtop">
 						<div class="post-bgbtm">
 							<h4>Comentado por: {{ comentario.usuario.username }} hace {{ comentario.fecha|timesince }}</h4>
+							{% if user.is_authenticated and perfil.estado != "Restringido" %}
+					    		<div align="right" id="denunciar">
+					    			<img id = "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-200-ban-circle.png' %}"> <a class="btn btn-link" href="/denunciar/Comentario/{{comentario.id}}" aria-label="Left Align" type="button">Denunciar</a>
+					    		</div>
+					    	{% endif %}
 							<h5>{% if comentario.estado == "Activo" %}
 					    		{{ comentario.texto | safe}}
 					    	{% else %}
 					    		Este comentario ha sido eliminado por violar los términos y condiciones de Santa Fe por el mundo
 					    	{% endif %}</h5>
-					    	{% if user.is_authenticated and perfil.estado != "Restringido" %}
-					    		<div align="right" id="denunciar">
-					    			<img id = "iconos" src = "{% static 'sitio/imagenes/glyphicons/glyphicons-200-ban-circle.png' %}"> <a class="btn btn-link" href="/denunciar/Comentario/{{comentario.id}}" aria-label="Left Align" type="button">Denunciar</a>
-					    		</div>
-					    	{% endif %}
 	    				</div>
 					</div>
 				</div>
