@@ -117,7 +117,7 @@ def denunciar(request, tipo, id_objeto):
             clave = cdenunciado[0].id
             cdenunciado = ComentariosDenunciados.objects.get(pk = clave)
             cdenunciado.cantidad = ComentarioDenuncia.objects.filter(comentario = comentario).count()
-            if cdenunciado.cantidad >= 1:
+            if cdenunciado.cantidad >= 20:
                 perfil = Perfil_Usuario.objects.get(usuario = comentario.usuario)
                 perfil.estado = "Restringido"
                 perfil.save()
@@ -140,7 +140,7 @@ def denunciar(request, tipo, id_objeto):
             clave = idenunciado[0].id
             idenunciado = ItinerariosDenunciados.objects.get(pk = clave)
             idenunciado.cantidad = ItinerarioDenuncia.objects.filter(itinerario = itinerario).count()
-            if idenunciado.cantidad >= 1:
+            if idenunciado.cantidad >= 20:
                 perfil = Perfil_Usuario.objects.get(usuario = itinerario.usuario)
                 perfil.estado = "Restringido"
                 perfil.save()
